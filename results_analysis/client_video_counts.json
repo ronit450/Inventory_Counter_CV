@@ -1,0 +1,207 @@
+{
+  "summary": {
+    "total_unique_objects": 16,
+    "total_raw_tracks": 83,
+    "duplicates_removed": 67,
+    "processing_time_seconds": 27.16,
+    "frames_processed": 1167,
+    "total_frames": 2335,
+    "reid_enabled": true
+  },
+  "counts_by_class": {
+    "Bookshelf / Cabinet": 3,
+    "Desk": 2,
+    "Laptop": 1,
+    "Monitor": 1,
+    "Mouse": 2,
+    "Office Chair": 2,
+    "Pedestal": 2,
+    "Printer / Scanner": 2,
+    "Telephone / VoIP Phone": 1
+  },
+  "unique_objects": [
+    {
+      "unique_id": 1,
+      "class_id": 6,
+      "class_name": "Bookshelf / Cabinet",
+      "num_embeddings": 10,
+      "merged_track_ids": [
+        22
+      ]
+    },
+    {
+      "unique_id": 2,
+      "class_id": 4,
+      "class_name": "Pedestal",
+      "num_embeddings": 10,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 7,
+      "class_id": 1,
+      "class_name": "Office Chair",
+      "num_embeddings": 10,
+      "merged_track_ids": [
+        26,
+        27,
+        31,
+        37,
+        45,
+        63,
+        66,
+        100,
+        133,
+        162,
+        167,
+        169,
+        177,
+        178,
+        196
+      ]
+    },
+    {
+      "unique_id": 11,
+      "class_id": 11,
+      "class_name": "Laptop",
+      "num_embeddings": 8,
+      "merged_track_ids": [
+        57,
+        94,
+        145,
+        158,
+        172,
+        184,
+        201
+      ]
+    },
+    {
+      "unique_id": 12,
+      "class_id": 0,
+      "class_name": "Desk",
+      "num_embeddings": 10,
+      "merged_track_ids": [
+        32,
+        38,
+        39,
+        46,
+        165,
+        168,
+        194,
+        199,
+        200,
+        205
+      ]
+    },
+    {
+      "unique_id": 20,
+      "class_id": 4,
+      "class_name": "Pedestal",
+      "num_embeddings": 4,
+      "merged_track_ids": [
+        148,
+        155,
+        191
+      ]
+    },
+    {
+      "unique_id": 29,
+      "class_id": 6,
+      "class_name": "Bookshelf / Cabinet",
+      "num_embeddings": 5,
+      "merged_track_ids": [
+        43
+      ]
+    },
+    {
+      "unique_id": 48,
+      "class_id": 0,
+      "class_name": "Desk",
+      "num_embeddings": 10,
+      "merged_track_ids": [
+        50,
+        132,
+        135,
+        180,
+        207
+      ]
+    },
+    {
+      "unique_id": 55,
+      "class_id": 18,
+      "class_name": "Telephone / VoIP Phone",
+      "num_embeddings": 3,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 65,
+      "class_id": 13,
+      "class_name": "Monitor",
+      "num_embeddings": 10,
+      "merged_track_ids": [
+        83,
+        141,
+        142,
+        197,
+        202
+      ]
+    },
+    {
+      "unique_id": 81,
+      "class_id": 15,
+      "class_name": "Mouse",
+      "num_embeddings": 0,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 84,
+      "class_id": 16,
+      "class_name": "Printer / Scanner",
+      "num_embeddings": 9,
+      "merged_track_ids": [
+        195
+      ]
+    },
+    {
+      "unique_id": 138,
+      "class_id": 15,
+      "class_name": "Mouse",
+      "num_embeddings": 5,
+      "merged_track_ids": [
+        144,
+        154,
+        160,
+        198
+      ]
+    },
+    {
+      "unique_id": 156,
+      "class_id": 16,
+      "class_name": "Printer / Scanner",
+      "num_embeddings": 10,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 176,
+      "class_id": 6,
+      "class_name": "Bookshelf / Cabinet",
+      "num_embeddings": 10,
+      "merged_track_ids": [
+        192
+      ]
+    },
+    {
+      "unique_id": 204,
+      "class_id": 1,
+      "class_name": "Office Chair",
+      "num_embeddings": 10,
+      "merged_track_ids": []
+    }
+  ],
+  "config": {
+    "yolo_model": "D:\\Personal\\Inventory_counter\\yolo11lg_custom_12142025.pt",
+    "confidence_threshold": 0.35,
+    "frame_skip": 2,
+    "reid_threshold": 0.82,
+    "tracker": "bytetrack"
+  }
+}

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inventory Counter — Pipeline Workflow</title>
+  <style>
+    body {
+      background: #1a1a2e;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px;
+      margin: 0;
+    }
+    h1 { color: #00d4ff; margin-bottom: 5px; }
+    h3 { color: #888; font-weight: normal; margin-top: 0; }
+    .mermaid {
+      background: #16213e;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+      max-width: 95vw;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Unique Object Counter Pipeline</h1>
+  <h3>YOLO Detection + ByteTrack Tracking + CLIP Re-ID</h3>
+
+  <div class="mermaid">
+  flowchart TD
+    %% ── Styling ──
+    classDef inputOut fill:#0d7377,stroke:#14ffec,color:#fff,stroke-width:2px
+    classDef process fill:#1a1a5e,stroke:#5c73f2,color:#fff,stroke-width:2px
+    classDef decision fill:#4a1942,stroke:#e84393,color:#fff,stroke-width:2px
+    classDef reid fill:#2d1b69,stroke:#a29bfe,color:#fff,stroke-width:2px
+    classDef output fill:#0a3d2e,stroke:#00b894,color:#fff,stroke-width:2px
+    classDef skip fill:#333,stroke:#666,color:#aaa,stroke-width:1px
+
+    %% ── Input ──
+    A["<b>INPUT FOLDER</b><br/>videos_to_test/"]:::inputOut
+    B["Load <b>YOLO Model</b><br/>(once, shared across videos)"]:::process
+    A --> B
+
+    %% ── Video Loop ──
+    C{"For each<br/>video file"}:::decision
+    B --> C
+
+    D["Open Video<br/>Read metadata<br/>(FPS, resolution, frame count)"]:::process
+    C -->|next video| D
+
+    E["Initialize <b>ReID Module</b><br/>(CLIP embeddings store,<br/>co-occurrence tracker)"]:::reid
+    D --> E
+
+    F["Initialize <b>Video Writer</b><br/>(output FPS = 5, annotated only)"]:::output
+    E --> F
+
+    %% ── Frame Loop ──
+    G{"Read next<br/>frame"}:::decision
+    F --> G
+
+    H{"frame_idx %<br/>FRAME_SKIP == 0?"}:::decision
+    G -->|frame read| H
+    G -->|"end of video"| R
+
+    SK["Skip frame<br/>(not written to output)"]:::skip
+    H -->|No| SK
+    SK --> G
+
+    %% ── Detection ──
+    I["<b>YOLO Detection</b><br/>+ <b>ByteTrack</b> Tracking<br/>conf=0.35, IoU=0.45"]:::process
+    H -->|Yes| I
+
+    J["Extract per-detection:<br/>boxes, track_ids, class_ids, confs"]:::process
+    I --> J
+
+    %% ── Co-occurrence ──
+    K["<b>Register Co-occurrences</b><br/>All track_ids in this frame<br/>are different physical objects"]:::reid
+    J --> K
+
+    %% ── Per-Detection Loop ──
+    L{"For each<br/>detection"}:::decision
+    K --> L
+
+    M["Update track maps:<br/>class, confidence,<br/>first/last seen"]:::process
+    L -->|next detection| M
+
+    N{"REID_CHECK<br/>interval?"}:::decision
+    M --> N
+
+    N -->|No| L
+    N -->|Yes| O
+
+    %% ── CLIP Re-ID ──
+    O["Crop object from frame"]:::reid
+    O --> P
+
+    P["Compute <b>CLIP Embedding</b>"]:::reid
+    P --> Q
+
+    subgraph REID ["CLIP Re-Identification Logic"]
+      direction TB
+      Q{"New track?<br/>(first time seen)"}:::decision
+      Q -->|No| Q2["Store embedding<br/>for existing track"]:::reid
+      Q -->|Yes| Q3{"Compare against all<br/>existing tracks of<br/><b>same class</b>"}:::decision
+      Q3 --> Q4{"Ever in <b>same<br/>frame</b>?"}:::decision
+      Q4 -->|"Yes → SKIP<br/>(different object)"| Q3
+      Q4 -->|No| Q5{"Similarity<br/>>= 0.82?"}:::decision
+      Q5 -->|"Yes → <b>MERGE</b><br/>(same object revisited)"| Q6["Map new track → canonical ID<br/>Add embedding to canonical"]:::reid
+      Q5 -->|"No match found"| Q7["Register as<br/><b>new unique object</b>"]:::reid
+    end
+
+    Q2 --> L
+    Q6 --> L
+    Q7 --> L
+
+    %% ── Annotate & Write ──
+    L -->|"all detections<br/>processed"| T
+
+    T["<b>Draw Annotations</b><br/>Bounding boxes + labels<br/>+ live counter overlay"]:::process
+    T --> U["<b>Write Frame</b><br/>to output video"]:::output
+    U --> G
+
+    %% ── Finalize Video ──
+    R["<b>Compute Final Counts</b><br/>Canonical IDs → unique per class"]:::process
+    R --> S["<b>Write JSON</b><br/>video_name_counts.json"]:::output
+    S --> V["Print Summary<br/>(tracks, duplicates removed, totals)"]:::process
+    V --> C
+
+    %% ── Done ──
+    C -->|"all videos done"| W
+
+    W["<b>OUTPUT FOLDER</b><br/>results/<br/>• *_detected.mp4  (annotated video)<br/>• *_counts.json  (unique counts)"]:::inputOut
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      flowchart: {
+        curve: 'basis',
+        padding: 15,
+        nodeSpacing: 30,
+        rankSpacing: 40,
+        useMaxWidth: false
+      },
+      themeVariables: {
+        fontSize: '14px',
+        primaryColor: '#1a1a5e',
+        primaryBorderColor: '#5c73f2',
+        lineColor: '#5c73f2',
+        secondaryColor: '#2d1b69',
+        tertiaryColor: '#0d7377'
+      }
+    });
+  </script>
+</body>
+</html>

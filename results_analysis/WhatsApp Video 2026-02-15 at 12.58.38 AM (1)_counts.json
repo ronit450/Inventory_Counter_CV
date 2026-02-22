@@ -1,0 +1,71 @@
+{
+  "summary": {
+    "total_unique_objects": 6,
+    "total_raw_tracks": 7,
+    "duplicates_removed": 1,
+    "processing_time_seconds": 2.34,
+    "frames_processed": 78,
+    "total_frames": 157,
+    "reid_enabled": true
+  },
+  "counts_by_class": {
+    "Cubicle / Partition": 2,
+    "Desk": 1,
+    "Filing Cabinet / Storage Unit": 1,
+    "Office Chair": 1,
+    "Pedestal": 1
+  },
+  "unique_objects": [
+    {
+      "unique_id": 204,
+      "class_id": 10,
+      "class_name": "Cubicle / Partition",
+      "num_embeddings": 6,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 205,
+      "class_id": 4,
+      "class_name": "Pedestal",
+      "num_embeddings": 3,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 209,
+      "class_id": 1,
+      "class_name": "Office Chair",
+      "num_embeddings": 5,
+      "merged_track_ids": [
+        220
+      ]
+    },
+    {
+      "unique_id": 211,
+      "class_id": 0,
+      "class_name": "Desk",
+      "num_embeddings": 3,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 213,
+      "class_id": 10,
+      "class_name": "Cubicle / Partition",
+      "num_embeddings": 4,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 217,
+      "class_id": 3,
+      "class_name": "Filing Cabinet / Storage Unit",
+      "num_embeddings": 3,
+      "merged_track_ids": []
+    }
+  ],
+  "config": {
+    "yolo_model": "D:\\Personal\\Inventory_counter\\yolo11lg_custom_12142025.pt",
+    "confidence_threshold": 0.35,
+    "frame_skip": 2,
+    "reid_threshold": 0.82,
+    "tracker": "bytetrack"
+  }
+}

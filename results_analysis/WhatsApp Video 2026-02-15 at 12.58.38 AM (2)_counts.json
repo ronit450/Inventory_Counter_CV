@@ -1,0 +1,89 @@
+{
+  "summary": {
+    "total_unique_objects": 8,
+    "total_raw_tracks": 11,
+    "duplicates_removed": 3,
+    "processing_time_seconds": 2.97,
+    "frames_processed": 84,
+    "total_frames": 169,
+    "reid_enabled": true
+  },
+  "counts_by_class": {
+    "Breakroom Chair": 2,
+    "Cubicle / Partition": 2,
+    "Desk": 1,
+    "Filing Cabinet / Storage Unit": 2,
+    "Pedestal": 1
+  },
+  "unique_objects": [
+    {
+      "unique_id": 213,
+      "class_id": 0,
+      "class_name": "Desk",
+      "num_embeddings": 8,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 220,
+      "class_id": 10,
+      "class_name": "Cubicle / Partition",
+      "num_embeddings": 5,
+      "merged_track_ids": [
+        234
+      ]
+    },
+    {
+      "unique_id": 222,
+      "class_id": 4,
+      "class_name": "Pedestal",
+      "num_embeddings": 6,
+      "merged_track_ids": [
+        236
+      ]
+    },
+    {
+      "unique_id": 227,
+      "class_id": 8,
+      "class_name": "Breakroom Chair",
+      "num_embeddings": 10,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 228,
+      "class_id": 8,
+      "class_name": "Breakroom Chair",
+      "num_embeddings": 1,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 230,
+      "class_id": 3,
+      "class_name": "Filing Cabinet / Storage Unit",
+      "num_embeddings": 7,
+      "merged_track_ids": [
+        237
+      ]
+    },
+    {
+      "unique_id": 235,
+      "class_id": 3,
+      "class_name": "Filing Cabinet / Storage Unit",
+      "num_embeddings": 4,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 240,
+      "class_id": 10,
+      "class_name": "Cubicle / Partition",
+      "num_embeddings": 3,
+      "merged_track_ids": []
+    }
+  ],
+  "config": {
+    "yolo_model": "D:\\Personal\\Inventory_counter\\yolo11lg_custom_12142025.pt",
+    "confidence_threshold": 0.35,
+    "frame_skip": 2,
+    "reid_threshold": 0.82,
+    "tracker": "bytetrack"
+  }
+}

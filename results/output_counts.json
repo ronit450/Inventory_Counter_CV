@@ -1,0 +1,64 @@
+{
+  "summary": {
+    "total_unique_objects": 5,
+    "total_raw_tracks": 7,
+    "duplicates_removed": 2,
+    "processing_time_seconds": 11.36,
+    "frames_processed": 63,
+    "total_frames": 127,
+    "reid_enabled": true
+  },
+  "counts_by_class": {
+    "Cubicle / Partition": 1,
+    "Desk": 1,
+    "Filing Cabinet / Storage Unit": 1,
+    "Office Chair": 1,
+    "Pedestal": 1
+  },
+  "unique_objects": [
+    {
+      "unique_id": 1,
+      "class_id": 1,
+      "class_name": "Office Chair",
+      "num_embeddings": 3,
+      "merged_track_ids": [
+        11
+      ]
+    },
+    {
+      "unique_id": 2,
+      "class_id": 4,
+      "class_name": "Pedestal",
+      "num_embeddings": 1,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 3,
+      "class_id": 10,
+      "class_name": "Cubicle / Partition",
+      "num_embeddings": 3,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 4,
+      "class_id": 0,
+      "class_name": "Desk",
+      "num_embeddings": 3,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 10,
+      "class_id": 3,
+      "class_name": "Filing Cabinet / Storage Unit",
+      "num_embeddings": 6,
+      "merged_track_ids": []
+    }
+  ],
+  "config": {
+    "yolo_model": "D:\\Personal\\Inventory_counter\\yolo11lg_custom_12142025.pt",
+    "confidence_threshold": 0.35,
+    "frame_skip": 2,
+    "reid_threshold": 0.82,
+    "tracker": "bytetrack"
+  }
+}
