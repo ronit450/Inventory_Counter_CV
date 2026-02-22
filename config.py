@@ -4,7 +4,7 @@ Adjust these parameters based on your YOLO model and use case.
 """
 
 # ─── YOLO Model ────────────────────────────────────────────────
-YOLO_MODEL_PATH = r"D:\Personal\Inventory_counter\yolo11lg_custom_12142025.pt"  
+YOLO_MODEL_PATH = r"C:\Users\Administrator\Downloads\Inventory_counter\Inventory_counter\yolo11lg_custom_12142025.pt" 
           # Path to your trained YOLO model weights
 YOLO_CONFIDENCE = 0.35       # Minimum confidence threshold for detections
 YOLO_IOU = 0.45              # NMS IoU threshold
@@ -58,7 +58,7 @@ REID_CHECK_INTERVAL = 5                     # Check re-id every N frames
 REID_MIN_CROP_SIZE = 20                     # Minimum crop dimension (px) to compute embedding
 
 # ─── Folders ───────────────────────────────────────────────────
-INPUT_FOLDER =  r"D:\Personal\Inventory_counter\videos_to_test"           # Folder containing inpu  video files
+INPUT_FOLDER =  r"C:\Users\Administrator\Downloads\Inventory_counter\Inventory_counter\videos_to_test"         # Folder containing inpu  video files
 OUTPUT_FOLDER = "results_analysis"                   # Folder for output JSON + annotated videos
 
 # ─── Output ─────────────────────────────────────────────────────
