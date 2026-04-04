@@ -1,20 +1,20 @@
 {
   "summary": {
-    "total_unique_objects": 16,
+    "total_unique_objects": 24,
     "total_raw_tracks": 83,
-    "duplicates_removed": 67,
-    "processing_time_seconds": 27.16,
+    "duplicates_removed": 59,
+    "processing_time_seconds": 52.8,
     "frames_processed": 1167,
     "total_frames": 2335,
     "reid_enabled": true
   },
   "counts_by_class": {
     "Bookshelf / Cabinet": 3,
-    "Desk": 2,
-    "Laptop": 1,
-    "Monitor": 1,
+    "Desk": 4,
+    "Laptop": 2,
+    "Monitor": 2,
     "Mouse": 2,
-    "Office Chair": 2,
+    "Office Chair": 6,
     "Pedestal": 2,
     "Printer / Scanner": 2,
     "Telephone / VoIP Phone": 1
@@ -42,32 +42,19 @@
       "class_name": "Office Chair",
       "num_embeddings": 10,
       "merged_track_ids": [
-        26,
-        27,
         31,
-        37,
-        45,
         63,
-        66,
         100,
-        133,
-        162,
-        167,
-        169,
-        177,
-        178,
-        196
+        167
       ]
     },
     {
       "unique_id": 11,
       "class_id": 11,
       "class_name": "Laptop",
-      "num_embeddings": 8,
+      "num_embeddings": 6,
       "merged_track_ids": [
         57,
-        94,
-        145,
         158,
         172,
         184,
@@ -82,14 +69,8 @@
       "merged_track_ids": [
         32,
         38,
-        39,
-        46,
         165,
-        168,
-        194,
-        199,
-        200,
-        205
+        200
       ]
     },
     {
@@ -104,6 +85,26 @@
       ]
     },
     {
+      "unique_id": 26,
+      "class_id": 1,
+      "class_name": "Office Chair",
+      "num_embeddings": 10,
+      "merged_track_ids": [
+        169
+      ]
+    },
+    {
+      "unique_id": 27,
+      "class_id": 1,
+      "class_name": "Office Chair",
+      "num_embeddings": 10,
+      "merged_track_ids": [
+        37,
+        45,
+        66
+      ]
+    },
+    {
       "unique_id": 29,
       "class_id": 6,
       "class_name": "Bookshelf / Cabinet",
@@ -113,15 +114,43 @@
       ]
     },
     {
+      "unique_id": 39,
+      "class_id": 1,
+      "class_name": "Office Chair",
+      "num_embeddings": 6,
+      "merged_track_ids": [
+        133,
+        162,
+        177
+      ]
+    },
+    {
+      "unique_id": 46,
+      "class_id": 0,
+      "class_name": "Desk",
+      "num_embeddings": 1,
+      "merged_track_ids": []
+    },
+    {
       "unique_id": 48,
       "class_id": 0,
       "class_name": "Desk",
       "num_embeddings": 10,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 50,
+      "class_id": 0,
+      "class_name": "Desk",
+      "num_embeddings": 10,
       "merged_track_ids": [
-        50,
         132,
         135,
+        168,
         180,
+        194,
+        199,
+        205,
         207
       ]
     },
@@ -138,11 +167,8 @@
       "class_name": "Monitor",
       "num_embeddings": 10,
       "merged_track_ids": [
-        83,
         141,
-        142,
-        197,
-        202
+        197
       ]
     },
     {
@@ -153,12 +179,31 @@
       "merged_track_ids": []
     },
     {
+      "unique_id": 83,
+      "class_id": 13,
+      "class_name": "Monitor",
+      "num_embeddings": 10,
+      "merged_track_ids": [
+        142,
+        202
+      ]
+    },
+    {
       "unique_id": 84,
       "class_id": 16,
       "class_name": "Printer / Scanner",
       "num_embeddings": 9,
       "merged_track_ids": [
         195
+      ]
+    },
+    {
+      "unique_id": 94,
+      "class_id": 11,
+      "class_name": "Laptop",
+      "num_embeddings": 3,
+      "merged_track_ids": [
+        145
       ]
     },
     {
@@ -190,6 +235,15 @@
       ]
     },
     {
+      "unique_id": 178,
+      "class_id": 1,
+      "class_name": "Office Chair",
+      "num_embeddings": 10,
+      "merged_track_ids": [
+        196
+      ]
+    },
+    {
       "unique_id": 204,
       "class_id": 1,
       "class_name": "Office Chair",
@@ -198,7 +252,7 @@
     }
   ],
   "config": {
-    "yolo_model": "D:\\Personal\\Inventory_counter\\yolo11lg_custom_12142025.pt",
+    "yolo_model": "C:\\Users\\Administrator\\Downloads\\Inventory_counter\\Inventory_counter\\yolo11lg_custom_12142025.pt",
     "confidence_threshold": 0.35,
     "frame_skip": 2,
     "reid_threshold": 0.82,

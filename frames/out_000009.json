@@ -1,0 +1,44 @@
+{
+  "version": "0.3.3",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "monitor",
+      "text": "",
+      "points": [
+        [
+          144.71698113207538,
+          225.88679245283018
+        ],
+        [
+          357.92452830188677,
+          384.37735849056605
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "chair",
+      "text": "",
+      "points": [
+        [
+          307.92452830188677,
+          414.566037735849
+        ],
+        [
+          464.5283018867924,
+          805.132075471698
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    }
+  ],
+  "imagePath": "out_000009.jpg",
+  "imageData": null,
+  "imageHeight": 848,
+  "imageWidth": 480
+}

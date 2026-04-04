@@ -1,0 +1,186 @@
+{
+  "summary": {
+    "total_unique_objects": 16,
+    "total_raw_tracks": 55,
+    "duplicates_removed": 39,
+    "processing_time_seconds": 26.2,
+    "frames_processed": 547,
+    "total_frames": 1094,
+    "reid_enabled": true
+  },
+  "counts_by_class": {
+    "Breakroom Chair": 1,
+    "Cubicle / Partition": 7,
+    "Desk": 2,
+    "Filing Cabinet / Storage Unit": 2,
+    "Office Chair": 1,
+    "Pedestal": 2,
+    "Printer / Scanner": 1
+  },
+  "unique_objects": [
+    {
+      "unique_id": 350,
+      "class_id": 10,
+      "class_name": "Cubicle / Partition",
+      "num_embeddings": 5,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 352,
+      "class_id": 16,
+      "class_name": "Printer / Scanner",
+      "num_embeddings": 4,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 360,
+      "class_id": 3,
+      "class_name": "Filing Cabinet / Storage Unit",
+      "num_embeddings": 9,
+      "merged_track_ids": [
+        374,
+        397,
+        403,
+        414,
+        415,
+        417,
+        452
+      ]
+    },
+    {
+      "unique_id": 361,
+      "class_id": 10,
+      "class_name": "Cubicle / Partition",
+      "num_embeddings": 5,
+      "merged_track_ids": [
+        387,
+        395,
+        442,
+        454
+      ]
+    },
+    {
+      "unique_id": 362,
+      "class_id": 0,
+      "class_name": "Desk",
+      "num_embeddings": 5,
+      "merged_track_ids": [
+        383,
+        404,
+        427
+      ]
+    },
+    {
+      "unique_id": 369,
+      "class_id": 4,
+      "class_name": "Pedestal",
+      "num_embeddings": 1,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 370,
+      "class_id": 0,
+      "class_name": "Desk",
+      "num_embeddings": 7,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 371,
+      "class_id": 10,
+      "class_name": "Cubicle / Partition",
+      "num_embeddings": 1,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 372,
+      "class_id": 10,
+      "class_name": "Cubicle / Partition",
+      "num_embeddings": 10,
+      "merged_track_ids": [
+        375,
+        392,
+        394,
+        409,
+        420,
+        426,
+        435
+      ]
+    },
+    {
+      "unique_id": 376,
+      "class_id": 10,
+      "class_name": "Cubicle / Partition",
+      "num_embeddings": 5,
+      "merged_track_ids": [
+        412,
+        432,
+        438,
+        451
+      ]
+    },
+    {
+      "unique_id": 384,
+      "class_id": 4,
+      "class_name": "Pedestal",
+      "num_embeddings": 10,
+      "merged_track_ids": [
+        401,
+        422,
+        425,
+        440,
+        446
+      ]
+    },
+    {
+      "unique_id": 393,
+      "class_id": 10,
+      "class_name": "Cubicle / Partition",
+      "num_embeddings": 5,
+      "merged_track_ids": [
+        396,
+        399,
+        418,
+        444
+      ]
+    },
+    {
+      "unique_id": 416,
+      "class_id": 3,
+      "class_name": "Filing Cabinet / Storage Unit",
+      "num_embeddings": 4,
+      "merged_track_ids": [
+        433
+      ]
+    },
+    {
+      "unique_id": 423,
+      "class_id": 10,
+      "class_name": "Cubicle / Partition",
+      "num_embeddings": 3,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 437,
+      "class_id": 1,
+      "class_name": "Office Chair",
+      "num_embeddings": 4,
+      "merged_track_ids": [
+        448
+      ]
+    },
+    {
+      "unique_id": 453,
+      "class_id": 8,
+      "class_name": "Breakroom Chair",
+      "num_embeddings": 5,
+      "merged_track_ids": []
+    }
+  ],
+  "config": {
+    "yolo_model": "C:\\Users\\Administrator\\Downloads\\Inventory_counter\\Inventory_counter\\yolo11lg_custom_12142025.pt",
+    "confidence_threshold": 0.35,
+    "frame_skip": 2,
+    "reid_threshold": 0.82,
+    "tracker": "bytetrack"
+  }
+}

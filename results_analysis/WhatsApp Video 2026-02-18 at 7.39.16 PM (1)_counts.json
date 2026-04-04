@@ -1,0 +1,156 @@
+{
+  "summary": {
+    "total_unique_objects": 15,
+    "total_raw_tracks": 33,
+    "duplicates_removed": 18,
+    "processing_time_seconds": 9.09,
+    "frames_processed": 173,
+    "total_frames": 347,
+    "reid_enabled": true
+  },
+  "counts_by_class": {
+    "Breakroom Chair": 9,
+    "Breakroom Table": 1,
+    "Couch / Lounge Chair": 2,
+    "Office Chair": 3
+  },
+  "unique_objects": [
+    {
+      "unique_id": 249,
+      "class_id": 8,
+      "class_name": "Breakroom Chair",
+      "num_embeddings": 6,
+      "merged_track_ids": [
+        281
+      ]
+    },
+    {
+      "unique_id": 251,
+      "class_id": 8,
+      "class_name": "Breakroom Chair",
+      "num_embeddings": 4,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 252,
+      "class_id": 8,
+      "class_name": "Breakroom Chair",
+      "num_embeddings": 9,
+      "merged_track_ids": [
+        272
+      ]
+    },
+    {
+      "unique_id": 253,
+      "class_id": 8,
+      "class_name": "Breakroom Chair",
+      "num_embeddings": 9,
+      "merged_track_ids": [
+        261,
+        267
+      ]
+    },
+    {
+      "unique_id": 254,
+      "class_id": 8,
+      "class_name": "Breakroom Chair",
+      "num_embeddings": 7,
+      "merged_track_ids": [
+        279,
+        282
+      ]
+    },
+    {
+      "unique_id": 256,
+      "class_id": 8,
+      "class_name": "Breakroom Chair",
+      "num_embeddings": 3,
+      "merged_track_ids": [
+        274
+      ]
+    },
+    {
+      "unique_id": 257,
+      "class_id": 8,
+      "class_name": "Breakroom Chair",
+      "num_embeddings": 10,
+      "merged_track_ids": [
+        270,
+        294,
+        297
+      ]
+    },
+    {
+      "unique_id": 259,
+      "class_id": 9,
+      "class_name": "Couch / Lounge Chair",
+      "num_embeddings": 7,
+      "merged_track_ids": [
+        306
+      ]
+    },
+    {
+      "unique_id": 263,
+      "class_id": 9,
+      "class_name": "Couch / Lounge Chair",
+      "num_embeddings": 7,
+      "merged_track_ids": [
+        292,
+        309
+      ]
+    },
+    {
+      "unique_id": 264,
+      "class_id": 8,
+      "class_name": "Breakroom Chair",
+      "num_embeddings": 6,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 283,
+      "class_id": 8,
+      "class_name": "Breakroom Chair",
+      "num_embeddings": 10,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 293,
+      "class_id": 1,
+      "class_name": "Office Chair",
+      "num_embeddings": 4,
+      "merged_track_ids": [
+        302
+      ]
+    },
+    {
+      "unique_id": 298,
+      "class_id": 1,
+      "class_name": "Office Chair",
+      "num_embeddings": 1,
+      "merged_track_ids": []
+    },
+    {
+      "unique_id": 299,
+      "class_id": 1,
+      "class_name": "Office Chair",
+      "num_embeddings": 2,
+      "merged_track_ids": [
+        300
+      ]
+    },
+    {
+      "unique_id": 305,
+      "class_id": 7,
+      "class_name": "Breakroom Table",
+      "num_embeddings": 1,
+      "merged_track_ids": []
+    }
+  ],
+  "config": {
+    "yolo_model": "C:\\Users\\Administrator\\Downloads\\Inventory_counter\\Inventory_counter\\yolo11lg_custom_12142025.pt",
+    "confidence_threshold": 0.35,
+    "frame_skip": 2,
+    "reid_threshold": 0.82,
+    "tracker": "bytetrack"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "summary": {
+    "total_unique_objects": 5,
+    "total_raw_tracks": 16,
+    "duplicates_removed": 11,
+    "processing_time_seconds": 9.84,
+    "frames_processed": 214,
+    "total_frames": 429,
+    "reid_enabled": true
+  },
+  "counts_by_class": {
+    "Filing Cabinet / Storage Unit": 5
+  },
+  "unique_objects": [
+    {
+      "unique_id": 336,
+      "class_id": 3,
+      "class_name": "Filing Cabinet / Storage Unit",
+      "num_embeddings": 6,
+      "merged_track_ids": [
+        350
+      ]
+    },
+    {
+      "unique_id": 337,
+      "class_id": 3,
+      "class_name": "Filing Cabinet / Storage Unit",
+      "num_embeddings": 10,
+      "merged_track_ids": [
+        340,
+        344,
+        351,
+        353
+      ]
+    },
+    {
+      "unique_id": 338,
+      "class_id": 3,
+      "class_name": "Filing Cabinet / Storage Unit",
+      "num_embeddings": 8,
+      "merged_track_ids": [
+        341,
+        349
+      ]
+    },
+    {
+      "unique_id": 339,
+      "class_id": 3,
+      "class_name": "Filing Cabinet / Storage Unit",
+      "num_embeddings": 9,
+      "merged_track_ids": [
+        342,
+        346
+      ]
+    },
+    {
+      "unique_id": 352,
+      "class_id": 3,
+      "class_name": "Filing Cabinet / Storage Unit",
+      "num_embeddings": 8,
+      "merged_track_ids": []
+    }
+  ],
+  "config": {
+    "yolo_model": "C:\\Users\\Administrator\\Downloads\\Inventory_counter\\Inventory_counter\\yolo11lg_custom_12142025.pt",
+    "confidence_threshold": 0.35,
+    "frame_skip": 2,
+    "reid_threshold": 0.82,
+    "tracker": "bytetrack"
+  }
+}

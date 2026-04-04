@@ -3,7 +3,7 @@
     "total_unique_objects": 6,
     "total_raw_tracks": 7,
     "duplicates_removed": 1,
-    "processing_time_seconds": 2.34,
+    "processing_time_seconds": 3.49,
     "frames_processed": 78,
     "total_frames": 157,
     "reid_enabled": true
@@ -62,7 +62,7 @@
     }
   ],
   "config": {
-    "yolo_model": "D:\\Personal\\Inventory_counter\\yolo11lg_custom_12142025.pt",
+    "yolo_model": "C:\\Users\\Administrator\\Downloads\\Inventory_counter\\Inventory_counter\\yolo11lg_custom_12142025.pt",
     "confidence_threshold": 0.35,
     "frame_skip": 2,
     "reid_threshold": 0.82,
