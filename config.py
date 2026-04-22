@@ -48,14 +48,21 @@ TRACK_MATCH_THRESH = 0.8    # Matching threshold for tracking
 TRACK_BUFFER = 60           # Frames to keep lost tracks alive
                              # Higher = better re-id after camera rotation
 
-# ─── Re-Identification (CLIP Embeddings) ────────────────────────
-ENABLE_CLIP_REID = True                     # Enable CLIP-based deduplication
-CLIP_MODEL_NAME = "openai/clip-vit-base-patch32"  # CLIP model from HuggingFace
-REID_SIMILARITY_THRESHOLD = 0.82            # Cosine similarity threshold for same object
-                                             # Higher = stricter matching (fewer merges)
-                                             # Lower = more aggressive merging (risk false merges)
-REID_CHECK_INTERVAL = 5                     # Check re-id every N frames
-REID_MIN_CROP_SIZE = 20                     # Minimum crop dimension (px) to compute embedding
+# ─── Re-Identification (DINOv2 two-pass) ────────────────────────
+ENABLE_CLIP_REID = True                     # Enable two-pass ReID (DINOv2 + DBSCAN)
+CLIP_MODEL_NAME = "openai/clip-vit-base-patch32"  # Unused — kept for backwards compat
+REID_SIMILARITY_THRESHOLD = 0.65            # Combined-similarity threshold for merging.
+                                             # Raise toward 0.70 if unrelated objects merge.
+                                             # Lower toward 0.60 if same object not merging.
+REID_BACKGROUND_WEIGHT = 0.45               # Location signal weight in merge decision.
+                                             # combined_sim = 0.55*appearance + 0.45*location
+                                             # Higher = location dominates (better for identical
+                                             # furniture). Set 0.0 to disable location signal.
+REID_CHECK_INTERVAL = 3                     # Collect a crop every N processed frames
+                                             # Lower = more crops stored; higher = less memory
+REID_MIN_CROP_SIZE = 20                     # Minimum crop dimension (px) to store
+REID_TOP_K_CROPS = 5                        # Keep top-K quality crops per track
+                                             # Embeddings averaged over these for robustness
 
 # ─── Folders ───────────────────────────────────────────────────
 INPUT_FOLDER =  r"C:\Users\Administrator\Downloads\Inventory_counter\Inventory_counter\videos_to_test"         # Folder containing inpu  video files

@@ -166,7 +166,7 @@ def process_video(video_path: str, model: YOLO, output_dir: str):
     track_confidence_map = {}
     track_first_seen = {}
     track_last_seen = {}
-    canonical_map = {}
+    canonical_map = {}  # stays empty — dedup runs after video via reid.finalize()
 
     frame_idx = 0
     processed_count = 0
@@ -211,10 +211,9 @@ def process_video(video_path: str, model: YOLO, output_dir: str):
             class_ids = result.boxes.cls.cpu().numpy().astype(int)
             confidences = result.boxes.conf.cpu().numpy()
 
-            # Record which tracks are visible together in this frame
-            # so reid knows they are different physical objects.
+            # Record co-occurrences and update camera homography.
             if reid:
-                reid.register_frame_tracks(track_ids)
+                reid.register_frame_tracks(track_ids, frame, frame_idx)
 
             for i, (box, tid, cid, conf) in enumerate(
                     zip(boxes, track_ids, class_ids, confidences)):
@@ -227,17 +226,16 @@ def process_video(video_path: str, model: YOLO, output_dir: str):
                     track_first_seen[tid] = frame_idx
                 track_last_seen[tid] = frame_idx
 
-                # ── CLIP Re-Identification ────────────────────
+                # ── Collect crops + scene context for post-hoc ReID ──
                 if reid and processed_count % config.REID_CHECK_INTERVAL == 0:
-                    x1, y1, x2, y2 = map(int, box)
-                    x1, y1 = max(0, x1), max(0, y1)
-                    x2, y2 = min(width, x2), min(height, y2)
-
-                    crop = frame[y1:y2, x1:x2]
+                    x1c, y1c, x2c, y2c = map(int, box)
+                    x1c, y1c = max(0, x1c), max(0, y1c)
+                    x2c, y2c = min(width, x2c), min(height, y2c)
+                    crop = frame[y1c:y2c, x1c:x2c]
                     if crop.size > 0:
-                        canonical_id = reid.update_track(tid, cid, crop)
-                        if canonical_id != tid:
-                            canonical_map[tid] = canonical_id
+                        reid.update_track(tid, cid, crop,
+                                          (x1c, y1c, x2c, y2c),
+                                          frame=frame)
 
         # ── Draw & Write Frame ────────────────────────────────
         annotated = draw_detections(
@@ -269,6 +267,10 @@ def process_video(video_path: str, model: YOLO, output_dir: str):
     writer.release()
 
     elapsed = time.time() - start_time
+
+    # ── Post-hoc deduplication (two-pass ReID) ────────────────
+    if reid:
+        reid.finalize()
 
     # ── Compute Final Results ──────────────────────────────────
     if reid:
