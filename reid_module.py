@@ -316,6 +316,21 @@ class PostHocDeduplicator:
                         dist[i, j] = 2.0
                         dist[j, i] = 2.0
 
+            # ── Debug pairwise scores ─────────────────────────────────────
+            if getattr(config, "REID_DEBUG", False):
+                cls_name = config.CLASS_NAMES.get(class_id, f"cls_{class_id}")
+                print(f"\n  [REID_DEBUG] Class: {cls_name}  ({n} tracks: {valid_ids})")
+                for i, tid1 in enumerate(valid_ids):
+                    for j in range(i + 1, n):
+                        tid2 = valid_ids[j]
+                        a_sim = float(app_sim[i, j])
+                        b_sim = float(bg_sim[i, j])
+                        c_sim = float(combined_sim[i, j])
+                        d = float(dist[i, j])
+                        cooc = "CO-OCC" if frozenset({tid1, tid2}) in collector.cooccurrence else ""
+                        print(f"    {tid1}↔{tid2}: app={a_sim:.3f} bg={b_sim:.3f} "
+                              f"combined={c_sim:.3f} dist={d:.3f} {cooc}")
+
             # ── Complete-linkage hierarchical clustering ──────────────────
             # max_d = 1 - threshold in COMBINED similarity space.
             # All pairs within a cluster satisfy combined_sim > threshold.

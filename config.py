@@ -51,13 +51,28 @@ TRACK_BUFFER = 60           # Frames to keep lost tracks alive
 # ─── Re-Identification (DINOv2 two-pass) ────────────────────────
 ENABLE_CLIP_REID = True                     # Enable two-pass ReID (DINOv2 + DBSCAN)
 CLIP_MODEL_NAME = "openai/clip-vit-base-patch32"  # Unused — kept for backwards compat
-REID_SIMILARITY_THRESHOLD = 0.65            # Combined-similarity threshold for merging.
-                                             # Raise toward 0.70 if unrelated objects merge.
-                                             # Lower toward 0.60 if same object not merging.
-REID_BACKGROUND_WEIGHT = 0.45               # Location signal weight in merge decision.
-                                             # combined_sim = 0.55*appearance + 0.45*location
-                                             # Higher = location dominates (better for identical
-                                             # furniture). Set 0.0 to disable location signal.
+REID_SIMILARITY_THRESHOLD = 0.60            # Combined-similarity threshold for merging.
+                                             # Raise toward 0.68 if unrelated objects merge.
+                                             # Lower toward 0.55 if same object still not merging.
+REID_BACKGROUND_WEIGHT = 0.50               # Location signal weight in merge decision.
+                                             # combined_sim = 0.50*appearance + 0.50*location
+                                             # Higher = location dominates (protects against
+                                             # identical furniture false-merges).
+                                             # Set 0.0 to disable location signal entirely.
+
+# ─── Quality Filtering ──────────────────────────────────────────
+MIN_CROP_SHARPNESS = 100                    # Laplacian variance floor.
+                                             # Crops below this are motion-blurred/walls → removed.
+                                             # 0 = disabled. Raise to 200 for stricter filtering.
+
+# ─── VLM Validation (Claude API) ────────────────────────────────
+ENABLE_VLM_VALIDATION = False               # Validate each unique object with Claude claude-haiku-4-5.
+                                             # Requires ANTHROPIC_API_KEY in environment.
+                                             # ~$0.003 per 1000 images (haiku). Slow but accurate.
+
+# ─── Debug ──────────────────────────────────────────────────────
+REID_DEBUG = False                          # Print pairwise similarity scores during deduplication.
+                                             # Use to diagnose why specific objects don't merge.
 REID_CHECK_INTERVAL = 3                     # Collect a crop every N processed frames
                                              # Lower = more crops stored; higher = less memory
 REID_MIN_CROP_SIZE = 20                     # Minimum crop dimension (px) to store
