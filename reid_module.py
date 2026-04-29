@@ -455,6 +455,16 @@ class CLIPReIdentifier:
                 crop.shape[1] < config.REID_MIN_CROP_SIZE):
             return int(track_id)
 
+        # Partial-detection guard: skip crops where bbox touches frame boundary.
+        # Chair entering frame 10% visible → bad embedding → double-count if allowed in.
+        # ByteTrack still tracks it normally; we just don't register it for ReID.
+        inset = getattr(config, "MIN_BBOX_INSET", 0)
+        if inset > 0 and bbox is not None and self._frame_shape is not None:
+            fh, fw = self._frame_shape[:2]
+            bx1, by1, bx2, by2 = int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3])
+            if bx1 <= inset or by1 <= inset or bx2 >= fw - inset or by2 >= fh - inset:
+                return int(track_id)
+
         cls_name = config.CLASS_NAMES.get(int(class_id), f"cls_{int(class_id)}")
         self.collector.add_detection(
             int(track_id), int(class_id), cls_name,

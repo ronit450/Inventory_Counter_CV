@@ -31,6 +31,7 @@ Usage:
 """
 
 import argparse
+import json
 import math
 import os
 import textwrap
@@ -46,8 +47,6 @@ import config
 from reid_module import CLIPReIdentifier
 
 VIDEO_EXTENSIONS = {".mp4", ".avi", ".mov", ".mkv", ".wmv", ".flv"}
-
-import base64
 
 CONTACT_THUMB_W = 200
 CONTACT_THUMB_H = 200
@@ -84,70 +83,128 @@ def filter_by_sharpness(unique_objects: dict, min_sharpness: float) -> dict:
 
 def validate_with_vlm(unique_objects: dict) -> dict:
     """
-    Validate each unique object with Claude claude-haiku-4-5 (vision).
-    Removes objects the VLM says are NOT a valid instance of their class.
-    Requires ANTHROPIC_API_KEY env var.
+    Batch VLM validation via AWS Bedrock Converse API (Claude Haiku).
+
+    Groups objects by class and sends all crops in ONE call per class.
+    The VLM performs two tasks simultaneously:
+      1. False positive removal — crop is not actually a [class]
+      2. Missed-merge detection — two IDs show the same physical object
+
+    One API call per class (up to VLM_BATCH_SIZE images) instead of
+    one call per object — cheaper, faster, and more accurate because
+    the model can compare objects side by side.
     """
     try:
-        import anthropic
+        import boto3
     except ImportError:
-        print("  [VLM] anthropic package not installed — skipping validation")
+        print("  [VLM] boto3 not installed — skipping")
         return unique_objects
 
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
-    if not api_key:
-        print("  [VLM] ANTHROPIC_API_KEY not set — skipping validation")
+    region    = getattr(config, "VLM_AWS_REGION",  "us-east-1")
+    model_id  = getattr(config, "VLM_MODEL_ID",    "us.anthropic.claude-haiku-4-5-20251001-v1:0")
+    batch_sz  = getattr(config, "VLM_BATCH_SIZE",  8)
+
+    try:
+        client = boto3.client("bedrock-runtime", region_name=region)
+    except Exception as e:
+        print(f"  [VLM] Bedrock init failed: {e}")
         return unique_objects
 
-    client = anthropic.Anthropic(api_key=api_key)
-    kept = {}
-
+    # Group by class
+    by_class: dict = defaultdict(list)
     for uid, obj in unique_objects.items():
-        crop = obj.get("best_crop")
-        class_name = obj["class_name"]
-        if crop is None or crop.size == 0:
-            print(f"  [VLM] Removed ID:{uid} ({class_name}) — no valid crop")
-            continue
+        by_class[obj["class_name"]].append((uid, obj))
 
-        # Encode crop as JPEG base64
-        success, buf = cv2.imencode(".jpg", crop, [cv2.IMWRITE_JPEG_QUALITY, 85])
-        if not success:
-            kept[uid] = obj
-            continue
-        b64 = base64.b64encode(buf.tobytes()).decode("utf-8")
+    to_remove: set = set()
 
-        prompt = (
-            f"Does this image clearly show a '{class_name}'? "
-            f"Answer only 'yes' or 'no'. "
-            f"Answer 'no' if: the image is blurry/noisy, shows only a partial fragment, "
-            f"is a wall/floor/ceiling with no furniture, or is clearly not a {class_name}."
-        )
+    for class_name, items in by_class.items():
+        for batch_start in range(0, len(items), batch_sz):
+            batch = items[batch_start : batch_start + batch_sz]
 
-        try:
-            response = client.messages.create(
-                model="claude-haiku-4-5-20251001",
-                max_tokens=10,
-                messages=[{
-                    "role": "user",
-                    "content": [
-                        {"type": "image", "source": {
-                            "type": "base64",
-                            "media_type": "image/jpeg",
-                            "data": b64,
-                        }},
-                        {"type": "text", "text": prompt},
-                    ],
-                }],
-            )
-            answer = response.content[0].text.strip().lower()
-            if answer.startswith("yes"):
-                kept[uid] = obj
-            else:
-                print(f"  [VLM] Removed ID:{uid} ({class_name}) — VLM: '{answer}'")
-        except Exception as e:
-            print(f"  [VLM] Error for ID:{uid} — {e}; keeping by default")
-            kept[uid] = obj
+            # ── Encode crops ──────────────────────────────────────
+            content = []
+            uid_order = []
+            for uid, obj in batch:
+                crop = obj.get("best_crop")
+                if crop is None or crop.size == 0:
+                    to_remove.add(uid)
+                    continue
+                ok, buf = cv2.imencode(".jpg", crop, [cv2.IMWRITE_JPEG_QUALITY, 85])
+                if not ok:
+                    continue
+                # Bedrock Converse API takes raw bytes (not base64)
+                content.append({"image": {"format": "jpeg",
+                                           "source": {"bytes": buf.tobytes()}}})
+                content.append({"text": f"[Object {len(uid_order)+1}, ID:{uid}]"})
+                uid_order.append(uid)
 
+            if not uid_order:
+                continue
+
+            # Single OR batch — same conservative false-positive-only prompt.
+            # Do NOT ask VLM to detect duplicates: counting is already correct from ReID.
+            # VLM only removes crops that contain NO recognizable object whatsoever.
+            if len(uid_order) == 1:
+                uid = uid_order[0]
+                content.append({"text":
+                    "Does this image contain any recognizable office object or furniture? "
+                    "Answer ONLY 'yes' or 'no'. "
+                    "Answer 'no' ONLY if this is clearly an empty wall, bare floor, "
+                    "ceiling, or a completely blank/black image with zero objects. "
+                    "When in doubt, answer 'yes'."
+                })
+                try:
+                    resp = client.converse(
+                        modelId=model_id,
+                        messages=[{"role": "user", "content": content}],
+                        inferenceConfig={"maxTokens": 5, "temperature": 0.0},
+                        system=[{"text": "Answer only yes or no."}],
+                    )
+                    ans = resp["output"]["message"]["content"][0]["text"].strip().lower()
+                    if not ans.startswith("yes"):
+                        print(f"  [VLM] Removed ID:{uid} ({class_name}) — no object in crop")
+                        to_remove.add(uid)
+                except Exception as e:
+                    print(f"  [VLM] Error ID:{uid}: {e}")
+                continue
+
+            # Batch: false-positive removal only — NOT duplicate detection.
+            # ReID already handles duplicates correctly. VLM must not second-guess counts.
+            content.append({"text": (
+                f"I have {len(uid_order)} detected object crops (IDs: {uid_order}).\n"
+                f"Some might be false positives — images containing NO recognizable "
+                f"object (just wall, bare floor, ceiling, or blank frame).\n"
+                f"List ONLY the IDs where you see absolutely nothing but background.\n"
+                f"Be VERY conservative: only list an ID if you are completely certain "
+                f"it contains zero objects. When in doubt, do NOT include it.\n"
+                f"Respond ONLY as JSON: {{\"no_object\": []}}\n"
+                f"Empty list is fine and expected if all crops contain objects."
+            )})
+
+            try:
+                resp = client.converse(
+                    modelId=model_id,
+                    messages=[{"role": "user", "content": content}],
+                    inferenceConfig={"maxTokens": 100, "temperature": 0.0},
+                    system=[{"text": "Respond ONLY with valid JSON. No markdown."}],
+                )
+                raw = resp["output"]["message"]["content"][0]["text"].strip()
+                if raw.startswith("```"):
+                    raw = raw.split("\n", 1)[-1].rsplit("```", 1)[0].strip()
+                result = json.loads(raw)
+
+                for uid in result.get("no_object", []):
+                    if uid in unique_objects:
+                        print(f"  [VLM] Removed ID:{uid} ({class_name}) — no object in crop")
+                        to_remove.add(uid)
+
+            except Exception as e:
+                print(f"  [VLM] Batch error for '{class_name}': {e}")
+
+    kept = {uid: obj for uid, obj in unique_objects.items() if uid not in to_remove}
+    removed = len(unique_objects) - len(kept)
+    if removed:
+        print(f"  [VLM] Total removed: {removed} objects")
     return kept
 
 
@@ -296,7 +353,7 @@ def run_and_collect(video_path: str, model: YOLO, model_name: str,
             conf=args.conf,
             iou=args.iou,
             imgsz=args.img_size,
-            tracker=f"{config.TRACKER_TYPE}.yaml",
+            tracker=config.TRACKER_CONFIG_PATH,
             verbose=False,
         )
 

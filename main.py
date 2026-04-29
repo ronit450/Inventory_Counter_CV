@@ -195,7 +195,7 @@ def process_video(video_path: str, model: YOLO, output_dir: str):
             conf=config.YOLO_CONFIDENCE,
             iou=config.YOLO_IOU,
             imgsz=config.YOLO_IMG_SIZE,
-            tracker=f"{config.TRACKER_TYPE}.yaml",
+            tracker=config.TRACKER_CONFIG_PATH,
             verbose=False,
         )
 

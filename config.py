@@ -3,6 +3,9 @@ Configuration for the Unique Object Counter Pipeline.
 Adjust these parameters based on your YOLO model and use case.
 """
 
+import os
+_HERE = os.path.dirname(os.path.abspath(__file__))
+
 # ─── YOLO Model ────────────────────────────────────────────────
 YOLO_MODEL_PATH = r"C:\Users\Administrator\Downloads\Inventory_counter\Inventory_counter\yolo11lg_custom_12142025.pt" 
           # Path to your trained YOLO model weights
@@ -40,13 +43,18 @@ CLASS_NAMES = {
 FRAME_SKIP = 2             # Process every Nth frame (1 = every frame, 2 = every other, etc.)
                             # Higher = faster but might miss objects
 
-# ─── ByteTrack Tracker ──────────────────────────────────────────
-TRACKER_TYPE = "bytetrack"  # Options: "bytetrack", "botsort"
+# ─── Tracker ────────────────────────────────────────────────────
+TRACKER_TYPE = "botsort"    # botsort has Camera Motion Compensation (CMC) built in —
+                             # compensates for camera pan/tilt so tracks survive rotation.
+                             # bytetrack = no CMC, IDs break on pan; use only if botsort unavailable.
+TRACKER_CONFIG_PATH = os.path.join(_HERE, "botsort_reid.yaml")
+                             # Custom tracker config with with_reid=True and track_buffer=150.
+                             # Edit botsort_reid.yaml to tune appearance/proximity thresholds.
 TRACK_HIGH_THRESH = 0.35    # High detection threshold for tracking
 TRACK_LOW_THRESH = 0.1      # Low detection threshold for second association
 TRACK_MATCH_THRESH = 0.8    # Matching threshold for tracking
-TRACK_BUFFER = 60           # Frames to keep lost tracks alive
-                             # Higher = better re-id after camera rotation
+TRACK_BUFFER = 150          # Frames to keep lost tracks alive (FRAME_SKIP=2, 30fps → ~10s)
+                             # 150 handles slow office walks without losing tracks
 
 # ─── Re-Identification (DINOv2 two-pass) ────────────────────────
 ENABLE_CLIP_REID = True                     # Enable two-pass ReID (DINOv2 + DBSCAN)
@@ -61,14 +69,26 @@ REID_BACKGROUND_WEIGHT = 0.50               # Location signal weight in merge de
                                              # Set 0.0 to disable location signal entirely.
 
 # ─── Quality Filtering ──────────────────────────────────────────
-MIN_CROP_SHARPNESS = 100                    # Laplacian variance floor.
-                                             # Crops below this are motion-blurred/walls → removed.
-                                             # 0 = disabled. Raise to 200 for stricter filtering.
+MIN_CROP_SHARPNESS = 20                     # Laplacian variance floor.
+                                             # Only removes near-blank images (wall, floor, black frame).
+                                             # Real furniture scores 50+; featureless wall scores 0-15.
+                                             # Keep LOW — padded crops score less than tight crops.
+                                             # 0 = disabled.
 
-# ─── VLM Validation (Claude API) ────────────────────────────────
-ENABLE_VLM_VALIDATION = False               # Validate each unique object with Claude claude-haiku-4-5.
-                                             # Requires ANTHROPIC_API_KEY in environment.
-                                             # ~$0.003 per 1000 images (haiku). Slow but accurate.
+# ─── Partial Detection Guard ────────────────────────────────────
+MIN_BBOX_INSET = 15                         # Skip crops where any bbox edge is within N px of
+                                             # frame boundary. Prevents partially-visible objects
+                                             # (chair entering frame) from becoming separate IDs.
+                                             # 0 = disabled. 15 is a safe default.
+
+# ─── VLM Validation (AWS Bedrock) ───────────────────────────────
+ENABLE_VLM_VALIDATION = True             # Batch-validate unique objects via Claude Haiku on Bedrock.
+                                             # Requires AWS credentials (boto3) in environment.
+                                             # Sends all same-class crops in ONE call — VLM compares
+                                             # them side-by-side for false positives AND missed merges.
+VLM_AWS_REGION  = "us-east-1"
+VLM_MODEL_ID    = "us.anthropic.claude-haiku-4-5-20251001-v1:0"
+VLM_BATCH_SIZE  = 8                         # Max crops per Bedrock call (stays within token limits)
 
 # ─── Debug ──────────────────────────────────────────────────────
 REID_DEBUG = False                          # Print pairwise similarity scores during deduplication.

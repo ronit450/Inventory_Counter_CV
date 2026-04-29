@@ -1,0 +1,24 @@
+# Custom BoT-SORT config for office inventory walkthrough videos.
+# Key changes from default:
+#   with_reid: True       — osnet appearance matching keeps same object on same ID through pan
+#   track_buffer: 150     — ~10s at 30fps/FRAME_SKIP=2, survives long camera pans
+#   proximity_thresh: 0.2 — ReID fires even when IoU is low (camera returned to different angle)
+#   appearance_thresh: 0.50 — accepts lower sim so same chair from diff angle still matches
+#   new_track_thresh: 0.40  — reduces spurious new tracks from low-conf detections
+
+tracker_type: botsort
+track_high_thresh: 0.35      # match YOLO_CONFIDENCE
+track_low_thresh: 0.1
+new_track_thresh: 0.40       # higher than default 0.25 — fewer noise tracks
+track_buffer: 150            # up from default 30 — keep track alive through 10s pans
+match_thresh: 0.8
+fuse_score: True
+
+# Global Motion Compensation — corrects for camera pan/tilt
+gmc_method: sparseOptFlow
+
+# ReID association thresholds
+proximity_thresh: 0.2        # down from 0.5 — allows ReID when IoU is low post-pan
+appearance_thresh: 0.50      # down from 0.8 — same object diff angle has ~0.5-0.7 similarity
+with_reid: True              # enable osnet appearance model for association
+model: auto                  # uses detector features when available, else osnet_x0_25
