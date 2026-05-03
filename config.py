@@ -7,15 +7,12 @@ import os
 _HERE = os.path.dirname(os.path.abspath(__file__))
 
 # ─── YOLO Model ────────────────────────────────────────────────
-YOLO_MODEL_PATH = r"C:\Users\Administrator\Downloads\Inventory_counter\Inventory_counter\yolo11lg_custom_12142025.pt" 
-          # Path to your trained YOLO model weights
-YOLO_CONFIDENCE = 0.35       # Minimum confidence threshold for detections
-YOLO_IOU = 0.45              # NMS IoU threshold
-YOLO_IMG_SIZE = 640          # Inference image size
+YOLO_MODEL_PATH = "/home/ronit/Downloads/inventory_new_model.pt"
+YOLO_CONFIDENCE = 0.35
+YOLO_IOU = 0.45
+YOLO_IMG_SIZE = 640
 
 # ─── Class Mapping ──────────────────────────────────────────────
-# Map your YOLO class indices to human-readable names.
-# UPDATE THIS to match your trained model's class order.
 CLASS_NAMES = {
     0: "Desk",
     1: "Office Chair",
@@ -40,77 +37,73 @@ CLASS_NAMES = {
 }
 
 # ─── Frame Sampling ─────────────────────────────────────────────
-FRAME_SKIP = 2             # Process every Nth frame (1 = every frame, 2 = every other, etc.)
-                            # Higher = faster but might miss objects
+FRAME_SKIP = 2
 
 # ─── Tracker ────────────────────────────────────────────────────
-TRACKER_TYPE = "botsort"    # botsort has Camera Motion Compensation (CMC) built in —
-                             # compensates for camera pan/tilt so tracks survive rotation.
-                             # bytetrack = no CMC, IDs break on pan; use only if botsort unavailable.
+TRACKER_TYPE = "botsort"
 TRACKER_CONFIG_PATH = os.path.join(_HERE, "botsort_reid.yaml")
-                             # Custom tracker config with with_reid=True and track_buffer=150.
-                             # Edit botsort_reid.yaml to tune appearance/proximity thresholds.
-TRACK_HIGH_THRESH = 0.35    # High detection threshold for tracking
-TRACK_LOW_THRESH = 0.1      # Low detection threshold for second association
-TRACK_MATCH_THRESH = 0.8    # Matching threshold for tracking
-TRACK_BUFFER = 150          # Frames to keep lost tracks alive (FRAME_SKIP=2, 30fps → ~10s)
-                             # 150 handles slow office walks without losing tracks
+TRACK_HIGH_THRESH = 0.35
+TRACK_LOW_THRESH = 0.1
+TRACK_MATCH_THRESH = 0.8
+TRACK_BUFFER = 150
 
 # ─── Re-Identification (DINOv2 two-pass) ────────────────────────
-ENABLE_CLIP_REID = True                     # Enable two-pass ReID (DINOv2 + DBSCAN)
-CLIP_MODEL_NAME = "openai/clip-vit-base-patch32"  # Unused — kept for backwards compat
-REID_SIMILARITY_THRESHOLD = 0.60            # Combined-similarity threshold for merging.
-                                             # Raise toward 0.68 if unrelated objects merge.
-                                             # Lower toward 0.55 if same object still not merging.
-REID_BACKGROUND_WEIGHT = 0.50               # Location signal weight in merge decision.
-                                             # combined_sim = 0.50*appearance + 0.50*location
-                                             # Higher = location dominates (protects against
-                                             # identical furniture false-merges).
-                                             # Set 0.0 to disable location signal entirely.
+ENABLE_CLIP_REID = True
+CLIP_MODEL_NAME = "openai/clip-vit-base-patch32"  # unused — kept for backwards compat
+REID_SIMILARITY_THRESHOLD = 0.72        # Global default — overridden per class below.
+
+# Per-class thresholds tuned on client video ground truth.
+# Higher threshold = only merge if objects are extremely similar (same object re-seen).
+# Use for classes where many identical items exist in the same room.
+CLASS_REID_THRESHOLDS = {
+    "Office Chair":        0.93,  # identical chairs: only {15,53}=0.932 should merge
+    "Cubicle / Partition": 0.89,  # 2 distinct partitions have combined=0.880; don't merge
+    "Desk":                0.76,  # 3-track over-merge at 0.72; correct pairs survive at 0.76
+}
+
+REID_BACKGROUND_WEIGHT = 0.50   # combined_sim = 0.50*appearance + 0.50*location
 
 # ─── Quality Filtering ──────────────────────────────────────────
-MIN_CROP_SHARPNESS = 20                     # Laplacian variance floor.
-                                             # Only removes near-blank images (wall, floor, black frame).
-                                             # Real furniture scores 50+; featureless wall scores 0-15.
-                                             # Keep LOW — padded crops score less than tight crops.
-                                             # 0 = disabled.
+MIN_CROP_SHARPNESS = 20         # Only removes near-blank images. Real furniture ~50+.
 
 # ─── Partial Detection Guard ────────────────────────────────────
-MIN_BBOX_INSET = 15                         # Skip crops where any bbox edge is within N px of
-                                             # frame boundary. Prevents partially-visible objects
-                                             # (chair entering frame) from becoming separate IDs.
-                                             # 0 = disabled. 15 is a safe default.
+MIN_BBOX_INSET = 15             # Skip crops where bbox edge within N px of frame edge.
 
 # ─── VLM Validation (AWS Bedrock) ───────────────────────────────
-ENABLE_VLM_VALIDATION = True             # Batch-validate unique objects via Claude Haiku on Bedrock.
-                                             # Requires AWS credentials (boto3) in environment.
-                                             # Sends all same-class crops in ONE call — VLM compares
-                                             # them side-by-side for false positives AND missed merges.
+ENABLE_VLM_VALIDATION = True    # Remove false positives via AWS Bedrock
 VLM_AWS_REGION  = "us-east-1"
 VLM_MODEL_ID    = "us.anthropic.claude-haiku-4-5-20251001-v1:0"
-VLM_BATCH_SIZE  = 8                         # Max crops per Bedrock call (stays within token limits)
+VLM_BATCH_SIZE  = 8
+# Only validate these classes with strict class-matching prompt.
+# All other classes use the conservative "is there any object?" prompt.
+# Set to None to validate all classes with strict prompt.
+VLM_STRICT_CLASSES = [
+    "Video Conferencing Equipment",  # almost always a misclassified monitor/projector
+    "Couch / Lounge Chair",          # rarely in standard offices, often a misclassified chair
+    "Keyboard",                      # low-confidence detections often desktops/table surfaces
+]
+# Classes NOT in VLM_STRICT_CLASSES are skipped entirely — low-res crops cause false removals.
+
+# ─── Pre-ReID crop saving ────────────────────────────────────────
+SAVE_PRE_REID_CROPS = True  # Save raw per-track crops + sheet BEFORE deduplication
 
 # ─── Debug ──────────────────────────────────────────────────────
-REID_DEBUG = False                          # Print pairwise similarity scores during deduplication.
-                                             # Use to diagnose why specific objects don't merge.
-REID_CHECK_INTERVAL = 3                     # Collect a crop every N processed frames
-                                             # Lower = more crops stored; higher = less memory
-REID_MIN_CROP_SIZE = 20                     # Minimum crop dimension (px) to store
-REID_TOP_K_CROPS = 5                        # Keep top-K quality crops per track
-                                             # Embeddings averaged over these for robustness
+REID_DEBUG = False
+REID_CHECK_INTERVAL = 3
+REID_MIN_CROP_SIZE = 20
+REID_TOP_K_CROPS = 5
 
-# ─── Folders ───────────────────────────────────────────────────
-INPUT_FOLDER =  r"C:\Users\Administrator\Downloads\Inventory_counter\Inventory_counter\videos_to_test"         # Folder containing inpu  video files
-OUTPUT_FOLDER = "results_analysis"                   # Folder for output JSON + annotated videos
+# ─── Folders ────────────────────────────────────────────────────
+INPUT_FOLDER  = "/home/ronit/Ronit-Personal/Personal/Inventory_counter/client_video"
+OUTPUT_FOLDER = "/home/ronit/Ronit-Personal/Personal/Inventory_counter/results_tuning"
 
 # ─── Output ─────────────────────────────────────────────────────
-OUTPUT_VIDEO_FPS = 5                        # FPS for output video (lower = slower playback,
-                                             # easier to inspect detections; None = input FPS / frame_skip)
-VIDEO_CODEC = "mp4v"                        # Video codec (mp4v for .mp4)
+OUTPUT_VIDEO_FPS = 5
+VIDEO_CODEC = "mp4v"
 
 # ─── Visualization ──────────────────────────────────────────────
 BBOX_THICKNESS = 2
 FONT_SCALE = 0.6
-SHOW_TRACK_ID = True        # Show track ID on bounding boxes
-SHOW_CLASS_NAME = True      # Show class name on bounding boxes
-SHOW_CONFIDENCE = True      # Show confidence score
+SHOW_TRACK_ID = True
+SHOW_CLASS_NAME = True
+SHOW_CONFIDENCE = True

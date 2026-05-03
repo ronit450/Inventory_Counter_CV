@@ -334,7 +334,10 @@ class PostHocDeduplicator:
             # ── Complete-linkage hierarchical clustering ──────────────────
             # max_d = 1 - threshold in COMBINED similarity space.
             # All pairs within a cluster satisfy combined_sim > threshold.
-            max_d = max(0.01, 1.0 - self.threshold)
+            cls_name_for_thresh = config.CLASS_NAMES.get(class_id, f"cls_{class_id}")
+            _class_thresholds = getattr(config, "CLASS_REID_THRESHOLDS", {})
+            effective_threshold = _class_thresholds.get(cls_name_for_thresh, self.threshold)
+            max_d = max(0.01, 1.0 - effective_threshold)
             condensed = squareform(dist, checks=False)
             Z = linkage(condensed, method="complete")
             labels = fcluster(Z, t=max_d, criterion="distance")
