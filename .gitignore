@@ -36,9 +36,11 @@
 
 # Results and outputs
 results_analysis/
+results_analysis_*/
 comparison_results/
 frames/
 results/
+input_videos/
 
 # Temp files
 *.log

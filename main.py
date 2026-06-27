@@ -304,13 +304,15 @@ def process_video(video_path: str, model: YOLO, output_dir: str):
     writer = cv2.VideoWriter(output_video_path, fourcc, out_fps, (width, height))
     print(f"  Output FPS  : {out_fps}  (only annotated frames written)")
 
-    track_class_map      = {}
-    track_confidence_map = {}
-    track_first_seen     = {}
-    track_last_seen      = {}
-    canonical_map        = {}
-    peak_counts          = {}    # max simultaneous distinct tracks per class in any frame
-    padded_crops         = {}    # tid -> {"crop": ndarray, "score": float}
+    track_class_map       = {}
+    track_confidence_map  = {}
+    track_confidence_sum  = {}   # for computing mean confidence per track
+    track_detection_count = {}   # number of processed frames where track was detected
+    track_first_seen      = {}
+    track_last_seen       = {}
+    canonical_map         = {}
+    peak_counts           = {}   # max simultaneous distinct tracks per class in any frame
+    padded_crops          = {}   # tid -> {"crop", "score", "frame_jpg", "box", "class_id"}
 
     frame_idx      = 0
     processed_count = 0
@@ -365,8 +367,10 @@ def process_video(video_path: str, model: YOLO, output_dir: str):
                 peak_counts[class_name] = max(peak_counts.get(class_name, 0), len(tids))
 
             for box, tid, cid, conf in zip(boxes, track_ids, class_ids, confidences):
-                track_class_map[tid] = cid
-                track_confidence_map[tid] = max(track_confidence_map.get(tid, 0), conf)
+                track_class_map[tid]       = cid
+                track_confidence_map[tid]  = max(track_confidence_map.get(tid, 0), conf)
+                track_confidence_sum[tid]  = track_confidence_sum.get(tid, 0.0) + float(conf)
+                track_detection_count[tid] = track_detection_count.get(tid, 0) + 1
                 if tid not in track_first_seen:
                     track_first_seen[tid] = frame_idx
                 track_last_seen[tid] = frame_idx
@@ -397,7 +401,14 @@ def process_video(video_path: str, model: YOLO, output_dir: str):
                                         or x2b >= width - 3 or y2b >= height - 3) else 1.0
                     _score    = math.log1p(_sharp) * math.log1p(_area) * _complete
                     if int(tid) not in padded_crops or _score > padded_crops[int(tid)]["score"]:
-                        padded_crops[int(tid)] = {"crop": pcrop.copy(), "score": _score}
+                        ok, fbuf = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
+                        padded_crops[int(tid)] = {
+                            "crop":      pcrop.copy(),
+                            "score":     _score,
+                            "frame_jpg": fbuf.tobytes() if ok else None,
+                            "box":       (x1b, y1b, x2b, y2b),
+                            "class_id":  int(cid),
+                        }
 
         annotated = draw_detections(frame, boxes, track_ids, class_ids, confidences,
                                      canonical_map=canonical_map)
@@ -421,6 +432,30 @@ def process_video(video_path: str, model: YOLO, output_dir: str):
     cap.release()
     writer.release()
     elapsed = time.time() - start_time
+
+    # ── Track quality filter ───────────────────────────────────────
+    # Remove ghost tracks: too few detections or too-low mean confidence.
+    # Must run before pre-ReID crop saving AND before reid collector sees them.
+    min_track_frames = getattr(config, "MIN_TRACK_FRAMES", 1)
+    min_track_conf   = getattr(config, "MIN_TRACK_CONFIDENCE", 0.0)
+    dead_tids: set = set()
+    for tid in list(track_class_map.keys()):
+        if track_detection_count.get(tid, 0) < min_track_frames:
+            dead_tids.add(tid)
+        elif (track_confidence_sum.get(tid, 0.0)
+              / max(track_detection_count.get(tid, 1), 1)) < min_track_conf:
+            dead_tids.add(tid)
+    if dead_tids:
+        for tid in dead_tids:
+            track_class_map.pop(tid, None)
+            track_confidence_map.pop(tid, None)
+            track_first_seen.pop(tid, None)
+            track_last_seen.pop(tid, None)
+            padded_crops.pop(int(tid), None)
+        if reid:
+            reid.collector.remove_tracks(dead_tids)
+        print(f"  [Filter] Removed {len(dead_tids)} ghost tracks "
+              f"(min_frames={min_track_frames}, min_conf={min_track_conf})")
 
     # ── Pre-ReID crops (optional) ─────────────────────────────────
     if getattr(config, "SAVE_PRE_REID_CROPS", False):
@@ -486,25 +521,28 @@ def process_video(video_path: str, model: YOLO, output_dir: str):
     if config.ENABLE_VLM_VALIDATION and reid:
         print("\n  [VLM] Validating with AWS Bedrock...")
         vlm_input = {}
-        for obj in unique_objects:
+        for seq_id, obj in enumerate(unique_objects):
             canon_id  = obj["unique_id"]
             best_crop = reid.deduplicator.get_best_crop_for_canonical(
                 reid.collector, reid._canonical_map, canon_id
             )
-            vlm_input[canon_id] = {**obj, "best_crop": best_crop}
+            vlm_input[seq_id] = {**obj, "best_crop": best_crop}
 
-        vlm_output  = _vlm_filter_unique_objects(vlm_input)
-        removed_ids = set(vlm_input.keys()) - set(vlm_output.keys())
+        vlm_output      = _vlm_filter_unique_objects(vlm_input)
+        removed_seq_ids = set(vlm_input.keys()) - set(vlm_output.keys())
+        removed_pairs   = {(vlm_input[k]["class_name"], vlm_input[k]["unique_id"])
+                           for k in removed_seq_ids}
 
         for obj in unique_objects:
-            if obj["unique_id"] in removed_ids:
+            if (obj["class_name"], obj["unique_id"]) in removed_pairs:
                 class_name = obj["class_name"]
                 if unique_counts.get(class_name, 0) > 0:
                     unique_counts[class_name] -= 1
                     if unique_counts[class_name] == 0:
                         del unique_counts[class_name]
 
-        unique_objects = [o for o in unique_objects if o["unique_id"] not in removed_ids]
+        unique_objects = [o for o in unique_objects
+                          if (o["class_name"], o["unique_id"]) not in removed_pairs]
 
     # ── Save individual crops & contact sheet ─────────────────────
     crops_dir  = os.path.join(output_dir, f"{video_name}_crops")
@@ -517,23 +555,54 @@ def process_video(video_path: str, model: YOLO, output_dir: str):
         canon = c_map.get(tid, tid)
         canonical_to_tids[canon].append(tid)
 
-    post_entries = []
+    post_entries    = []
+    class_counters: dict = defaultdict(int)
     for obj in sorted(unique_objects, key=lambda o: (o["class_name"], o["unique_id"])):
         uid        = obj["unique_id"]
         class_name = obj["class_name"]
+        class_counters[class_name] += 1
+        display_idx = class_counters[class_name]
+
         best_score = -1.0
-        best_crop  = None
+        best_entry = None
         for tid in canonical_to_tids.get(uid, [uid]):
             entry = padded_crops.get(int(tid))
             if entry and entry["score"] > best_score:
                 best_score = entry["score"]
-                best_crop  = entry["crop"]
-        safe_cls = class_name.replace("/", "_").replace(" ", "_")
+                best_entry = entry
+
+        safe_cls  = class_name.replace("/", "_").replace(" ", "_")
+        best_crop = best_entry["crop"] if best_entry else None
+
         if best_crop is not None and best_crop.size > 0:
-            cv2.imwrite(os.path.join(crops_dir, f"{safe_cls}_id{uid}.jpg"),
-                        best_crop, [cv2.IMWRITE_JPEG_QUALITY, 92])
+            cv2.imwrite(
+                os.path.join(crops_dir, f"{safe_cls}_{display_idx}_crop.jpg"),
+                best_crop, [cv2.IMWRITE_JPEG_QUALITY, 92])
+
+        if best_entry:
+            frame_jpg = best_entry.get("frame_jpg")
+            box       = best_entry.get("box")
+            cid       = obj.get("class_id", 0)
+            if frame_jpg and box:
+                fbuf      = np.frombuffer(frame_jpg, dtype=np.uint8)
+                ctx_frame = cv2.imdecode(fbuf, cv2.IMREAD_COLOR)
+                if ctx_frame is not None:
+                    x1b, y1b, x2b, y2b = box
+                    color = get_color_for_class(cid)
+                    cv2.rectangle(ctx_frame, (x1b, y1b), (x2b, y2b), color, 3)
+                    lbl = f"{class_name} #{display_idx}"
+                    (lw, lh), _ = cv2.getTextSize(lbl, cv2.FONT_HERSHEY_SIMPLEX, 0.8, 2)
+                    cv2.rectangle(ctx_frame,
+                                  (x1b, y1b - lh - 12), (x1b + lw + 6, y1b),
+                                  color, -1)
+                    cv2.putText(ctx_frame, lbl, (x1b + 3, y1b - 5),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
+                    cv2.imwrite(
+                        os.path.join(crops_dir, f"{safe_cls}_{display_idx}_context.jpg"),
+                        ctx_frame, [cv2.IMWRITE_JPEG_QUALITY, 88])
+
         post_entries.append({"img": best_crop,
-                              "label": f"{class_name} | ID:{uid}"})
+                              "label": f"{class_name} #{display_idx}"})
 
     if post_entries:
         contact_sheet = make_contact_sheet(

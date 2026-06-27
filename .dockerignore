@@ -1,0 +1,52 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Runtime outputs (not needed in image)
+results_analysis/
+results_analysis_*/
+input_videos/
+frames/
+detected_objects/
+*.mp4
+*.avi
+*.mov
+*.json
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Scripts (not needed in container)
+scripts/
+
+# Documentation
+*.md
+LICENSE

@@ -112,8 +112,9 @@ class TrackCollector:
         self.top_k = top_k_crops
         # track_id -> {"class_id", "class_name", "scored_crops": [(score, crop)]}
         self.tracks: dict = {}
-        # frozenset({tid1, tid2}) for any pair visible in the same frame
-        self.cooccurrence: set = set()
+        # frozenset({tid1, tid2}) → count of frames both tracks were simultaneously visible
+        self.cooccurrence_count: dict = {}
+        self.crop_histograms: dict = {}  # tid → L2-normalised HSV hist of best object crop
         # track_id -> {"fp": np.ndarray, "bbox_area": int}
         # Stores the fingerprint from the frame where the object had the LARGEST bbox
         # (camera closest = most object context visible in scene).
@@ -124,7 +125,8 @@ class TrackCollector:
         ids = [int(t) for t in track_ids]
         for i in range(len(ids)):
             for j in range(i + 1, len(ids)):
-                self.cooccurrence.add(frozenset({ids[i], ids[j]}))
+                key = frozenset({ids[i], ids[j]})
+                self.cooccurrence_count[key] = self.cooccurrence_count.get(key, 0) + 1
 
     def add_detection(self, track_id: int, class_id: int, class_name: str,
                       crop: np.ndarray, bbox=None, frame_shape=None):
@@ -135,12 +137,16 @@ class TrackCollector:
                 "class_id": int(class_id),
                 "class_name": class_name,
                 "scored_crops": [],
+                "best_score": 0.0,
             }
         if crop is None or crop.size == 0:
             return
         score = crop_quality_score(crop, bbox, frame_shape)
         t = self.tracks[tid]
         t["scored_crops"].append((score, crop.copy()))
+        if score > t["best_score"]:
+            t["best_score"] = score
+            self._update_crop_histogram(tid, crop)
         if len(t["scored_crops"]) > self._prune_interval:
             t["scored_crops"].sort(key=lambda x: x[0], reverse=True)
             t["scored_crops"] = t["scored_crops"][:self.top_k]
@@ -159,6 +165,25 @@ class TrackCollector:
                 "fp": _context_fingerprint(frame, bbox),
                 "bbox_area": bbox_area,
             }
+
+    def _update_crop_histogram(self, track_id: int, crop: np.ndarray):
+        """HSV hue+saturation histogram of best-quality object crop — colour fingerprint."""
+        try:
+            hsv = cv2.cvtColor(crop, cv2.COLOR_BGR2HSV)
+        except Exception:
+            return
+        h_hist = cv2.calcHist([hsv], [0], None, [32], [0, 180]).flatten()
+        s_hist = cv2.calcHist([hsv], [1], None, [32], [0, 256]).flatten()
+        vec  = np.concatenate([h_hist, s_hist]).astype(np.float32)
+        norm = np.linalg.norm(vec)
+        self.crop_histograms[int(track_id)] = vec / norm if norm > 1e-6 else vec
+
+    def remove_tracks(self, track_ids):
+        """Purge low-quality tracks before dedup so they don't pollute clustering."""
+        for tid in track_ids:
+            self.tracks.pop(int(tid), None)
+            self.bg_fingerprints.pop(int(tid), None)
+            self.crop_histograms.pop(int(tid), None)
 
     def get_best_crops(self, track_id: int, k: int = None) -> list:
         k = k or self.top_k
@@ -220,25 +245,31 @@ class PostHocDeduplicator:
 
     @torch.no_grad()
     def _embed_crops(self, crops: list) -> np.ndarray | None:
-        """Average DINOv2 CLS-token embedding over multiple crops. L2-normalised."""
+        """Average DINOv2 CLS-token embedding over multiple crops. L2-normalised.
+        Batches all crops in a single forward pass for speed."""
         self._ensure_loaded()
-        embs = []
+        pils = []
         for crop in crops:
             if crop is None or crop.size == 0:
                 continue
             try:
-                pil = Image.fromarray(cv2.cvtColor(crop, cv2.COLOR_BGR2RGB))
-                inp = self._processor(images=pil, return_tensors="pt").to(self._device)
-                out = self._model(**inp)
-                feat = out.last_hidden_state[:, 0, :].cpu().numpy()[0]
-                n = np.linalg.norm(feat)
-                if n > 1e-6:
-                    embs.append(feat / n)
+                pils.append(Image.fromarray(cv2.cvtColor(crop, cv2.COLOR_BGR2RGB)))
             except Exception:
                 continue
-        if not embs:
+        if not pils:
             return None
-        avg = np.mean(embs, axis=0)
+        try:
+            inp = self._processor(images=pils, return_tensors="pt").to(self._device)
+            out = self._model(**inp)
+            feats = out.last_hidden_state[:, 0, :].cpu().numpy()  # (B, D)
+        except Exception:
+            return None
+        norms = np.linalg.norm(feats, axis=1, keepdims=True)
+        valid = norms.squeeze(1) > 1e-6
+        if not valid.any():
+            return None
+        feats[valid] /= norms[valid]
+        avg = feats[valid].mean(axis=0)
         n = np.linalg.norm(avg)
         return avg / n if n > 1e-6 else avg
 
@@ -309,12 +340,31 @@ class PostHocDeduplicator:
             np.fill_diagonal(dist, 0.0)
 
             # ── Hard co-occurrence veto ───────────────────────────────────
+            # Require MIN_COOCCURRENCE_FRAMES simultaneous detections before blocking.
+            # Single-frame false double-detection no longer permanently prevents merge.
+            min_cooc = getattr(config, "MIN_COOCCURRENCE_FRAMES", 3)
             for i, tid1 in enumerate(valid_ids):
                 for j in range(i + 1, n):
                     tid2 = valid_ids[j]
-                    if frozenset({tid1, tid2}) in collector.cooccurrence:
+                    if collector.cooccurrence_count.get(frozenset({tid1, tid2}), 0) >= min_cooc:
                         dist[i, j] = 2.0
                         dist[j, i] = 2.0
+
+            # ── Color histogram veto ──────────────────────────────────────
+            # Blocks merges where the objects are visually very different colours.
+            color_veto = getattr(config, "COLOR_VETO_THRESHOLD", 0.0)
+            if color_veto > 0.0:
+                for i, tid1 in enumerate(valid_ids):
+                    for j in range(i + 1, n):
+                        if dist[i, j] >= 2.0:
+                            continue
+                        tid2 = valid_ids[j]
+                        h1 = collector.crop_histograms.get(tid1)
+                        h2 = collector.crop_histograms.get(tid2)
+                        if h1 is not None and h2 is not None:
+                            if float(np.dot(h1, h2)) < color_veto:
+                                dist[i, j] = 2.0
+                                dist[j, i] = 2.0
 
             # ── Debug pairwise scores ─────────────────────────────────────
             if getattr(config, "REID_DEBUG", False):
@@ -327,7 +377,9 @@ class PostHocDeduplicator:
                         b_sim = float(bg_sim[i, j])
                         c_sim = float(combined_sim[i, j])
                         d = float(dist[i, j])
-                        cooc = "CO-OCC" if frozenset({tid1, tid2}) in collector.cooccurrence else ""
+                        cooc_cnt = collector.cooccurrence_count.get(frozenset({tid1, tid2}), 0)
+                        cooc = f"CO-OCC({cooc_cnt})" if cooc_cnt >= min_cooc else (
+                               f"co-occ({cooc_cnt})" if cooc_cnt else "")
                         print(f"    {tid1}↔{tid2}: app={a_sim:.3f} bg={b_sim:.3f} "
                               f"combined={c_sim:.3f} dist={d:.3f} {cooc}")
 

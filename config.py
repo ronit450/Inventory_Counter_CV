@@ -7,7 +7,12 @@ import os
 _HERE = os.path.dirname(os.path.abspath(__file__))
 
 # ─── YOLO Model ────────────────────────────────────────────────
-YOLO_MODEL_PATH = "/home/ronit/Downloads/inventory_new_model.pt"
+# Override at runtime: MODEL_PATH=/path/to/model.pt python main.py
+# Docker default: /app/models/Rk_trained_model.pt (baked into image)
+YOLO_MODEL_PATH = os.getenv(
+    "MODEL_PATH",
+    os.path.join(_HERE, "models", "Rk_trained_model.pt"),
+)
 YOLO_CONFIDENCE = 0.35
 YOLO_IOU = 0.45
 YOLO_IMG_SIZE = 640
@@ -56,12 +61,18 @@ REID_SIMILARITY_THRESHOLD = 0.72        # Global default — overridden per clas
 # Higher threshold = only merge if objects are extremely similar (same object re-seen).
 # Use for classes where many identical items exist in the same room.
 CLASS_REID_THRESHOLDS = {
-    "Office Chair":        0.93,  # identical chairs: only {15,53}=0.932 should merge
+    "Office Chair":        0.76,  # lowered: bg_weight=0.30 now handles identical-chair separation
     "Cubicle / Partition": 0.89,  # 2 distinct partitions have combined=0.880; don't merge
-    "Desk":                0.76,  # 3-track over-merge at 0.72; correct pairs survive at 0.76
+    "Desk":                0.76,
+    "Monitor":             0.74,  # dark screens have low app_sim at different angles/distances
 }
 
-REID_BACKGROUND_WEIGHT = 0.50   # combined_sim = 0.50*appearance + 0.50*location
+REID_BACKGROUND_WEIGHT = 0.30   # 0.50 was too heavy — bg context shifts with camera angle even for same location
+
+MIN_COOCCURRENCE_FRAMES = 3     # frames a pair must co-occur before hard-blocking merge
+COLOR_VETO_THRESHOLD    = 0.0   # disabled — padded crops include background, histograms unreliable
+MIN_TRACK_FRAMES        = 2     # discard tracks detected in fewer processed frames than this
+MIN_TRACK_CONFIDENCE    = 0.32  # discard tracks whose mean YOLO confidence is below this
 
 # ─── Quality Filtering ──────────────────────────────────────────
 MIN_CROP_SHARPNESS = 20         # Only removes near-blank images. Real furniture ~50+.
@@ -88,14 +99,15 @@ VLM_STRICT_CLASSES = [
 SAVE_PRE_REID_CROPS = True  # Save raw per-track crops + sheet BEFORE deduplication
 
 # ─── Debug ──────────────────────────────────────────────────────
-REID_DEBUG = False
+REID_DEBUG = True
 REID_CHECK_INTERVAL = 3
 REID_MIN_CROP_SIZE = 20
 REID_TOP_K_CROPS = 5
 
 # ─── Folders ────────────────────────────────────────────────────
-INPUT_FOLDER  = "/home/ronit/Ronit-Personal/Personal/Inventory_counter/client_video"
-OUTPUT_FOLDER = "/home/ronit/Ronit-Personal/Personal/Inventory_counter/results_tuning"
+# Override at runtime via env vars (required in Docker/CI).
+INPUT_FOLDER  = os.getenv("INPUT_FOLDER",  os.path.join(_HERE, "input_videos"))
+OUTPUT_FOLDER = os.getenv("OUTPUT_FOLDER", os.path.join(_HERE, "results_analysis"))
 
 # ─── Output ─────────────────────────────────────────────────────
 OUTPUT_VIDEO_FPS = 5
