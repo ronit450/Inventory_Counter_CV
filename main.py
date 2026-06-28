@@ -23,6 +23,9 @@ import config
 
 VIDEO_EXTENSIONS = {".mp4", ".avi", ".mov", ".mkv", ".wmv", ".flv"}
 
+# Reverse lookup: class name → class_id (for consistent coloring in overlay)
+_CLASS_NAME_TO_ID = {v: k for k, v in config.CLASS_NAMES.items()}
+
 CROP_PAD        = 20
 CONTACT_THUMB_W = 200
 CONTACT_THUMB_H = 200
@@ -31,141 +34,6 @@ LABEL_H         = 28
 _BG_COLOR       = (30, 30, 30)
 _BORDER_COLOR   = (80, 80, 80)
 
-
-def _vlm_filter_unique_objects(vlm_objects: dict) -> dict:
-    """
-    Send unique objects to AWS Bedrock Claude Haiku for class-specific validation.
-    Removes objects where the crop does NOT match the assigned class label.
-    One API call per class (batch) for efficiency.
-    Returns filtered dict (same structure, subset of input).
-    """
-    try:
-        import boto3
-    except ImportError:
-        print("  [VLM] boto3 not installed — skipping")
-        return vlm_objects
-
-    region   = getattr(config, "VLM_AWS_REGION",  "us-east-1")
-    model_id = getattr(config, "VLM_MODEL_ID",    "us.anthropic.claude-haiku-4-5-20251001-v1:0")
-    batch_sz = getattr(config, "VLM_BATCH_SIZE",   8)
-
-    try:
-        client = boto3.client("bedrock-runtime", region_name=region)
-    except Exception as e:
-        print(f"  [VLM] Bedrock init failed: {e}")
-        return vlm_objects
-
-    by_class: dict = defaultdict(list)
-    for uid, obj in vlm_objects.items():
-        by_class[obj["class_name"]].append((uid, obj))
-
-    to_remove: set = set()
-
-    strict_classes = set(getattr(config, "VLM_STRICT_CLASSES", []) or [])
-
-    for class_name, items in by_class.items():
-        # Only validate classes in strict_classes — everything else is skipped.
-        # Non-strict classes have real objects in low-res crops that look ambiguous;
-        # running VLM on them causes false removals.
-        use_strict = class_name in strict_classes
-        if not use_strict:
-            continue
-
-        for batch_start in range(0, len(items), batch_sz):
-            batch = items[batch_start: batch_start + batch_sz]
-
-            content = []
-            uid_order = []
-            for uid, obj in batch:
-                crop = obj.get("best_crop")
-                if crop is None or crop.size == 0:
-                    to_remove.add(uid)
-                    continue
-                ok, buf = cv2.imencode(".jpg", crop, [cv2.IMWRITE_JPEG_QUALITY, 85])
-                if not ok:
-                    continue
-                content.append({"image": {"format": "jpeg",
-                                           "source": {"bytes": buf.tobytes()}}})
-                content.append({"text": f"[ID:{uid}]"})
-                uid_order.append(uid)
-
-            if not uid_order:
-                continue
-
-            if len(uid_order) == 1:
-                uid = uid_order[0]
-                if use_strict:
-                    prompt = (
-                        f"Does this image show a '{class_name}'? "
-                        f"Answer ONLY 'yes' or 'no'. "
-                        f"Answer 'no' ONLY if you are confident this is NOT a '{class_name}'. "
-                        f"When in doubt, answer 'yes'."
-                    )
-                else:
-                    prompt = (
-                        "Does this image contain any recognizable office object or furniture? "
-                        "Answer ONLY 'yes' or 'no'. "
-                        "Answer 'no' ONLY if this is clearly an empty wall, bare floor, "
-                        "ceiling, or completely blank/black image. When in doubt, answer 'yes'."
-                    )
-                content.append({"text": prompt})
-                try:
-                    resp = client.converse(
-                        modelId=model_id,
-                        messages=[{"role": "user", "content": content}],
-                        inferenceConfig={"maxTokens": 5, "temperature": 0.0},
-                        system=[{"text": "Answer only yes or no."}],
-                    )
-                    ans = resp["output"]["message"]["content"][0]["text"].strip().lower()
-                    if not ans.startswith("yes"):
-                        print(f"  [VLM] Removed ID:{uid} ({class_name})")
-                        to_remove.add(uid)
-                except Exception as e:
-                    print(f"  [VLM] Error ID:{uid}: {e}")
-                continue
-
-            if use_strict:
-                batch_prompt = (
-                    f"I have {len(uid_order)} crops detected as '{class_name}' (IDs: {uid_order}).\n"
-                    f"List ONLY the IDs that are definitely NOT a '{class_name}'.\n"
-                    f"Be conservative: only flag if very confident it is wrong.\n"
-                    f"Respond ONLY as JSON: {{\"wrong_class\": []}}"
-                )
-                remove_key = "wrong_class"
-            else:
-                batch_prompt = (
-                    f"I have {len(uid_order)} object crops (IDs: {uid_order}).\n"
-                    f"List ONLY the IDs where the image contains absolutely nothing "
-                    f"(empty wall, bare floor, or blank frame — no objects at all).\n"
-                    f"Be VERY conservative. When in doubt do NOT include the ID.\n"
-                    f"Respond ONLY as JSON: {{\"no_object\": []}}"
-                )
-                remove_key = "no_object"
-
-            content.append({"text": batch_prompt})
-            try:
-                resp = client.converse(
-                    modelId=model_id,
-                    messages=[{"role": "user", "content": content}],
-                    inferenceConfig={"maxTokens": 100, "temperature": 0.0},
-                    system=[{"text": "Respond ONLY with valid JSON. No markdown."}],
-                )
-                raw = resp["output"]["message"]["content"][0]["text"].strip()
-                if raw.startswith("```"):
-                    raw = raw.split("\n", 1)[-1].rsplit("```", 1)[0].strip()
-                result = json.loads(raw)
-                for uid in result.get(remove_key, []):
-                    if uid in vlm_objects:
-                        print(f"  [VLM] Removed ID:{uid} ({class_name})")
-                        to_remove.add(uid)
-            except Exception as e:
-                print(f"  [VLM] Batch error for '{class_name}': {e}")
-
-    kept = {uid: obj for uid, obj in vlm_objects.items() if uid not in to_remove}
-    removed = len(vlm_objects) - len(kept)
-    if removed:
-        print(f"  [VLM] Total removed: {removed} objects")
-    return kept
 
 
 def get_color_for_class(class_id: int) -> tuple:
@@ -180,40 +48,76 @@ def draw_detections(frame, boxes, track_ids, class_ids, confidences, canonical_m
         color = get_color_for_class(int(cls_id))
         display_id = canonical_map.get(track_id, track_id) if canonical_map else track_id
         cv2.rectangle(annotated, (x1, y1), (x2, y2), color, config.BBOX_THICKNESS)
+
         parts = []
-        if config.SHOW_TRACK_ID:
-            parts.append(f"ID:{display_id}")
         if config.SHOW_CLASS_NAME:
-            class_name = config.CLASS_NAMES.get(int(cls_id), f"cls_{int(cls_id)}")
-            parts.append(class_name[:18] + ".." if len(class_name) > 20 else class_name)
+            cn = config.CLASS_NAMES.get(int(cls_id), f"cls_{int(cls_id)}")
+            parts.append(cn[:18] + ".." if len(cn) > 20 else cn)
+        if config.SHOW_TRACK_ID:
+            parts.append(f"#{display_id}")
         if config.SHOW_CONFIDENCE:
             parts.append(f"{conf:.2f}")
-        label = " | ".join(parts)
-        (w, h), _ = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, config.FONT_SCALE, 1)
-        cv2.rectangle(annotated, (x1, y1 - h - 10), (x1 + w + 5, y1), color, -1)
-        cv2.putText(annotated, label, (x1 + 2, y1 - 5),
-                    cv2.FONT_HERSHEY_SIMPLEX, config.FONT_SCALE, (255, 255, 255), 2)
+        label = " ".join(parts)
+
+        (lw, lh), _ = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, config.FONT_SCALE, 1)
+        ly = max(y1 - lh - 8, 0)
+        cv2.rectangle(annotated, (x1, ly), (x1 + lw + 8, ly + lh + 8), color, -1)
+        cv2.putText(annotated, label, (x1 + 4, ly + lh + 4),
+                    cv2.FONT_HERSHEY_SIMPLEX, config.FONT_SCALE, (255, 255, 255), 1, cv2.LINE_AA)
     return annotated
 
 
 def draw_counter_overlay(frame, unique_counts: dict, frame_num: int, total_frames: int):
     h, w = frame.shape[:2]
+
+    lines   = sorted(unique_counts.items())
+    total   = sum(c for _, c in lines)
+    row_h   = 28
+    hdr_h   = 44
+    ftr_h   = 36
+    pad     = 8
+    panel_w = 280
+    panel_h = hdr_h + len(lines) * row_h + ftr_h + pad
+    x0, y0  = w - panel_w - 8, 8
+
+    # Semi-transparent dark panel
     overlay = frame.copy()
-    panel_h = 30 + len(unique_counts) * 25 + 10
-    panel_w = 320
-    cv2.rectangle(overlay, (w - panel_w - 10, 5), (w - 5, panel_h), (0, 0, 0), -1)
-    cv2.addWeighted(overlay, 0.7, frame, 0.3, 0, frame)
-    cv2.putText(frame, f"Unique Objects (Frame {frame_num}/{total_frames})",
-                (w - panel_w - 5, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 1)
-    y_offset = 50
-    total = 0
-    for class_name, count in sorted(unique_counts.items()):
-        cv2.putText(frame, f"{class_name}: {count}", (w - panel_w - 5, y_offset),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.45, (255, 255, 255), 1)
-        y_offset += 25
-        total += count
-    cv2.putText(frame, f"TOTAL: {total}", (w - panel_w - 5, y_offset),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 255, 0), 2)
+    cv2.rectangle(overlay, (x0 - 4, y0), (w - 4, y0 + panel_h), (12, 12, 12), -1)
+    cv2.addWeighted(overlay, 0.78, frame, 0.22, 0, frame)
+
+    # Accent top bar
+    cv2.rectangle(frame, (x0 - 4, y0), (w - 4, y0 + 3), (0, 160, 255), -1)
+
+    # Header
+    cv2.putText(frame, "INVENTORY COUNT", (x0 + 4, y0 + 28),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.52, (0, 200, 255), 1, cv2.LINE_AA)
+    cv2.line(frame, (x0, y0 + hdr_h - 4), (w - 8, y0 + hdr_h - 4), (55, 55, 55), 1)
+
+    # One row per class
+    for i, (class_name, count) in enumerate(lines):
+        y     = y0 + hdr_h + i * row_h + 20
+        cid   = _CLASS_NAME_TO_ID.get(class_name, abs(hash(class_name)) % 200)
+        color = get_color_for_class(cid)
+        cv2.circle(frame, (x0 + 8, y - 6), 5, color, -1)
+        short = (class_name[:20] + "..") if len(class_name) > 22 else class_name
+        cv2.putText(frame, short, (x0 + 20, y),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.38, (210, 210, 210), 1, cv2.LINE_AA)
+        cnt_str = str(count)
+        (tw, _), _ = cv2.getTextSize(cnt_str, cv2.FONT_HERSHEY_SIMPLEX, 0.52, 2)
+        cv2.putText(frame, cnt_str, (w - 10 - tw, y),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.52, (255, 255, 255), 2, cv2.LINE_AA)
+
+    # Divider + total
+    y_div = y0 + hdr_h + len(lines) * row_h + pad
+    cv2.line(frame, (x0, y_div), (w - 8, y_div), (55, 55, 55), 1)
+    cv2.putText(frame, f"TOTAL  {total}", (x0 + 4, y_div + 26),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.60, (0, 235, 100), 2, cv2.LINE_AA)
+
+    # Progress bar at bottom
+    progress = min(frame_num / max(total_frames, 1), 1.0)
+    cv2.rectangle(frame, (0, h - 7), (w, h), (35, 35, 35), -1)
+    cv2.rectangle(frame, (0, h - 7), (int(w * progress), h), (0, 150, 255), -1)
+
     return frame
 
 
@@ -260,6 +164,69 @@ def make_contact_sheet(entries: list, title: str) -> np.ndarray:
         cv2.rectangle(sheet, (x, y), (x + cell_w - 1, y + cell_h - 1), _BORDER_COLOR, 1)
 
     return sheet
+
+
+def make_timeline_strip(
+    unique_objects: list,
+    canonical_first_seen: dict,
+    canonical_last_seen: dict,
+    total_frames: int,
+    fps: float,
+    title: str,
+) -> np.ndarray:
+    """Horizontal bar chart showing when each unique object was first/last detected."""
+    if not unique_objects:
+        return None
+
+    strip_w = 1280
+    row_h   = 30
+    label_w = 250
+    bar_w   = strip_w - label_w - 16
+    hdr_h   = 44
+    ftr_h   = 28
+
+    img_h = hdr_h + len(unique_objects) * row_h + ftr_h
+    img   = np.full((img_h, strip_w, 3), (18, 18, 18), dtype=np.uint8)
+
+    # Header
+    cv2.rectangle(img, (0, 0), (strip_w, hdr_h), (20, 55, 90), -1)
+    cv2.putText(img, title, (10, 30),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.68, (0, 210, 255), 2, cv2.LINE_AA)
+
+    # Time-axis ticks at 0 / 25 / 50 / 75 / 100 %
+    duration_s = total_frames / max(fps, 1)
+    for pct in range(0, 101, 25):
+        x = label_w + int(bar_w * pct / 100)
+        cv2.line(img, (x, hdr_h), (x, img_h - ftr_h), (45, 45, 45), 1)
+        t_s  = duration_s * pct / 100
+        tick = f"{int(t_s)}s" if t_s < 60 else f"{t_s / 60:.1f}m"
+        cv2.putText(img, tick, (x - 14, img_h - 8),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.33, (100, 100, 100), 1)
+
+    for i, obj in enumerate(unique_objects):
+        uid   = obj["unique_id"]
+        cid   = obj.get("class_id", 0)
+        color = get_color_for_class(int(cid))
+
+        y = hdr_h + i * row_h
+        if i % 2 == 0:
+            cv2.rectangle(img, (0, y), (strip_w, y + row_h), (26, 26, 26), -1)
+
+        short = obj["class_name"]
+        if len(short) > 30:
+            short = short[:28] + ".."
+        cv2.putText(img, short, (6, y + 21),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.37, (185, 185, 185), 1, cv2.LINE_AA)
+
+        f0 = canonical_first_seen.get(uid, 0)
+        f1 = canonical_last_seen.get(uid, f0 + 1)
+        bx0 = label_w + int(bar_w * f0 / max(total_frames, 1))
+        bx1 = label_w + int(bar_w * f1 / max(total_frames, 1))
+        bx1 = max(bx1, bx0 + 6)
+        cv2.rectangle(img, (bx0, y + 7), (bx1, y + row_h - 7), color, -1)
+        cv2.circle(img, (bx0 + 3, y + row_h // 2), 4, (255, 255, 255), -1)
+
+    return img
 
 
 def process_video(video_path: str, model: YOLO, output_dir: str):
@@ -425,7 +392,6 @@ def process_video(video_path: str, model: YOLO, output_dir: str):
                     current_counts[config.CLASS_NAMES.get(cid, f"class_{cid}")] += 1
             current_counts = dict(current_counts)
 
-        annotated = draw_counter_overlay(annotated, current_counts, frame_idx, total_frames)
         writer.write(annotated)
 
     pbar.close()
@@ -517,39 +483,24 @@ def process_video(video_path: str, model: YOLO, output_dir: str):
         for cls, (before, after) in sorted(peak_overrides.items()):
             print(f"    {cls}: ReID={before} → peak={after}")
 
-    # ── VLM false-positive filter ──────────────────────────────
-    if config.ENABLE_VLM_VALIDATION and reid:
-        print("\n  [VLM] Validating with AWS Bedrock...")
-        vlm_input = {}
-        for seq_id, obj in enumerate(unique_objects):
-            canon_id  = obj["unique_id"]
-            best_crop = reid.deduplicator.get_best_crop_for_canonical(
-                reid.collector, reid._canonical_map, canon_id
-            )
-            vlm_input[seq_id] = {**obj, "best_crop": best_crop}
-
-        vlm_output      = _vlm_filter_unique_objects(vlm_input)
-        removed_seq_ids = set(vlm_input.keys()) - set(vlm_output.keys())
-        removed_pairs   = {(vlm_input[k]["class_name"], vlm_input[k]["unique_id"])
-                           for k in removed_seq_ids}
-
-        for obj in unique_objects:
-            if (obj["class_name"], obj["unique_id"]) in removed_pairs:
-                class_name = obj["class_name"]
-                if unique_counts.get(class_name, 0) > 0:
-                    unique_counts[class_name] -= 1
-                    if unique_counts[class_name] == 0:
-                        del unique_counts[class_name]
-
-        unique_objects = [o for o in unique_objects
-                          if (o["class_name"], o["unique_id"]) not in removed_pairs]
-
     # ── Save individual crops & contact sheet ─────────────────────
     crops_dir  = os.path.join(output_dir, f"{video_name}_crops")
     sheet_path = os.path.join(output_dir, f"{video_name}_contact_sheet.jpg")
     os.makedirs(crops_dir, exist_ok=True)
 
     c_map = reid._canonical_map if reid else {}
+
+    # First/last frame seen per canonical object (used for timeline strip)
+    canonical_first_seen: dict = {}
+    canonical_last_seen:  dict = {}
+    for tid, f_first in track_first_seen.items():
+        canon  = c_map.get(tid, tid)
+        f_last = track_last_seen.get(tid, f_first)
+        if canon not in canonical_first_seen or f_first < canonical_first_seen[canon]:
+            canonical_first_seen[canon] = f_first
+        if canon not in canonical_last_seen or f_last > canonical_last_seen[canon]:
+            canonical_last_seen[canon] = f_last
+
     canonical_to_tids: dict = defaultdict(list)
     for tid in padded_crops:
         canon = c_map.get(tid, tid)
@@ -609,10 +560,49 @@ def process_video(video_path: str, model: YOLO, output_dir: str):
             post_entries, f"{video_name} — {len(unique_objects)} unique objects")
         cv2.imwrite(sheet_path, contact_sheet, [cv2.IMWRITE_JPEG_QUALITY, 92])
 
+    # Per-class collages
+    per_class_collage_paths: dict = {}
+    by_class_entries: dict = defaultdict(list)
+    for entry in post_entries:
+        cls = entry["label"].rsplit(" #", 1)[0]
+        by_class_entries[cls].append(entry)
+    for cls, entries in sorted(by_class_entries.items()):
+        safe_cls  = cls.replace("/", "_").replace(" ", "_")
+        cls_sheet = make_contact_sheet(entries, f"{cls}  ×{len(entries)}")
+        cls_path  = os.path.join(output_dir, f"{video_name}_collage_{safe_cls}.jpg")
+        cv2.imwrite(cls_path, cls_sheet, [cv2.IMWRITE_JPEG_QUALITY, 92])
+        per_class_collage_paths[cls] = cls_path
+
+    # Timeline strip
+    timeline_path = os.path.join(output_dir, f"{video_name}_timeline.jpg")
+    tl_img = make_timeline_strip(
+        unique_objects, canonical_first_seen, canonical_last_seen,
+        total_frames, fps, f"{video_name} — Detection Timeline",
+    )
+    if tl_img is not None:
+        cv2.imwrite(timeline_path, tl_img, [cv2.IMWRITE_JPEG_QUALITY, 92])
+    else:
+        timeline_path = ""
+
     total_unique     = sum(unique_counts.values())
     total_raw_tracks = len(track_class_map)
 
-    # ── Output JSON ────────────────────────────────────────────
+    # ── Output JSON (clean client-facing) ─────────────────────
+    # Build per-object list with just class, instance number, and file paths
+    clean_objects = []
+    _cls_ctr: dict = defaultdict(int)
+    for obj in sorted(unique_objects, key=lambda o: (o["class_name"], o["unique_id"])):
+        cls = obj["class_name"]
+        _cls_ctr[cls] += 1
+        idx      = _cls_ctr[cls]
+        safe_cls = cls.replace("/", "_").replace(" ", "_")
+        clean_objects.append({
+            "class_name":        cls,
+            "instance_number":   idx,
+            "crop_path":         os.path.join(crops_dir, f"{safe_cls}_{idx}_crop.jpg"),
+            "context_frame_path": os.path.join(crops_dir, f"{safe_cls}_{idx}_context.jpg"),
+        })
+
     output_data = {
         "summary": {
             "total_unique_objects":    total_unique,
@@ -623,18 +613,19 @@ def process_video(video_path: str, model: YOLO, output_dir: str):
             "total_frames":            total_frames,
             "reid_enabled":            config.ENABLE_CLIP_REID,
         },
+        "counts_by_class": dict(sorted(unique_counts.items())),
+        "objects":         clean_objects,
+        "outputs": {
+            "annotated_video":     output_video_path,
+            "crops_folder":        crops_dir,
+            "collage":             sheet_path,
+            "timeline":            timeline_path,
+            "per_class_collages":  per_class_collage_paths,
+        },
+        # kept for internal/run_wrapper compat
         "counts_by_class":      dict(sorted(unique_counts.items())),
-        "peak_counts_by_class": dict(sorted(peak_counts.items())),
-        "unique_objects":       unique_objects,
         "output_crops_dir":     crops_dir,
         "output_contact_sheet": sheet_path,
-        "config": {
-            "yolo_model":           config.YOLO_MODEL_PATH,
-            "confidence_threshold": config.YOLO_CONFIDENCE,
-            "frame_skip":           config.FRAME_SKIP,
-            "reid_threshold":       config.REID_SIMILARITY_THRESHOLD if config.ENABLE_CLIP_REID else None,
-            "tracker":              config.TRACKER_TYPE,
-        },
     }
 
     output_json_path = os.path.join(output_dir, f"{video_name}_counts.json")
@@ -650,10 +641,14 @@ def process_video(video_path: str, model: YOLO, output_dir: str):
         peak = peak_counts.get(class_name, 0)
         print(f"    {class_name:.<40} {count}  (peak={peak})")
     print(f"  Processing Time: {elapsed:.1f}s ({processed_count / max(elapsed, 0.1):.1f} frames/sec)")
-    print(f"  Output JSON    : {output_json_path}")
-    print(f"  Output Video   : {output_video_path}")
-    print(f"  Individual crops: {crops_dir}")
-    print(f"  Contact sheet  : {sheet_path}")
+    print(f"  Output JSON      : {output_json_path}")
+    print(f"  Annotated Video  : {output_video_path}")
+    print(f"  Individual Crops : {crops_dir}")
+    print(f"  Collage (all)    : {sheet_path}")
+    if per_class_collage_paths:
+        print(f"  Per-class collages: {len(per_class_collage_paths)} files")
+    if timeline_path:
+        print(f"  Timeline Strip   : {timeline_path}")
     print(f"  {'─'*50}")
 
     return output_data
