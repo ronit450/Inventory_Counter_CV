@@ -41,6 +41,7 @@ comparison_results/
 frames/
 results/
 input_videos/
+videos_to_test/
 
 # Temp files
 *.log
