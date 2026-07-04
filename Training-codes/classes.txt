@@ -1,0 +1,26 @@
+book
+book_shelve
+cabinet
+chair
+conference table
+conference_table
+couches
+cubicle
+desk
+desktop_pc
+disposable_cup
+fan
+keyboard
+laptop
+monitor
+mouse
+partition
+pedestals
+printer
+shelf
+sofa
+stapler
+storage_unit
+table
+water_bottle
+white_board

@@ -1,261 +1,246 @@
 {
   "summary": {
-    "total_unique_objects": 24,
-    "total_raw_tracks": 83,
-    "duplicates_removed": 59,
-    "processing_time_seconds": 52.8,
+    "total_unique_objects": 34,
+    "total_raw_tracks": 62,
+    "duplicates_removed": 28,
+    "processing_time_seconds": 25.78,
     "frames_processed": 1167,
     "total_frames": 2335,
     "reid_enabled": true
   },
   "counts_by_class": {
     "Bookshelf / Cabinet": 3,
-    "Desk": 4,
-    "Laptop": 2,
-    "Monitor": 2,
+    "Couch / Lounge Chair": 1,
+    "Cubicle / Partition": 2,
+    "Desk": 6,
+    "Keyboard": 1,
+    "Laptop": 7,
+    "Monitor": 4,
     "Mouse": 2,
-    "Office Chair": 6,
+    "Office Chair": 3,
     "Pedestal": 2,
-    "Printer / Scanner": 2,
-    "Telephone / VoIP Phone": 1
+    "Printer / Scanner": 1,
+    "Video Conferencing Equipment": 2
   },
-  "unique_objects": [
+  "objects": [
     {
-      "unique_id": 1,
-      "class_id": 6,
       "class_name": "Bookshelf / Cabinet",
-      "num_embeddings": 10,
-      "merged_track_ids": [
-        22
-      ]
+      "instance_number": 1,
+      "crop_path": "results_analysis/client_video_crops/Bookshelf___Cabinet_1_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Bookshelf___Cabinet_1_context.jpg"
     },
     {
-      "unique_id": 2,
-      "class_id": 4,
-      "class_name": "Pedestal",
-      "num_embeddings": 10,
-      "merged_track_ids": []
+      "class_name": "Bookshelf / Cabinet",
+      "instance_number": 2,
+      "crop_path": "results_analysis/client_video_crops/Bookshelf___Cabinet_2_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Bookshelf___Cabinet_2_context.jpg"
     },
     {
-      "unique_id": 7,
-      "class_id": 1,
-      "class_name": "Office Chair",
-      "num_embeddings": 10,
-      "merged_track_ids": [
-        31,
-        63,
-        100,
-        167
-      ]
+      "class_name": "Bookshelf / Cabinet",
+      "instance_number": 3,
+      "crop_path": "results_analysis/client_video_crops/Bookshelf___Cabinet_3_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Bookshelf___Cabinet_3_context.jpg"
     },
     {
-      "unique_id": 11,
-      "class_id": 11,
+      "class_name": "Cubicle / Partition",
+      "instance_number": 1,
+      "crop_path": "results_analysis/client_video_crops/Cubicle___Partition_1_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Cubicle___Partition_1_context.jpg"
+    },
+    {
+      "class_name": "Cubicle / Partition",
+      "instance_number": 2,
+      "crop_path": "results_analysis/client_video_crops/Cubicle___Partition_2_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Cubicle___Partition_2_context.jpg"
+    },
+    {
+      "class_name": "Desk",
+      "instance_number": 1,
+      "crop_path": "results_analysis/client_video_crops/Desk_1_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Desk_1_context.jpg"
+    },
+    {
+      "class_name": "Desk",
+      "instance_number": 2,
+      "crop_path": "results_analysis/client_video_crops/Desk_2_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Desk_2_context.jpg"
+    },
+    {
+      "class_name": "Desk",
+      "instance_number": 3,
+      "crop_path": "results_analysis/client_video_crops/Desk_3_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Desk_3_context.jpg"
+    },
+    {
+      "class_name": "Desk",
+      "instance_number": 4,
+      "crop_path": "results_analysis/client_video_crops/Desk_4_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Desk_4_context.jpg"
+    },
+    {
+      "class_name": "Desk",
+      "instance_number": 5,
+      "crop_path": "results_analysis/client_video_crops/Desk_5_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Desk_5_context.jpg"
+    },
+    {
+      "class_name": "Desk",
+      "instance_number": 6,
+      "crop_path": "results_analysis/client_video_crops/Desk_6_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Desk_6_context.jpg"
+    },
+    {
+      "class_name": "Keyboard",
+      "instance_number": 1,
+      "crop_path": "results_analysis/client_video_crops/Keyboard_1_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Keyboard_1_context.jpg"
+    },
+    {
       "class_name": "Laptop",
-      "num_embeddings": 6,
-      "merged_track_ids": [
-        57,
-        158,
-        172,
-        184,
-        201
-      ]
+      "instance_number": 1,
+      "crop_path": "results_analysis/client_video_crops/Laptop_1_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Laptop_1_context.jpg"
     },
     {
-      "unique_id": 12,
-      "class_id": 0,
-      "class_name": "Desk",
-      "num_embeddings": 10,
-      "merged_track_ids": [
-        32,
-        38,
-        165,
-        200
-      ]
-    },
-    {
-      "unique_id": 20,
-      "class_id": 4,
-      "class_name": "Pedestal",
-      "num_embeddings": 4,
-      "merged_track_ids": [
-        148,
-        155,
-        191
-      ]
-    },
-    {
-      "unique_id": 26,
-      "class_id": 1,
-      "class_name": "Office Chair",
-      "num_embeddings": 10,
-      "merged_track_ids": [
-        169
-      ]
-    },
-    {
-      "unique_id": 27,
-      "class_id": 1,
-      "class_name": "Office Chair",
-      "num_embeddings": 10,
-      "merged_track_ids": [
-        37,
-        45,
-        66
-      ]
-    },
-    {
-      "unique_id": 29,
-      "class_id": 6,
-      "class_name": "Bookshelf / Cabinet",
-      "num_embeddings": 5,
-      "merged_track_ids": [
-        43
-      ]
-    },
-    {
-      "unique_id": 39,
-      "class_id": 1,
-      "class_name": "Office Chair",
-      "num_embeddings": 6,
-      "merged_track_ids": [
-        133,
-        162,
-        177
-      ]
-    },
-    {
-      "unique_id": 46,
-      "class_id": 0,
-      "class_name": "Desk",
-      "num_embeddings": 1,
-      "merged_track_ids": []
-    },
-    {
-      "unique_id": 48,
-      "class_id": 0,
-      "class_name": "Desk",
-      "num_embeddings": 10,
-      "merged_track_ids": []
-    },
-    {
-      "unique_id": 50,
-      "class_id": 0,
-      "class_name": "Desk",
-      "num_embeddings": 10,
-      "merged_track_ids": [
-        132,
-        135,
-        168,
-        180,
-        194,
-        199,
-        205,
-        207
-      ]
-    },
-    {
-      "unique_id": 55,
-      "class_id": 18,
-      "class_name": "Telephone / VoIP Phone",
-      "num_embeddings": 3,
-      "merged_track_ids": []
-    },
-    {
-      "unique_id": 65,
-      "class_id": 13,
-      "class_name": "Monitor",
-      "num_embeddings": 10,
-      "merged_track_ids": [
-        141,
-        197
-      ]
-    },
-    {
-      "unique_id": 81,
-      "class_id": 15,
-      "class_name": "Mouse",
-      "num_embeddings": 0,
-      "merged_track_ids": []
-    },
-    {
-      "unique_id": 83,
-      "class_id": 13,
-      "class_name": "Monitor",
-      "num_embeddings": 10,
-      "merged_track_ids": [
-        142,
-        202
-      ]
-    },
-    {
-      "unique_id": 84,
-      "class_id": 16,
-      "class_name": "Printer / Scanner",
-      "num_embeddings": 9,
-      "merged_track_ids": [
-        195
-      ]
-    },
-    {
-      "unique_id": 94,
-      "class_id": 11,
       "class_name": "Laptop",
-      "num_embeddings": 3,
-      "merged_track_ids": [
-        145
-      ]
+      "instance_number": 2,
+      "crop_path": "results_analysis/client_video_crops/Laptop_2_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Laptop_2_context.jpg"
     },
     {
-      "unique_id": 138,
-      "class_id": 15,
+      "class_name": "Laptop",
+      "instance_number": 3,
+      "crop_path": "results_analysis/client_video_crops/Laptop_3_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Laptop_3_context.jpg"
+    },
+    {
+      "class_name": "Laptop",
+      "instance_number": 4,
+      "crop_path": "results_analysis/client_video_crops/Laptop_4_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Laptop_4_context.jpg"
+    },
+    {
+      "class_name": "Laptop",
+      "instance_number": 5,
+      "crop_path": "results_analysis/client_video_crops/Laptop_5_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Laptop_5_context.jpg"
+    },
+    {
+      "class_name": "Laptop",
+      "instance_number": 6,
+      "crop_path": "results_analysis/client_video_crops/Laptop_6_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Laptop_6_context.jpg"
+    },
+    {
+      "class_name": "Laptop",
+      "instance_number": 7,
+      "crop_path": "results_analysis/client_video_crops/Laptop_7_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Laptop_7_context.jpg"
+    },
+    {
+      "class_name": "Monitor",
+      "instance_number": 1,
+      "crop_path": "results_analysis/client_video_crops/Monitor_1_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Monitor_1_context.jpg"
+    },
+    {
+      "class_name": "Monitor",
+      "instance_number": 2,
+      "crop_path": "results_analysis/client_video_crops/Monitor_2_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Monitor_2_context.jpg"
+    },
+    {
+      "class_name": "Monitor",
+      "instance_number": 3,
+      "crop_path": "results_analysis/client_video_crops/Monitor_3_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Monitor_3_context.jpg"
+    },
+    {
+      "class_name": "Monitor",
+      "instance_number": 4,
+      "crop_path": "results_analysis/client_video_crops/Monitor_4_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Monitor_4_context.jpg"
+    },
+    {
       "class_name": "Mouse",
-      "num_embeddings": 5,
-      "merged_track_ids": [
-        144,
-        154,
-        160,
-        198
-      ]
+      "instance_number": 1,
+      "crop_path": "results_analysis/client_video_crops/Mouse_1_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Mouse_1_context.jpg"
     },
     {
-      "unique_id": 156,
-      "class_id": 16,
+      "class_name": "Mouse",
+      "instance_number": 2,
+      "crop_path": "results_analysis/client_video_crops/Mouse_2_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Mouse_2_context.jpg"
+    },
+    {
+      "class_name": "Office Chair",
+      "instance_number": 1,
+      "crop_path": "results_analysis/client_video_crops/Office_Chair_1_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Office_Chair_1_context.jpg"
+    },
+    {
+      "class_name": "Office Chair",
+      "instance_number": 2,
+      "crop_path": "results_analysis/client_video_crops/Office_Chair_2_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Office_Chair_2_context.jpg"
+    },
+    {
+      "class_name": "Office Chair",
+      "instance_number": 3,
+      "crop_path": "results_analysis/client_video_crops/Office_Chair_3_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Office_Chair_3_context.jpg"
+    },
+    {
+      "class_name": "Pedestal",
+      "instance_number": 1,
+      "crop_path": "results_analysis/client_video_crops/Pedestal_1_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Pedestal_1_context.jpg"
+    },
+    {
+      "class_name": "Pedestal",
+      "instance_number": 2,
+      "crop_path": "results_analysis/client_video_crops/Pedestal_2_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Pedestal_2_context.jpg"
+    },
+    {
       "class_name": "Printer / Scanner",
-      "num_embeddings": 10,
-      "merged_track_ids": []
+      "instance_number": 1,
+      "crop_path": "results_analysis/client_video_crops/Printer___Scanner_1_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Printer___Scanner_1_context.jpg"
     },
     {
-      "unique_id": 176,
-      "class_id": 6,
-      "class_name": "Bookshelf / Cabinet",
-      "num_embeddings": 10,
-      "merged_track_ids": [
-        192
-      ]
+      "class_name": "Video Conferencing Equipment",
+      "instance_number": 1,
+      "crop_path": "results_analysis/client_video_crops/Video_Conferencing_Equipment_1_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Video_Conferencing_Equipment_1_context.jpg"
     },
     {
-      "unique_id": 178,
-      "class_id": 1,
-      "class_name": "Office Chair",
-      "num_embeddings": 10,
-      "merged_track_ids": [
-        196
-      ]
-    },
-    {
-      "unique_id": 204,
-      "class_id": 1,
-      "class_name": "Office Chair",
-      "num_embeddings": 10,
-      "merged_track_ids": []
+      "class_name": "Video Conferencing Equipment",
+      "instance_number": 2,
+      "crop_path": "results_analysis/client_video_crops/Video_Conferencing_Equipment_2_crop.jpg",
+      "context_frame_path": "results_analysis/client_video_crops/Video_Conferencing_Equipment_2_context.jpg"
     }
   ],
-  "config": {
-    "yolo_model": "C:\\Users\\Administrator\\Downloads\\Inventory_counter\\Inventory_counter\\yolo11lg_custom_12142025.pt",
-    "confidence_threshold": 0.35,
-    "frame_skip": 2,
-    "reid_threshold": 0.82,
-    "tracker": "bytetrack"
-  }
+  "outputs": {
+    "annotated_video": "results_analysis/client_video_detected.mp4",
+    "crops_folder": "results_analysis/client_video_crops",
+    "collage": "results_analysis/client_video_contact_sheet.jpg",
+    "timeline": "results_analysis/client_video_timeline.jpg",
+    "per_class_collages": {
+      "Bookshelf / Cabinet": "results_analysis/client_video_collage_Bookshelf___Cabinet.jpg",
+      "Cubicle / Partition": "results_analysis/client_video_collage_Cubicle___Partition.jpg",
+      "Desk": "results_analysis/client_video_collage_Desk.jpg",
+      "Keyboard": "results_analysis/client_video_collage_Keyboard.jpg",
+      "Laptop": "results_analysis/client_video_collage_Laptop.jpg",
+      "Monitor": "results_analysis/client_video_collage_Monitor.jpg",
+      "Mouse": "results_analysis/client_video_collage_Mouse.jpg",
+      "Office Chair": "results_analysis/client_video_collage_Office_Chair.jpg",
+      "Pedestal": "results_analysis/client_video_collage_Pedestal.jpg",
+      "Printer / Scanner": "results_analysis/client_video_collage_Printer___Scanner.jpg",
+      "Video Conferencing Equipment": "results_analysis/client_video_collage_Video_Conferencing_Equipment.jpg"
+    }
+  },
+  "output_crops_dir": "results_analysis/client_video_crops",
+  "output_contact_sheet": "results_analysis/client_video_contact_sheet.jpg"
 }

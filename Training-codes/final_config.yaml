@@ -1,0 +1,99 @@
+# final_config.yaml — Office Inventory Detection (12 classes)
+#
+# CLASS INDEX (position = class_id, 0-indexed):
+#   0  Conference Tables
+#   1  Cubicles / Partitions
+#   2  Desks
+#   3  Filing Cabinets / Storage Units
+#   4  Laptops
+#   5  Monitors
+#   6  Mouse
+#   7  Office Chairs
+#   8  Other
+#   9  Pedestals
+#   10 Printers Scanners
+#   11 Telephones VoIP Phones
+#
+# Annotation format expected (one .txt per image, same stem as image):
+#   [Image #1]
+#   { "category": "Desks", "x1": 0.10, "y1": 0.20, "x2": 0.30, "y2": 0.45 }
+#   { "category": "Office Chairs", "x1": 0.50, "y1": 0.30, "x2": 0.70, "y2": 0.80 }
+#
+# Coordinates are normalized (0-1). final_train.py converts to YOLO format in-place.
+
+# ---------- Dataset ---------------------------------------------------------
+dataset_dir: "/path/to/your/data"   # <- CHANGE THIS to your flat image+txt folder
+
+nc: 12
+names:
+  - "Conference Tables"
+  - "Cubicles / Partitions"
+  - "Desks"
+  - "Filing Cabinets / Storage Units"
+  - "Laptops"
+  - "Monitors"
+  - "Mouse"
+  - "Office Chairs"
+  - "Other"
+  - "Pedestals"
+  - "Printers Scanners"
+  - "Telephones VoIP Phones"
+
+val_fraction: 0.2     # 20% held out for validation
+split_seed: 42
+
+# ---------- Model -----------------------------------------------------------
+model_version: "yolo11"
+model_size: "large"
+pretrained_weights: null   # set to /path/to/weights.pt to resume/finetune
+
+# ---------- Training --------------------------------------------------------
+epochs: 100
+batch_size: 8
+img_size: 640
+device: "0"          # "0" = GPU 0 | "cpu" | "0,1" = multi-GPU
+optimizer: "auto"
+
+lr0: 0.01
+lrf: 0.001
+cos_lr: true
+warmup_epochs: 5
+warmup_momentum: 0.9
+warmup_bias_lr: 0.1
+weight_decay: 0.0005
+momentum: 0.937
+
+# ---------- Loss Weights ----------------------------------------------------
+box: 6.5
+cls: 1.5
+dfl: 4.5
+
+# ---------- YOLO Built-in Augmentation (applied on top of manual augment) ---
+hsv_h: 0.015
+hsv_s: 0.7
+hsv_v: 0.4
+degrees: 0.0
+translate: 0.1
+scale: 0.5
+shear: 0.0
+perspective: 0.0
+flipud: 0.0
+fliplr: 0.5
+mosaic: 1.0
+mixup: 0.0
+copy_paste: 0.0
+
+# ---------- Training Settings -----------------------------------------------
+patience: 50
+iou: 0.2
+amp: true
+single_cls: false
+resume: false
+workers: 6
+overlap_mask: true
+
+# ---------- Output ----------------------------------------------------------
+save_period: 10
+plots: true
+project: "runs"
+experiment: "inventory_train"

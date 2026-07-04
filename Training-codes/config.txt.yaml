@@ -1,0 +1,114 @@
+# ==========================================================================
+#  YOLO Training Config — Pre-labeled .txt Dataset
+# ==========================================================================
+#
+# Use this config when you already have YOLO-format .txt label files.
+# Your folder should look like:
+#   dataset_dir/
+#     image1.jpg
+#     image1.txt
+#     image2.jpg
+#     image2.txt
+#     ...
+#
+# The script will:
+#   1. Find all image + .txt pairs
+#   2. Split into train/val
+#   3. MOVE images → images/train/ and images/val/
+#   4. MOVE labels → labels/train/ and labels/val/
+#   5. Generate data.yaml using nc and names below
+#
+# Usage:
+#   python train_txt.py                          # uses this file by default
+#   python train_txt.py --config config.txt.yaml
+#   python train_txt.py --epochs 50 --batch_size 16
+
+# ---------- Task ----------
+# Options: "detection", "segmentation"
+# (classification uses class-subfolder layout — use config.yaml for that)
+task: "detection"
+
+# ---------- Model ----------
+# version: "yolov8", "yolo11", "yolo26"
+# size:    "nano", "small", "medium", "large", "xlarge"
+model_version: "yolo11"
+model_size: "large"
+
+# Path to custom pretrained weights (null = download ultralytics default).
+pretrained_weights: null
+
+# ---------- Dataset ----------
+# Point to the flat folder containing images + .txt files.
+dataset_dir: "/path/to/your/data"
+
+# Number of classes in your .txt labels (class indices 0 to nc-1)
+nc: 1
+
+# Class names — must match the order of class indices in your .txt files
+# Example: names: ["cat", "dog", "person"]
+names: ["object"]
+
+# Train/val split settings
+auto_prepare: true
+val_fraction: 0.2              # Fraction of data held out for validation
+split_seed: 42                 # Random seed for reproducible train/val split
+
+# ---------- Training Hyperparameters ----------
+epochs: 100
+batch_size: 8
+img_size: 640
+
+# Device: "0" for GPU 0, "cpu" for CPU, "0,1" for multi-GPU
+device: "0"
+
+# Optimizer: "auto", "SGD", "Adam", "AdamW"
+optimizer: "auto"
+
+# Learning rates
+lr0: 0.01
+lrf: 0.001
+
+# LR schedule & warmup
+cos_lr: true
+warmup_epochs: 5
+warmup_momentum: 0.9
+warmup_bias_lr: 0.1
+
+# Regularization
+weight_decay: 0.0005
+momentum: 0.937
+
+# ---------- Loss Weights ----------
+box: 6.5
+cls: 1.5
+dfl: 4.5
+
+# ---------- Augmentation ----------
+hsv_h: 0.015
+hsv_s: 0.7
+hsv_v: 0.4
+degrees: 0.0
+translate: 0.1
+scale: 0.5
+shear: 0.0
+perspective: 0.0
+flipud: 0.0
+fliplr: 0.5
+mosaic: 1.0
+mixup: 0.0
+copy_paste: 0.0
+
+# ---------- Training Settings ----------
+patience: 50
+iou: 0.2
+amp: true
+single_cls: false
+resume: false
+workers: 6
+overlap_mask: true
+
+# ---------- Checkpoints & Output ----------
+save_period: 10
+plots: true
+project: "runs"
+experiment: "train"
