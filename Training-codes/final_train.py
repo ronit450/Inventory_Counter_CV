@@ -54,11 +54,11 @@ CLASS_NAMES = [
     "Monitors",                         # 5
     "Mouse",                            # 6
     "Office Chairs",                    # 7
-    "Other",                            # 8
-    "Pedestals",                        # 9
-    "Printers Scanners",                # 10
-    "Telephones VoIP Phones",           # 11
+    "Pedestals",                        # 8
+    "Printers Scanners",                # 9
 ]
+# "Other" and "Telephones VoIP Phones" dropped: zero labeled instances in
+# relevant_dataset. Re-add once labeled examples exist for them.
 
 # Exact-match lookup
 _CLASS_INDEX: dict = {name: i for i, name in enumerate(CLASS_NAMES)}

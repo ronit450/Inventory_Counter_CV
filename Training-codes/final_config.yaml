@@ -1,4 +1,4 @@
-# final_config.yaml — Office Inventory Detection (12 classes)
+# final_config.yaml — Office Inventory Detection (10 classes)
 #
 # CLASS INDEX (position = class_id, 0-indexed):
 #   0  Conference Tables
@@ -9,10 +9,11 @@
 #   5  Monitors
 #   6  Mouse
 #   7  Office Chairs
-#   8  Other
-#   9  Pedestals
-#   10 Printers Scanners
-#   11 Telephones VoIP Phones
+#   8  Pedestals
+#   9  Printers Scanners
+#
+# "Other" and "Telephones VoIP Phones" dropped: zero labeled instances in
+# relevant_dataset as of this config. Re-add once labeled examples exist.
 #
 # Annotation format expected (one .txt per image, same stem as image):
 #   [Image #1]
@@ -22,9 +23,9 @@
 # Coordinates are normalized (0-1). final_train.py converts to YOLO format in-place.
 
 # ---------- Dataset ---------------------------------------------------------
-dataset_dir: "/path/to/your/data"   # <- CHANGE THIS to your flat image+txt folder
+dataset_dir: "/home/ronit/Downloads/relevant_dataset"
 
-nc: 12
+nc: 10
 names:
   - "Conference Tables"
   - "Cubicles / Partitions"
@@ -34,22 +35,20 @@ names:
   - "Monitors"
   - "Mouse"
   - "Office Chairs"
-  - "Other"
   - "Pedestals"
   - "Printers Scanners"
-  - "Telephones VoIP Phones"
 
 val_fraction: 0.2     # 20% held out for validation
 split_seed: 42
 
 # ---------- Model -----------------------------------------------------------
 model_version: "yolo11"
-model_size: "large"
+model_size: "medium"       # was "large" — 8GB VRAM + 214 source images overfits/OOMs with l
 pretrained_weights: null   # set to /path/to/weights.pt to resume/finetune
 
 # ---------- Training --------------------------------------------------------
 epochs: 100
-batch_size: 8
+batch_size: 16             # was 8 — headroom freed by dropping to medium
 img_size: 640
 device: "0"          # "0" = GPU 0 | "cpu" | "0,1" = multi-GPU
 optimizer: "auto"
@@ -65,7 +64,7 @@ momentum: 0.937
 
 # ---------- Loss Weights ----------------------------------------------------
 box: 6.5
-cls: 1.5
+cls: 2.5      # was 1.5 — extra push needed given severe class imbalance
 dfl: 4.5
 
 # ---------- YOLO Built-in Augmentation (applied on top of manual augment) ---
@@ -80,12 +79,12 @@ perspective: 0.0
 flipud: 0.0
 fliplr: 0.5
 mosaic: 1.0
-mixup: 0.0
-copy_paste: 0.0
+mixup: 0.1    # was 0.0 — helps generalization on the underrepresented classes
+copy_paste: 0.3   # was 0.0 — pastes rare-class instances onto other images to offset imbalance
 
 # ---------- Training Settings -----------------------------------------------
-patience: 50
-iou: 0.2
+patience: 30    # was 50 — dataset is small, will converge/plateau well before 50
+iou: 0.5        # was 0.2 — NMS IoU threshold; 0.2 merges adjacent chairs/desks into one detection, hurting counting accuracy
 amp: true
 single_cls: false
 resume: false
