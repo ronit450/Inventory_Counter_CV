@@ -1,0 +1,190 @@
+/home/ronit/miniconda3/envs/rk_yolo/lib/python3.11/site-packages/torch/cuda/__init__.py:65: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+
+============================================================
+  UNIQUE OBJECT COUNTER PIPELINE
+============================================================
+  Input Folder : client_video
+  Output Folder: eval/exp_a
+  Videos Found : 1
+  YOLO Model   : /home/ronit/Downloads/inventory_train-3/inventory_counter_new_model_9_july.pt
+  Confidence   : 0.35
+  Frame Skip   : 2
+  CLIP Re-ID   : Enabled
+============================================================
+
+[*] Loading YOLO model...
+
+============================================================
+  [1/1] client_video.mp4
+============================================================
+  Resolution  : 480x640
+  FPS         : 59.9
+  Total Frames: 2335
+  Frame Skip  : 2
+  Frames to Process: ~1167
+  CLIP Re-ID  : Enabled
+  Output FPS  : 5  (only annotated frames written)
+  Processing:   0%|          | 0/2335 [00:00<?, ?frame/s]  Processing:   0%|          | 3/2335 [00:01<19:27,  2.00frame/s]  Processing:   0%|          | 11/2335 [00:01<04:29,  8.62frame/s]  Processing:   1%|          | 19/2335 [00:01<02:23, 16.08frame/s]  Processing:   1%|          | 27/2335 [00:01<01:34, 24.39frame/s]  Processing:   1%|▏         | 35/2335 [00:01<01:10, 32.49frame/s]  Processing:   2%|▏         | 43/2335 [00:02<00:56, 40.42frame/s]  Processing:   2%|▏         | 51/2335 [00:02<00:47, 47.95frame/s]  Processing:   3%|▎         | 59/2335 [00:02<00:41, 54.54frame/s]  Processing:   3%|▎         | 67/2335 [00:02<00:38, 58.50frame/s]  Processing:   3%|▎         | 75/2335 [00:02<00:36, 61.49frame/s]  Processing:   4%|▎         | 83/2335 [00:02<00:38, 58.17frame/s]  Processing:   4%|▍         | 91/2335 [00:02<00:37, 59.80frame/s]  Processing:   4%|▍         | 99/2335 [00:02<00:36, 60.63frame/s]  Processing:   5%|▍         | 107/2335 [00:03<00:35, 62.68frame/s]  Processing:   5%|▍         | 115/2335 [00:03<00:33, 65.58frame/s]  Processing:   5%|▌         | 123/2335 [00:03<00:33, 66.70frame/s]  Processing:   6%|▌         | 131/2335 [00:03<00:34, 64.21frame/s]  Processing:   6%|▌         | 138/2335 [00:03<00:35, 62.51frame/s]  Processing:   6%|▌         | 145/2335 [00:03<00:34, 63.16frame/s]  Processing:   7%|▋         | 153/2335 [00:03<00:32, 66.64frame/s]  Processing:   7%|▋         | 161/2335 [00:03<00:31, 68.06frame/s]  Processing:   7%|▋         | 169/2335 [00:03<00:31, 68.26frame/s]  Processing:   8%|▊         | 177/2335 [00:04<00:30, 70.05frame/s]  Processing:   8%|▊         | 185/2335 [00:04<00:30, 69.59frame/s]  Processing:   8%|▊         | 193/2335 [00:04<00:30, 71.09frame/s]  Processing:   9%|▊         | 201/2335 [00:04<00:29, 72.15frame/s]  Processing:   9%|▉         | 209/2335 [00:04<00:32, 65.43frame/s]  Processing:   9%|▉         | 216/2335 [00:04<00:32, 64.41frame/s]  Processing:  10%|▉         | 223/2335 [00:04<00:35, 59.82frame/s]  Processing:  10%|▉         | 231/2335 [00:04<00:34, 61.37frame/s]  Processing:  10%|█         | 238/2335 [00:05<00:36, 57.52frame/s]  Processing:  10%|█         | 244/2335 [00:05<00:40, 51.87frame/s]  Processing:  11%|█         | 250/2335 [00:05<00:45, 45.55frame/s]  Processing:  11%|█         | 255/2335 [00:05<00:46, 45.21frame/s]  Processing:  11%|█▏        | 263/2335 [00:05<00:41, 50.44frame/s]  Processing:  12%|█▏        | 271/2335 [00:05<00:37, 55.67frame/s]  Processing:  12%|█▏        | 279/2335 [00:05<00:35, 58.63frame/s]  Processing:  12%|█▏        | 287/2335 [00:05<00:34, 59.29frame/s]  Processing:  13%|█▎        | 294/2335 [00:06<00:34, 58.67frame/s]  Processing:  13%|█▎        | 300/2335 [00:06<00:35, 58.00frame/s]  Processing:  13%|█▎        | 307/2335 [00:06<00:35, 56.91frame/s]  Processing:  13%|█▎        | 313/2335 [00:06<00:36, 55.64frame/s]  Processing:  14%|█▎        | 321/2335 [00:06<00:34, 58.28frame/s]  Processing:  14%|█▍        | 329/2335 [00:06<00:33, 59.92frame/s]  Processing:  14%|█▍        | 337/2335 [00:06<00:33, 60.51frame/s]  Processing:  15%|█▍        | 345/2335 [00:06<00:33, 59.88frame/s]  Processing:  15%|█▌        | 351/2335 [00:07<00:36, 54.66frame/s]  Processing:  15%|█▌        | 359/2335 [00:07<00:34, 57.92frame/s]  Processing:  16%|█▌        | 367/2335 [00:07<00:32, 60.18frame/s]  Processing:  16%|█▌        | 375/2335 [00:07<00:31, 61.90frame/s]  Processing:  16%|█▋        | 383/2335 [00:07<00:31, 62.74frame/s]  Processing:  17%|█▋        | 390/2335 [00:07<00:31, 61.68frame/s]  Processing:  17%|█▋        | 397/2335 [00:07<00:35, 54.52frame/s]  Processing:  17%|█▋        | 403/2335 [00:08<00:36, 53.03frame/s]  Processing:  18%|█▊        | 411/2335 [00:08<00:34, 55.87frame/s]  Processing:  18%|█▊        | 417/2335 [00:08<00:34, 56.14frame/s]  Processing:  18%|█▊        | 423/2335 [00:08<00:37, 50.78frame/s]  Processing:  18%|█▊        | 429/2335 [00:08<00:37, 50.88frame/s]  Processing:  19%|█▊        | 435/2335 [00:08<00:36, 51.46frame/s]  Processing:  19%|█▉        | 441/2335 [00:08<00:37, 50.94frame/s]  Processing:  19%|█▉        | 449/2335 [00:08<00:35, 53.88frame/s]  Processing:  19%|█▉        | 455/2335 [00:08<00:34, 53.87frame/s]  Processing:  20%|█▉        | 463/2335 [00:09<00:32, 57.73frame/s]  Processing:  20%|██        | 471/2335 [00:09<00:30, 60.83frame/s]  Processing:  20%|██        | 478/2335 [00:09<00:30, 60.17frame/s]  Processing:  21%|██        | 485/2335 [00:09<00:32, 57.34frame/s]  Processing:  21%|██        | 491/2335 [00:09<00:34, 54.08frame/s]  Processing:  21%|██▏       | 499/2335 [00:09<00:32, 56.47frame/s]  Processing:  22%|██▏       | 507/2335 [00:09<00:32, 56.86frame/s]  Processing:  22%|██▏       | 513/2335 [00:09<00:32, 55.56frame/s]  Processing:  22%|██▏       | 519/2335 [00:10<00:34, 51.99frame/s]  Processing:  23%|██▎       | 527/2335 [00:10<00:32, 55.11frame/s]  Processing:  23%|██▎       | 533/2335 [00:10<00:34, 52.95frame/s]  Processing:  23%|██▎       | 539/2335 [00:10<00:33, 53.29frame/s]  Processing:  23%|██▎       | 545/2335 [00:10<00:35, 50.32frame/s]  Processing:  24%|██▎       | 551/2335 [00:10<00:34, 52.29frame/s]  Processing:  24%|██▍       | 557/2335 [00:10<00:33, 53.14frame/s]  Processing:  24%|██▍       | 563/2335 [00:10<00:32, 54.36frame/s]  Processing:  24%|██▍       | 569/2335 [00:11<00:33, 52.78frame/s]  Processing:  25%|██▍       | 575/2335 [00:11<00:33, 53.31frame/s]  Processing:  25%|██▍       | 581/2335 [00:11<00:34, 50.22frame/s]  Processing:  25%|██▌       | 587/2335 [00:11<00:33, 52.31frame/s]  Processing:  25%|██▌       | 595/2335 [00:11<00:31, 55.58frame/s]  Processing:  26%|██▌       | 603/2335 [00:11<00:30, 57.15frame/s]  Processing:  26%|██▌       | 609/2335 [00:11<00:29, 57.60frame/s]  Processing:  26%|██▋       | 615/2335 [00:11<00:29, 57.85frame/s]  Processing:  27%|██▋       | 621/2335 [00:11<00:30, 55.84frame/s]  Processing:  27%|██▋       | 627/2335 [00:12<00:31, 53.42frame/s]  Processing:  27%|██▋       | 633/2335 [00:12<00:30, 54.97frame/s]  Processing:  27%|██▋       | 639/2335 [00:12<00:30, 55.60frame/s]  Processing:  28%|██▊       | 647/2335 [00:12<00:27, 60.91frame/s]  Processing:  28%|██▊       | 655/2335 [00:12<00:25, 64.73frame/s]  Processing:  28%|██▊       | 663/2335 [00:12<00:26, 63.30frame/s]  Processing:  29%|██▊       | 670/2335 [00:12<00:26, 63.47frame/s]  Processing:  29%|██▉       | 677/2335 [00:12<00:27, 60.12frame/s]  Processing:  29%|██▉       | 687/2335 [00:13<00:25, 65.77frame/s]  Processing:  30%|██▉       | 695/2335 [00:13<00:24, 65.70frame/s]  Processing:  30%|███       | 703/2335 [00:13<00:23, 69.40frame/s]  Processing:  31%|███       | 713/2335 [00:13<00:22, 72.20frame/s]  Processing:  31%|███       | 721/2335 [00:13<00:22, 73.22frame/s]  Processing:  31%|███       | 729/2335 [00:13<00:21, 73.83frame/s]  Processing:  32%|███▏      | 737/2335 [00:13<00:24, 66.49frame/s]  Processing:  32%|███▏      | 745/2335 [00:13<00:23, 68.52frame/s]  Processing:  32%|███▏      | 753/2335 [00:13<00:23, 68.46frame/s]  Processing:  33%|███▎      | 760/2335 [00:14<00:23, 66.16frame/s]  Processing:  33%|███▎      | 767/2335 [00:14<00:25, 61.10frame/s]  Processing:  33%|███▎      | 774/2335 [00:14<00:27, 56.78frame/s]  Processing:  33%|███▎      | 780/2335 [00:14<00:27, 57.44frame/s]  Processing:  34%|███▎      | 787/2335 [00:14<00:25, 60.04frame/s]  Processing:  34%|███▍      | 795/2335 [00:14<00:24, 63.64frame/s]  Processing:  34%|███▍      | 803/2335 [00:14<00:22, 66.78frame/s]  Processing:  35%|███▍      | 810/2335 [00:14<00:22, 67.26frame/s]  Processing:  35%|███▍      | 817/2335 [00:15<00:22, 66.90frame/s]  Processing:  35%|███▌      | 825/2335 [00:15<00:21, 69.99frame/s]  Processing:  36%|███▌      | 833/2335 [00:15<00:22, 68.05frame/s]  Processing:  36%|███▌      | 841/2335 [00:15<00:20, 71.23frame/s]  Processing:  36%|███▋      | 849/2335 [00:15<00:20, 73.35frame/s]  Processing:  37%|███▋      | 857/2335 [00:15<00:19, 74.22frame/s]  Processing:  37%|███▋      | 865/2335 [00:15<00:19, 75.26frame/s]  Processing:  37%|███▋      | 873/2335 [00:15<00:19, 75.19frame/s]  Processing:  38%|███▊      | 881/2335 [00:15<00:19, 75.57frame/s]  Processing:  38%|███▊      | 889/2335 [00:15<00:19, 75.14frame/s]  Processing:  38%|███▊      | 897/2335 [00:16<00:19, 75.10frame/s]  Processing:  39%|███▉      | 905/2335 [00:16<00:22, 64.87frame/s]  Processing:  39%|███▉      | 912/2335 [00:16<00:22, 62.88frame/s]  Processing:  39%|███▉      | 919/2335 [00:16<00:24, 58.93frame/s]  Processing:  40%|███▉      | 927/2335 [00:16<00:22, 61.30frame/s]  Processing:  40%|████      | 935/2335 [00:16<00:21, 66.08frame/s]  Processing:  40%|████      | 945/2335 [00:16<00:19, 71.15frame/s]  Processing:  41%|████      | 953/2335 [00:16<00:18, 73.01frame/s]  Processing:  41%|████      | 961/2335 [00:17<00:18, 73.78frame/s]  Processing:  41%|████▏     | 969/2335 [00:17<00:18, 75.28frame/s]  Processing:  42%|████▏     | 977/2335 [00:17<00:18, 74.47frame/s]  Processing:  42%|████▏     | 985/2335 [00:17<00:18, 74.95frame/s]  Processing:  43%|████▎     | 993/2335 [00:17<00:18, 72.51frame/s]  Processing:  43%|████▎     | 1001/2335 [00:17<00:19, 70.04frame/s]  Processing:  43%|████▎     | 1009/2335 [00:17<00:22, 58.09frame/s]  Processing:  44%|████▎     | 1017/2335 [00:17<00:21, 62.42frame/s]  Processing:  44%|████▍     | 1025/2335 [00:18<00:20, 64.75frame/s]  Processing:  44%|████▍     | 1033/2335 [00:18<00:19, 68.34frame/s]  Processing:  45%|████▍     | 1041/2335 [00:18<00:18, 70.32frame/s]  Processing:  45%|████▍     | 1049/2335 [00:18<00:17, 72.16frame/s]  Processing:  45%|████▌     | 1057/2335 [00:18<00:18, 70.79frame/s]  Processing:  46%|████▌     | 1065/2335 [00:18<00:17, 72.07frame/s]  Processing:  46%|████▌     | 1073/2335 [00:18<00:17, 71.06frame/s]  Processing:  46%|████▋     | 1081/2335 [00:18<00:20, 62.19frame/s]  Processing:  47%|████▋     | 1088/2335 [00:18<00:20, 62.33frame/s]  Processing:  47%|████▋     | 1095/2335 [00:19<00:19, 63.43frame/s]  Processing:  47%|████▋     | 1103/2335 [00:19<00:19, 62.56frame/s]  Processing:  48%|████▊     | 1111/2335 [00:19<00:19, 64.30frame/s]  Processing:  48%|████▊     | 1119/2335 [00:19<00:18, 64.74frame/s]  Processing:  48%|████▊     | 1127/2335 [00:19<00:19, 62.91frame/s]  Processing:  49%|████▊     | 1134/2335 [00:19<00:18, 64.09frame/s]  Processing:  49%|████▉     | 1141/2335 [00:19<00:20, 56.93frame/s]  Processing:  49%|████▉     | 1147/2335 [00:19<00:24, 49.13frame/s]  Processing:  49%|████▉     | 1153/2335 [00:20<00:25, 45.86frame/s]  Processing:  50%|████▉     | 1161/2335 [00:20<00:23, 50.18frame/s]  Processing:  50%|████▉     | 1167/2335 [00:20<00:22, 51.41frame/s]  Processing:  50%|█████     | 1175/2335 [00:20<00:21, 54.03frame/s]  Processing:  51%|█████     | 1181/2335 [00:20<00:21, 54.87frame/s]  Processing:  51%|█████     | 1189/2335 [00:20<00:20, 56.95frame/s]  Processing:  51%|█████     | 1195/2335 [00:20<00:19, 57.57frame/s]  Processing:  51%|█████▏    | 1201/2335 [00:20<00:19, 56.96frame/s]  Processing:  52%|█████▏    | 1209/2335 [00:21<00:19, 58.31frame/s]  Processing:  52%|█████▏    | 1215/2335 [00:21<00:19, 58.47frame/s]  Processing:  52%|█████▏    | 1221/2335 [00:21<00:19, 57.30frame/s]  Processing:  53%|█████▎    | 1227/2335 [00:21<00:20, 55.37frame/s]  Processing:  53%|█████▎    | 1233/2335 [00:21<00:20, 53.27frame/s]  Processing:  53%|█████▎    | 1239/2335 [00:21<00:20, 53.67frame/s]  Processing:  53%|█████▎    | 1245/2335 [00:21<00:20, 54.40frame/s]  Processing:  54%|█████▎    | 1251/2335 [00:21<00:19, 54.50frame/s]  Processing:  54%|█████▍    | 1257/2335 [00:21<00:19, 54.59frame/s]  Processing:  54%|█████▍    | 1263/2335 [00:22<00:20, 53.50frame/s]  Processing:  54%|█████▍    | 1269/2335 [00:22<00:19, 53.31frame/s]  Processing:  55%|█████▍    | 1275/2335 [00:22<00:19, 53.74frame/s]  Processing:  55%|█████▍    | 1281/2335 [00:22<00:20, 52.15frame/s]  Processing:  55%|█████▌    | 1287/2335 [00:22<00:20, 52.37frame/s]  Processing:  55%|█████▌    | 1293/2335 [00:22<00:20, 51.80frame/s]  Processing:  56%|█████▌    | 1299/2335 [00:22<00:19, 51.82frame/s]  Processing:  56%|█████▌    | 1305/2335 [00:22<00:19, 52.08frame/s]  Processing:  56%|█████▌    | 1311/2335 [00:23<00:20, 50.91frame/s]  Processing:  56%|█████▋    | 1317/2335 [00:23<00:20, 48.81frame/s]  Processing:  57%|█████▋    | 1323/2335 [00:23<00:20, 48.34frame/s]  Processing:  57%|█████▋    | 1329/2335 [00:23<00:21, 47.54frame/s]  Processing:  57%|█████▋    | 1335/2335 [00:23<00:20, 49.45frame/s]  Processing:  57%|█████▋    | 1341/2335 [00:23<00:20, 49.31frame/s]  Processing:  58%|█████▊    | 1346/2335 [00:23<00:21, 46.23frame/s]  Processing:  58%|█████▊    | 1351/2335 [00:23<00:25, 38.59frame/s]  Processing:  58%|█████▊    | 1357/2335 [00:24<00:23, 42.26frame/s]  Processing:  58%|█████▊    | 1363/2335 [00:24<00:21, 45.64frame/s]  Processing:  59%|█████▊    | 1369/2335 [00:24<00:20, 48.10frame/s]  Processing:  59%|█████▉    | 1375/2335 [00:24<00:19, 49.30frame/s]  Processing:  59%|█████▉    | 1381/2335 [00:24<00:18, 52.11frame/s]  Processing:  59%|█████▉    | 1389/2335 [00:24<00:17, 53.97frame/s]  Processing:  60%|█████▉    | 1395/2335 [00:24<00:17, 53.83frame/s]  Processing:  60%|██████    | 1401/2335 [00:24<00:16, 55.40frame/s]  Processing:  60%|██████    | 1407/2335 [00:24<00:16, 55.16frame/s]  Processing:  61%|██████    | 1413/2335 [00:25<00:16, 55.64frame/s]  Processing:  61%|██████    | 1421/2335 [00:25<00:15, 57.81frame/s]  Processing:  61%|██████    | 1429/2335 [00:25<00:14, 60.47frame/s]  Processing:  62%|██████▏   | 1437/2335 [00:25<00:14, 61.82frame/s]  Processing:  62%|██████▏   | 1445/2335 [00:25<00:14, 62.06frame/s]  Processing:  62%|██████▏   | 1453/2335 [00:25<00:13, 63.49frame/s]  Processing:  63%|██████▎   | 1461/2335 [00:25<00:13, 64.31frame/s]  Processing:  63%|██████▎   | 1469/2335 [00:25<00:13, 64.89frame/s]  Processing:  63%|██████▎   | 1476/2335 [00:26<00:13, 62.64frame/s]  Processing:  64%|██████▎   | 1483/2335 [00:26<00:14, 60.32frame/s]  Processing:  64%|██████▍   | 1490/2335 [00:26<00:14, 60.34frame/s]  Processing:  64%|██████▍   | 1497/2335 [00:26<00:14, 57.43frame/s]  Processing:  64%|██████▍   | 1503/2335 [00:26<00:14, 55.47frame/s]  Processing:  65%|██████▍   | 1511/2335 [00:26<00:13, 58.91frame/s]  Processing:  65%|██████▍   | 1517/2335 [00:26<00:14, 58.34frame/s]  Processing:  65%|██████▌   | 1525/2335 [00:26<00:13, 59.30frame/s]  Processing:  66%|██████▌   | 1531/2335 [00:27<00:13, 59.38frame/s]  Processing:  66%|██████▌   | 1539/2335 [00:27<00:13, 59.75frame/s]  Processing:  66%|██████▋   | 1547/2335 [00:27<00:13, 60.07frame/s]  Processing:  67%|██████▋   | 1555/2335 [00:27<00:12, 62.07frame/s]  Processing:  67%|██████▋   | 1563/2335 [00:27<00:12, 63.01frame/s]  Processing:  67%|██████▋   | 1571/2335 [00:27<00:12, 62.38frame/s]  Processing:  68%|██████▊   | 1579/2335 [00:27<00:11, 64.22frame/s]  Processing:  68%|██████▊   | 1587/2335 [00:27<00:11, 64.71frame/s]  Processing:  68%|██████▊   | 1594/2335 [00:28<00:11, 62.18frame/s]  Processing:  69%|██████▊   | 1601/2335 [00:28<00:11, 61.93frame/s]  Processing:  69%|██████▉   | 1608/2335 [00:28<00:11, 63.90frame/s]  Processing:  69%|██████▉   | 1615/2335 [00:28<00:12, 59.86frame/s]  Processing:  69%|██████▉   | 1622/2335 [00:28<00:11, 59.89frame/s]  Processing:  70%|██████▉   | 1629/2335 [00:28<00:13, 54.08frame/s]  Processing:  70%|███████   | 1635/2335 [00:28<00:15, 45.08frame/s]  Processing:  70%|███████   | 1641/2335 [00:28<00:14, 46.31frame/s]  Processing:  71%|███████   | 1647/2335 [00:29<00:14, 49.04frame/s]  Processing:  71%|███████   | 1653/2335 [00:29<00:13, 50.14frame/s]  Processing:  71%|███████   | 1659/2335 [00:29<00:14, 46.08frame/s]  Processing:  71%|███████▏  | 1664/2335 [00:29<00:14, 45.41frame/s]  Processing:  71%|███████▏  | 1669/2335 [00:29<00:15, 44.10frame/s]  Processing:  72%|███████▏  | 1675/2335 [00:29<00:13, 48.04frame/s]  Processing:  72%|███████▏  | 1681/2335 [00:29<00:13, 46.73frame/s]  Processing:  72%|███████▏  | 1687/2335 [00:29<00:13, 47.39frame/s]  Processing:  73%|███████▎  | 1693/2335 [00:30<00:13, 48.77frame/s]  Processing:  73%|███████▎  | 1699/2335 [00:30<00:13, 47.43frame/s]  Processing:  73%|███████▎  | 1705/2335 [00:30<00:12, 50.45frame/s]  Processing:  73%|███████▎  | 1711/2335 [00:30<00:12, 51.13frame/s]  Processing:  74%|███████▎  | 1717/2335 [00:30<00:12, 48.91frame/s]  Processing:  74%|███████▍  | 1725/2335 [00:30<00:11, 52.74frame/s]  Processing:  74%|███████▍  | 1731/2335 [00:30<00:11, 52.95frame/s]  Processing:  74%|███████▍  | 1737/2335 [00:30<00:11, 54.02frame/s]  Processing:  75%|███████▍  | 1743/2335 [00:30<00:11, 52.39frame/s]  Processing:  75%|███████▍  | 1749/2335 [00:31<00:11, 52.48frame/s]  Processing:  75%|███████▌  | 1755/2335 [00:31<00:11, 51.20frame/s]  Processing:  75%|███████▌  | 1761/2335 [00:31<00:11, 47.97frame/s]  Processing:  76%|███████▌  | 1767/2335 [00:31<00:11, 49.86frame/s]  Processing:  76%|███████▌  | 1773/2335 [00:31<00:11, 50.40frame/s]  Processing:  76%|███████▌  | 1779/2335 [00:31<00:11, 49.46frame/s]  Processing:  76%|███████▋  | 1785/2335 [00:31<00:11, 47.99frame/s]  Processing:  77%|███████▋  | 1790/2335 [00:31<00:11, 45.99frame/s]  Processing:  77%|███████▋  | 1795/2335 [00:32<00:12, 44.37frame/s]  Processing:  77%|███████▋  | 1801/2335 [00:32<00:12, 42.03frame/s]  Processing:  77%|███████▋  | 1807/2335 [00:32<00:12, 42.72frame/s]  Processing:  78%|███████▊  | 1813/2335 [00:32<00:11, 44.22frame/s]  Processing:  78%|███████▊  | 1819/2335 [00:32<00:11, 44.17frame/s]  Processing:  78%|███████▊  | 1825/2335 [00:32<00:11, 44.95frame/s]  Processing:  78%|███████▊  | 1831/2335 [00:32<00:10, 46.87frame/s]  Processing:  79%|███████▊  | 1837/2335 [00:33<00:10, 47.69frame/s]  Processing:  79%|███████▉  | 1843/2335 [00:33<00:09, 49.30frame/s]  Processing:  79%|███████▉  | 1848/2335 [00:33<00:09, 48.82frame/s]  Processing:  79%|███████▉  | 1853/2335 [00:33<00:10, 47.49frame/s]  Processing:  80%|███████▉  | 1859/2335 [00:33<00:09, 49.86frame/s]  Processing:  80%|███████▉  | 1865/2335 [00:33<00:09, 51.88frame/s]  Processing:  80%|████████  | 1871/2335 [00:33<00:09, 49.41frame/s]  Processing:  80%|████████  | 1877/2335 [00:33<00:09, 48.98frame/s]  Processing:  81%|████████  | 1883/2335 [00:33<00:09, 48.78frame/s]  Processing:  81%|████████  | 1888/2335 [00:34<00:09, 47.18frame/s]  Processing:  81%|████████  | 1893/2335 [00:34<00:10, 41.96frame/s]  Processing:  81%|████████▏ | 1898/2335 [00:34<00:09, 43.91frame/s]  Processing:  81%|████████▏ | 1903/2335 [00:34<00:10, 42.34frame/s]  Processing:  82%|████████▏ | 1908/2335 [00:34<00:09, 44.30frame/s]  Processing:  82%|████████▏ | 1913/2335 [00:34<00:09, 43.17frame/s]  Processing:  82%|████████▏ | 1919/2335 [00:34<00:08, 46.68frame/s]  Processing:  82%|████████▏ | 1924/2335 [00:34<00:08, 46.10frame/s]  Processing:  83%|████████▎ | 1929/2335 [00:35<00:08, 45.40frame/s]  Processing:  83%|████████▎ | 1935/2335 [00:35<00:08, 49.23frame/s]  Processing:  83%|████████▎ | 1941/2335 [00:35<00:07, 50.37frame/s]  Processing:  83%|████████▎ | 1949/2335 [00:35<00:07, 53.51frame/s]  Processing:  84%|████████▎ | 1955/2335 [00:35<00:06, 55.05frame/s]  Processing:  84%|████████▍ | 1961/2335 [00:35<00:06, 56.02frame/s]  Processing:  84%|████████▍ | 1967/2335 [00:35<00:06, 54.68frame/s]  Processing:  84%|████████▍ | 1973/2335 [00:35<00:06, 54.81frame/s]  Processing:  85%|████████▍ | 1979/2335 [00:35<00:06, 51.82frame/s]  Processing:  85%|████████▌ | 1985/2335 [00:36<00:06, 53.55frame/s]  Processing:  85%|████████▌ | 1993/2335 [00:36<00:05, 57.74frame/s]  Processing:  86%|████████▌ | 2001/2335 [00:36<00:05, 58.89frame/s]  Processing:  86%|████████▌ | 2008/2335 [00:36<00:05, 61.80frame/s]  Processing:  86%|████████▋ | 2015/2335 [00:36<00:05, 58.14frame/s]  Processing:  87%|████████▋ | 2021/2335 [00:36<00:05, 58.06frame/s]  Processing:  87%|████████▋ | 2027/2335 [00:36<00:05, 56.68frame/s]  Processing:  87%|████████▋ | 2033/2335 [00:36<00:05, 56.64frame/s]  Processing:  87%|████████▋ | 2039/2335 [00:36<00:05, 57.01frame/s]  Processing:  88%|████████▊ | 2045/2335 [00:37<00:05, 56.37frame/s]  Processing:  88%|████████▊ | 2051/2335 [00:37<00:05, 56.72frame/s]  Processing:  88%|████████▊ | 2057/2335 [00:37<00:05, 54.75frame/s]  Processing:  88%|████████▊ | 2063/2335 [00:37<00:04, 55.45frame/s]  Processing:  89%|████████▊ | 2069/2335 [00:37<00:04, 55.96frame/s]  Processing:  89%|████████▉ | 2075/2335 [00:37<00:04, 55.79frame/s]  Processing:  89%|████████▉ | 2081/2335 [00:37<00:04, 56.28frame/s]  Processing:  89%|████████▉ | 2087/2335 [00:37<00:04, 55.82frame/s]  Processing:  90%|████████▉ | 2093/2335 [00:37<00:04, 55.13frame/s]  Processing:  90%|████████▉ | 2099/2335 [00:38<00:04, 55.85frame/s]  Processing:  90%|█████████ | 2105/2335 [00:38<00:04, 55.06frame/s]  Processing:  90%|█████████ | 2111/2335 [00:38<00:04, 54.45frame/s]  Processing:  91%|█████████ | 2117/2335 [00:38<00:03, 55.79frame/s]  Processing:  91%|█████████ | 2123/2335 [00:38<00:03, 56.62frame/s]  Processing:  91%|█████████ | 2129/2335 [00:38<00:03, 56.69frame/s]  Processing:  91%|█████████▏| 2135/2335 [00:38<00:03, 56.27frame/s]  Processing:  92%|█████████▏| 2143/2335 [00:38<00:03, 58.95frame/s]  Processing:  92%|█████████▏| 2149/2335 [00:38<00:03, 59.13frame/s]  Processing:  92%|█████████▏| 2157/2335 [00:39<00:02, 59.48frame/s]  Processing:  93%|█████████▎| 2163/2335 [00:39<00:02, 59.52frame/s]  Processing:  93%|█████████▎| 2171/2335 [00:39<00:02, 60.89frame/s]  Processing:  93%|█████████▎| 2178/2335 [00:39<00:02, 62.99frame/s]  Processing:  94%|█████████▎| 2185/2335 [00:39<00:02, 59.11frame/s]  Processing:  94%|█████████▍| 2191/2335 [00:39<00:02, 58.63frame/s]  Processing:  94%|█████████▍| 2199/2335 [00:39<00:02, 58.94frame/s]  Processing:  94%|█████████▍| 2205/2335 [00:39<00:02, 59.07frame/s]  Processing:  95%|█████████▍| 2211/2335 [00:39<00:02, 58.59frame/s]  Processing:  95%|█████████▍| 2217/2335 [00:40<00:02, 58.20frame/s]  Processing:  95%|█████████▌| 2223/2335 [00:40<00:01, 57.93frame/s]  Processing:  95%|█████████▌| 2229/2335 [00:40<00:01, 57.82frame/s]  Processing:  96%|█████████▌| 2235/2335 [00:40<00:01, 56.95frame/s]  Processing:  96%|█████████▌| 2241/2335 [00:40<00:01, 57.42frame/s]  Processing:  96%|█████████▋| 2249/2335 [00:40<00:01, 59.15frame/s]  Processing:  97%|█████████▋| 2255/2335 [00:40<00:01, 58.71frame/s]  Processing:  97%|█████████▋| 2261/2335 [00:40<00:01, 58.85frame/s]  Processing:  97%|█████████▋| 2267/2335 [00:40<00:01, 59.09frame/s]  Processing:  97%|█████████▋| 2275/2335 [00:41<00:01, 59.50frame/s]  Processing:  98%|█████████▊| 2283/2335 [00:41<00:00, 60.07frame/s]  Processing:  98%|█████████▊| 2289/2335 [00:41<00:00, 60.03frame/s]  Processing:  98%|█████████▊| 2297/2335 [00:41<00:00, 61.72frame/s]  Processing:  99%|█████████▊| 2305/2335 [00:41<00:00, 61.81frame/s]  Processing:  99%|█████████▉| 2313/2335 [00:41<00:00, 63.60frame/s]  Processing:  99%|█████████▉| 2321/2335 [00:41<00:00, 66.07frame/s]  Processing: 100%|█████████▉| 2329/2335 [00:41<00:00, 66.78frame/s]  Processing: 100%|██████████| 2335/2335 [00:41<00:00, 55.70frame/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  [Filter] Removed 2 ghost tracks (min_frames=2, min_conf=0.32)
+  Raw crops (pre-ReID): eval/exp_a/client_video_crops_raw
+  Raw contact sheet   : eval/exp_a/client_video_contact_sheet_raw.jpg
+
+  [ReID] Running post-hoc deduplication...
+  [ReID] Loading DINOv2 (facebook/dinov2-base) on cuda...
+Loading weights:   0%|          | 0/223 [00:00<?, ?it/s]Loading weights: 100%|██████████| 223/223 [00:00<00:00, 4253.12it/s]
+  [ReID] DINOv2 ready.
+
+  [REID_DEBUG] Class: Laptops  (10 tracks: [1, 4, 26, 30, 34, 49, 61, 67, 72, 91])
+    1↔4: app=0.066 bg=0.598 combined=0.226 dist=2.000 CO-OCC(37)
+    1↔26: app=0.577 bg=0.634 combined=0.594 dist=0.406 
+    1↔30: app=0.683 bg=0.799 combined=0.718 dist=0.282 
+    1↔34: app=0.428 bg=0.592 combined=0.477 dist=0.523 
+    1↔49: app=0.446 bg=0.857 combined=0.570 dist=0.430 
+    1↔61: app=0.560 bg=0.670 combined=0.593 dist=0.407 
+    1↔67: app=0.357 bg=0.674 combined=0.452 dist=0.548 
+    1↔72: app=0.778 bg=0.860 combined=0.802 dist=0.198 
+    1↔91: app=0.621 bg=0.777 combined=0.668 dist=0.332 
+    4↔26: app=0.121 bg=0.871 combined=0.346 dist=0.654 
+    4↔30: app=0.069 bg=0.741 combined=0.271 dist=0.729 
+    4↔34: app=0.008 bg=0.560 combined=0.173 dist=0.827 
+    4↔49: app=0.098 bg=0.675 combined=0.271 dist=0.729 
+    4↔61: app=0.063 bg=0.861 combined=0.303 dist=0.697 
+    4↔67: app=0.121 bg=0.524 combined=0.242 dist=0.758 
+    4↔72: app=0.059 bg=0.581 combined=0.216 dist=0.784 
+    4↔91: app=0.034 bg=0.530 combined=0.182 dist=0.818 
+    26↔30: app=0.620 bg=0.808 combined=0.676 dist=2.000 CO-OCC(107)
+    26↔34: app=0.488 bg=0.601 combined=0.522 dist=2.000 CO-OCC(78)
+    26↔49: app=0.406 bg=0.734 combined=0.504 dist=0.496 
+    26↔61: app=0.716 bg=0.917 combined=0.776 dist=0.224 
+    26↔67: app=0.452 bg=0.549 combined=0.481 dist=0.519 
+    26↔72: app=0.625 bg=0.616 combined=0.622 dist=0.378 
+    26↔91: app=0.581 bg=0.599 combined=0.587 dist=0.413 
+    30↔34: app=0.415 bg=0.788 combined=0.527 dist=2.000 CO-OCC(81)
+    30↔49: app=0.630 bg=0.879 combined=0.705 dist=0.295 
+    30↔61: app=0.750 bg=0.860 combined=0.783 dist=0.217 
+    30↔67: app=0.343 bg=0.744 combined=0.463 dist=0.537 
+    30↔72: app=0.710 bg=0.692 combined=0.704 dist=0.296 
+    30↔91: app=0.838 bg=0.822 combined=0.833 dist=0.167 
+    34↔49: app=0.285 bg=0.790 combined=0.437 dist=0.563 
+    34↔61: app=0.367 bg=0.797 combined=0.496 dist=0.504 
+    34↔67: app=0.641 bg=0.873 combined=0.711 dist=0.289 
+    34↔72: app=0.463 bg=0.589 combined=0.501 dist=0.499 
+    34↔91: app=0.355 bg=0.904 combined=0.520 dist=0.480 
+    49↔61: app=0.438 bg=0.830 combined=0.556 dist=2.000 CO-OCC(110)
+    49↔67: app=0.324 bg=0.852 combined=0.482 dist=0.518 
+    49↔72: app=0.430 bg=0.846 combined=0.555 dist=0.445 
+    49↔91: app=0.527 bg=0.897 combined=0.638 dist=0.362 
+    61↔67: app=0.298 bg=0.716 combined=0.423 dist=2.000 CO-OCC(15)
+    61↔72: app=0.541 bg=0.645 combined=0.572 dist=0.428 
+    61↔91: app=0.814 bg=0.757 combined=0.797 dist=0.203 
+    67↔72: app=0.508 bg=0.688 combined=0.562 dist=2.000 CO-OCC(13)
+    67↔91: app=0.236 bg=0.893 combined=0.434 dist=0.566 
+    72↔91: app=0.534 bg=0.784 combined=0.609 dist=0.391 
+  [ReID] Merged [72] → 1  (Laptops)
+  [ReID] Merged [61, 91] → 30  (Laptops)
+
+  [REID_DEBUG] Class: Filing Cabinets / Storage Units  (3 tracks: [2, 68, 75])
+    2↔68: app=0.534 bg=0.955 combined=0.660 dist=0.340 
+    2↔75: app=0.329 bg=0.860 combined=0.488 dist=0.512 
+    68↔75: app=0.308 bg=0.905 combined=0.487 dist=2.000 CO-OCC(6)
+
+  [REID_DEBUG] Class: Office Chairs  (7 tracks: [3, 11, 27, 40, 66, 69, 93])
+    3↔11: app=0.917 bg=0.816 combined=0.886 dist=2.000 CO-OCC(39)
+    3↔27: app=0.340 bg=0.973 combined=0.530 dist=0.470 
+    3↔40: app=0.799 bg=0.967 combined=0.849 dist=0.151 
+    3↔66: app=0.675 bg=0.734 combined=0.693 dist=0.307 
+    3↔69: app=0.954 bg=0.835 combined=0.918 dist=0.082 
+    3↔93: app=0.818 bg=0.885 combined=0.838 dist=0.162 
+    11↔27: app=0.358 bg=0.728 combined=0.469 dist=0.531 
+    11↔40: app=0.814 bg=0.780 combined=0.804 dist=0.196 
+    11↔66: app=0.741 bg=0.905 combined=0.790 dist=0.210 
+    11↔69: app=0.904 bg=0.958 combined=0.920 dist=0.080 
+    11↔93: app=0.897 bg=0.862 combined=0.886 dist=0.114 
+    27↔40: app=0.339 bg=0.987 combined=0.534 dist=2.000 CO-OCC(9)
+    27↔66: app=0.340 bg=0.616 combined=0.422 dist=0.578 
+    27↔69: app=0.340 bg=0.736 combined=0.459 dist=0.541 
+    27↔93: app=0.343 bg=0.829 combined=0.488 dist=0.512 
+    40↔66: app=0.754 bg=0.679 combined=0.731 dist=2.000 CO-OCC(60)
+    40↔69: app=0.796 bg=0.787 combined=0.793 dist=2.000 CO-OCC(45)
+    40↔93: app=0.821 bg=0.860 combined=0.833 dist=0.167 
+    66↔69: app=0.698 bg=0.938 combined=0.770 dist=2.000 CO-OCC(36)
+    66↔93: app=0.719 bg=0.884 combined=0.768 dist=0.232 
+    69↔93: app=0.805 bg=0.904 combined=0.835 dist=0.165 
+  [ReID] Merged [69] → 11  (Office Chairs)
+
+  [REID_DEBUG] Class: Monitors  (7 tracks: [16, 31, 33, 46, 50, 89, 92])
+    16↔31: app=0.137 bg=0.712 combined=0.310 dist=0.690 
+    16↔33: app=0.137 bg=0.857 combined=0.353 dist=0.647 
+    16↔46: app=0.145 bg=0.784 combined=0.337 dist=0.663 
+    16↔50: app=0.253 bg=0.732 combined=0.397 dist=0.603 
+    16↔89: app=0.115 bg=0.818 combined=0.326 dist=0.674 
+    16↔92: app=0.062 bg=0.764 combined=0.273 dist=0.727 
+    31↔33: app=0.358 bg=0.912 combined=0.524 dist=2.000 CO-OCC(92)
+    31↔46: app=0.347 bg=0.772 combined=0.475 dist=0.525 
+    31↔50: app=0.523 bg=0.799 combined=0.606 dist=0.394 
+    31↔89: app=0.305 bg=0.791 combined=0.450 dist=0.550 
+    31↔92: app=0.311 bg=0.726 combined=0.435 dist=0.565 
+    33↔46: app=0.863 bg=0.819 combined=0.850 dist=0.150 
+    33↔50: app=0.489 bg=0.839 combined=0.594 dist=0.406 
+    33↔89: app=0.797 bg=0.841 combined=0.810 dist=0.190 
+    33↔92: app=0.770 bg=0.799 combined=0.779 dist=0.221 
+    46↔50: app=0.601 bg=0.942 combined=0.704 dist=2.000 CO-OCC(113)
+    46↔89: app=0.896 bg=0.981 combined=0.922 dist=0.078 
+    46↔92: app=0.831 bg=0.975 combined=0.874 dist=0.126 
+    50↔89: app=0.461 bg=0.910 combined=0.596 dist=0.404 
+    50↔92: app=0.473 bg=0.922 combined=0.607 dist=0.393 
+    89↔92: app=0.861 bg=0.973 combined=0.895 dist=2.000 CO-OCC(69)
+  [ReID] Merged [46, 89] → 33  (Monitors)
+
+  [REID_DEBUG] Class: Printers Scanners  (3 tracks: [37, 60, 82])
+    37↔60: app=0.763 bg=0.895 combined=0.803 dist=0.197 
+    37↔82: app=0.752 bg=0.703 combined=0.738 dist=0.262 
+    60↔82: app=0.785 bg=0.854 combined=0.806 dist=0.194 
+  [ReID] Merged [82] → 60  (Printers Scanners)
+
+  [REID_DEBUG] Class: Desks  (4 tracks: [38, 35, 58, 86])
+    38↔35: app=0.597 bg=0.802 combined=0.658 dist=2.000 CO-OCC(64)
+    38↔58: app=0.666 bg=0.789 combined=0.703 dist=0.297 
+    38↔86: app=0.539 bg=0.807 combined=0.619 dist=0.381 
+    35↔58: app=0.676 bg=0.860 combined=0.731 dist=2.000 CO-OCC(124)
+    35↔86: app=0.789 bg=0.898 combined=0.822 dist=0.178 
+    58↔86: app=0.760 bg=0.959 combined=0.819 dist=0.181 
+
+  [REID_DEBUG] Class: Mouse  (2 tracks: [48, 90])
+    48↔90: app=0.571 bg=0.677 combined=0.602 dist=0.398 
+
+  [REID_DEBUG] Class: Cubicles / Partitions  (2 tracks: [62, 79])
+    62↔79: app=0.798 bg=0.949 combined=0.843 dist=0.157 
+  [ReID] 39 raw tracks → 32 unique objects (7 merged, 39/39 tracks have scene fingerprint)
+
+
+  ──────────────────────────────────────────────────
+  Total Raw Tracks    : 65
+  Duplicates Removed  : 33
+  Total Unique Objects: 32
+    Cubicles / Partitions................... 2  (peak=1)
+    Desks................................... 4  (peak=4)
+    Filing Cabinets / Storage Units......... 3  (peak=2)
+    Laptops................................. 7  (peak=3)
+    Monitors................................ 5  (peak=2)
+    Mouse................................... 2  (peak=1)
+    Office Chairs........................... 6  (peak=4)
+    Pedestals............................... 1  (peak=1)
+    Printers Scanners....................... 2  (peak=1)
+  Processing Time: 41.9s (27.8 frames/sec)
+  Output JSON      : eval/exp_a/client_video_counts.json
+  Annotated Video  : eval/exp_a/client_video_detected.mp4
+  Individual Crops : eval/exp_a/client_video_crops
+  Collage (all)    : eval/exp_a/client_video_contact_sheet.jpg
+  Per-class collages: 9 files
+  Timeline Strip   : eval/exp_a/client_video_timeline.jpg
+  ──────────────────────────────────────────────────
+
+============================================================
+  ALL DONE — 1/1 videos processed
+============================================================
+  client_video.mp4: 32 unique objects
+============================================================
+
