@@ -277,6 +277,8 @@ def process_video(video_path: str, model: YOLO, output_dir: str):
     track_detection_count = {}   # number of processed frames where track was detected
     track_first_seen      = {}
     track_last_seen       = {}
+    track_first_box       = {}
+    track_last_box        = {}
     canonical_map         = {}
     peak_counts           = {}   # max simultaneous distinct tracks per class in any frame
     padded_crops          = {}   # tid -> {"crop", "score", "frame_jpg", "box", "class_id"}
@@ -341,6 +343,9 @@ def process_video(video_path: str, model: YOLO, output_dir: str):
                 if tid not in track_first_seen:
                     track_first_seen[tid] = frame_idx
                 track_last_seen[tid] = frame_idx
+                if tid not in track_first_box:
+                    track_first_box[tid] = tuple(map(float, box))
+                track_last_box[tid] = tuple(map(float, box))
 
                 if reid and processed_count % config.REID_CHECK_INTERVAL == 0:
                     x1c, y1c, x2c, y2c = map(int, box)
@@ -417,11 +422,34 @@ def process_video(video_path: str, model: YOLO, output_dir: str):
             track_confidence_map.pop(tid, None)
             track_first_seen.pop(tid, None)
             track_last_seen.pop(tid, None)
+            track_first_box.pop(tid, None)
+            track_last_box.pop(tid, None)
             padded_crops.pop(int(tid), None)
         if reid:
             reid.collector.remove_tracks(dead_tids)
         print(f"  [Filter] Removed {len(dead_tids)} ghost tracks "
               f"(min_frames={min_track_frames}, min_conf={min_track_conf})")
+
+    # ── Track stitching (motion continuity) ────────────────────────
+    if reid and getattr(config, "ENABLE_TRACK_STITCH", False):
+        from track_stitch import stitch_tracks
+        meta = {
+            int(tid): {
+                "class_id":   int(track_class_map[tid]),
+                "first_seen": track_first_seen[tid],
+                "last_seen":  track_last_seen[tid],
+                "first_box":  track_first_box[tid],
+                "last_box":   track_last_box[tid],
+            }
+            for tid in track_class_map
+            if tid in track_first_box
+        }
+        stitch_map = stitch_tracks(meta, config.TRACK_STITCH_MAX_GAP,
+                                   config.TRACK_STITCH_MIN_IOU)
+        n_chains = sum(1 for t, r in stitch_map.items() if t != r)
+        if n_chains:
+            print(f"  [Stitch] {n_chains} track fragments stitched by motion continuity")
+        reid.apply_stitch_map(stitch_map, padded_crops)
 
     # ── Pre-ReID crops (optional) ─────────────────────────────────
     if getattr(config, "SAVE_PRE_REID_CROPS", False):

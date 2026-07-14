@@ -178,6 +178,49 @@ class TrackCollector:
         norm = np.linalg.norm(vec)
         self.crop_histograms[int(track_id)] = vec / norm if norm > 1e-6 else vec
 
+    def absorb(self, child: int, parent: int):
+        """Merge child track's data into parent (used by track stitching).
+        Keeps parent's class info, extends scored_crops, keeps the better
+        best_score/crop histogram, keeps the bg fingerprint with larger
+        bbox_area, and remaps co-occurrence counts from child to parent."""
+        child, parent = int(child), int(parent)
+        if child == parent or child not in self.tracks:
+            return
+        c = self.tracks.pop(child)
+        if parent not in self.tracks:
+            self.tracks[parent] = {
+                "class_id": c["class_id"],
+                "class_name": c["class_name"],
+                "scored_crops": [],
+                "best_score": 0.0,
+            }
+        p = self.tracks[parent]
+        p["scored_crops"].extend(c["scored_crops"])
+        if c["best_score"] > p["best_score"]:
+            p["best_score"] = c["best_score"]
+            if child in self.crop_histograms:
+                self.crop_histograms[parent] = self.crop_histograms[child]
+
+        c_bg = self.bg_fingerprints.pop(child, None)
+        if c_bg is not None:
+            p_bg = self.bg_fingerprints.get(parent)
+            if p_bg is None or c_bg["bbox_area"] > p_bg["bbox_area"]:
+                self.bg_fingerprints[parent] = c_bg
+
+        self.crop_histograms.pop(child, None)
+
+        # Remap co-occurrence: frozenset({child, X}) -> frozenset({parent, X})
+        for key in list(self.cooccurrence_count.keys()):
+            if child in key:
+                other = next(iter(key - {child}), child)
+                if other == parent:
+                    del self.cooccurrence_count[key]
+                    continue
+                cnt = self.cooccurrence_count.pop(key)
+                new_key = frozenset({parent, other})
+                self.cooccurrence_count[new_key] = (
+                    self.cooccurrence_count.get(new_key, 0) + cnt)
+
     def remove_tracks(self, track_ids):
         """Purge low-quality tracks before dedup so they don't pollute clustering."""
         for tid in track_ids:
@@ -491,6 +534,7 @@ class CLIPReIdentifier:
         )
         self._canonical_map: dict | None = None
         self._frame_shape = None
+        self._stitch_map: dict = {}
 
     def register_frame_tracks(self, track_ids, frame=None, frame_idx: int = 0):
         if frame is not None and self._frame_shape is None:
@@ -532,13 +576,88 @@ class CLIPReIdentifier:
 
         return int(track_id)
 
+    def apply_stitch_map(self, stitch_map: dict, padded_crops: dict):
+        """
+        Apply motion-continuity stitching before clustering.
+        1. Group tracks by root. Re-root chains on the smallest collector-resident
+           member if the computed root isn't in the collector. Seed orphan chains
+           (no member in collector) from their best padded display crop.
+        2. Absorb every other collector-resident chain member into the root.
+        3. Optionally seed never-registered single tracks (STITCH_SEED_ORPHANS).
+        4. Store self._stitch_map so finalize() can compose it with the canon map.
+        """
+        chains: dict = defaultdict(list)
+        for tid, root in stitch_map.items():
+            chains[root].append(tid)
+
+        seed_orphans = getattr(config, "STITCH_SEED_ORPHANS", False)
+
+        for root, members in chains.items():
+            members = sorted(members)
+            resident = [m for m in members if m in self.collector.tracks]
+
+            if len(members) > 1:
+                if root not in self.collector.tracks and resident:
+                    root = min(resident)
+                elif not resident:
+                    # Orphan chain: no member ever registered in collector.
+                    # Seed root from the best padded crop among chain members.
+                    best_tid, best_entry = None, None
+                    for m in members:
+                        entry = padded_crops.get(int(m))
+                        if entry is not None and (
+                                best_entry is None or entry["score"] > best_entry["score"]):
+                            best_tid, best_entry = m, entry
+                    if best_entry is None:
+                        continue  # no crop available anywhere in the chain — skip
+                    cls_id = best_entry["class_id"]
+                    cls_name = config.CLASS_NAMES.get(cls_id, f"cls_{cls_id}")
+                    self.collector.add_detection(
+                        root, cls_id, cls_name, best_entry["crop"])
+                    resident = [root]
+
+                for m in members:
+                    if m != root and m in self.collector.tracks:
+                        self.collector.absorb(m, root)
+            elif seed_orphans and root not in self.collector.tracks:
+                # Chain of length 1, never registered — seed from padded crop so
+                # clustering can still merge it away instead of silently dropping it.
+                entry = padded_crops.get(int(root))
+                if entry is not None:
+                    cls_id = entry["class_id"]
+                    cls_name = config.CLASS_NAMES.get(cls_id, f"cls_{cls_id}")
+                    allowlist = getattr(config, "STITCH_SEED_CLASSES", None)
+                    # ponytail: blind seeding of every dropped singleton floods
+                    # clustering (Office Chairs 6->17, abs error 22 in testing) —
+                    # scope to the classes actually proven to silently under-count.
+                    if allowlist is None or cls_name in allowlist:
+                        self.collector.add_detection(root, cls_id, cls_name, entry["crop"])
+
+        # Recompute final root per original track id (handles re-rooting above).
+        final_root = {}
+        for root, members in chains.items():
+            resident = [m for m in members if m in self.collector.tracks]
+            chosen = root if root in self.collector.tracks else (min(resident) if resident else root)
+            for m in members:
+                final_root[m] = chosen
+        self._stitch_map = final_root
+
     def finalize(self) -> dict:
         """
         Run post-hoc deduplication. Call ONCE after the video loop ends.
         Returns canonical_map {track_id: canonical_id}.
         """
         print("\n  [ReID] Running post-hoc deduplication...")
-        self._canonical_map = self.deduplicator.deduplicate(self.collector)
+        canon = self.deduplicator.deduplicate(self.collector)
+        if self._stitch_map:
+            # Compose: stitched tracks map to their root's cluster canon; any
+            # track not covered by stitching keeps its plain canon mapping.
+            composed = dict(canon)
+            for tid, root in self._stitch_map.items():
+                composed[tid] = canon.get(root, root)
+            self._canonical_map = composed
+        else:
+            self._canonical_map = canon
         n_raw = len(self.collector.tracks)
         n_unique = len(set(self._canonical_map.values()))
         n_bg = sum(1 for t in self.collector.tracks

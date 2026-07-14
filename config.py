@@ -111,6 +111,19 @@ OUTPUT_FOLDER = r"/home/ronit/Ronit-Personal/Personal/Inventory_counter/unseen_v
 OUTPUT_VIDEO_FPS = 5
 VIDEO_CODEC = "mp4v"
 
+# ─── Track Stitching ────────────────────────────────────────────
+ENABLE_TRACK_STITCH  = True
+TRACK_STITCH_MAX_GAP = 90    # raw-frame gap (~3 s at 30 fps) between death and rebirth
+TRACK_STITCH_MIN_IOU = 0.30  # IoU between last box of dead track and first box of new one
+STITCH_SEED_ORPHANS  = True  # seed never-registered tracks into clustering via padded crops
+# Restrict orphan-singleton seeding to classes proven to silently under-count
+# (edge-of-frame drops via MIN_BBOX_INSET). Seeding ALL classes floods clustering
+# with partial-view crops that can't merge back (Office Chairs 6->17, abs err 22).
+# None = seed every class (do not use — regresses badly, see eval/ws_a_stitch_log.txt).
+# Winning config (2026-07-13, eval/ws_a_stitch_scoped): abs error 6->4, exact
+# classes 6/10->7/10 (Pedestals now exact), no exact-class regressions.
+STITCH_SEED_CLASSES  = {"Desks", "Pedestals"}
+
 # ─── Visualization ──────────────────────────────────────────────
 BBOX_THICKNESS = 2
 FONT_SCALE = 0.6

@@ -1,0 +1,362 @@
+/home/ronit/miniconda3/envs/rk_yolo/lib/python3.11/site-packages/torch/cuda/__init__.py:65: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+
+============================================================
+  UNIQUE OBJECT COUNTER PIPELINE
+============================================================
+  Input Folder : client_video
+  Output Folder: eval/ws_a_stitch
+  Videos Found : 1
+  YOLO Model   : /home/ronit/Downloads/inventory_train-3/inventory_counter_new_model_9_july.pt
+  Confidence   : 0.35
+  Frame Skip   : 2
+  CLIP Re-ID   : Enabled
+============================================================
+
+[*] Loading YOLO model...
+
+============================================================
+  [1/1] client_video.mp4
+============================================================
+  Resolution  : 480x640
+  FPS         : 59.9
+  Total Frames: 2335
+  Frame Skip  : 2
+  Frames to Process: ~1167
+  CLIP Re-ID  : Enabled
+  Output FPS  : 5  (only annotated frames written)
+  Processing:   0%|          | 0/2335 [00:00<?, ?frame/s]  Processing:   0%|          | 3/2335 [00:01<16:46,  2.32frame/s]  Processing:   0%|          | 11/2335 [00:01<03:54,  9.90frame/s]  Processing:   1%|          | 19/2335 [00:01<02:07, 18.21frame/s]  Processing:   1%|          | 27/2335 [00:01<01:25, 27.06frame/s]  Processing:   1%|▏         | 35/2335 [00:01<01:06, 34.84frame/s]  Processing:   2%|▏         | 43/2335 [00:01<00:53, 42.53frame/s]  Processing:   2%|▏         | 51/2335 [00:01<00:45, 50.11frame/s]  Processing:   3%|▎         | 61/2335 [00:02<00:37, 59.86frame/s]  Processing:   3%|▎         | 69/2335 [00:02<00:35, 63.17frame/s]  Processing:   3%|▎         | 77/2335 [00:02<00:36, 61.87frame/s]  Processing:   4%|▎         | 85/2335 [00:02<00:36, 61.94frame/s]  Processing:   4%|▍         | 93/2335 [00:02<00:35, 63.07frame/s]  Processing:   4%|▍         | 101/2335 [00:02<00:35, 63.56frame/s]  Processing:   5%|▍         | 109/2335 [00:02<00:34, 64.55frame/s]  Processing:   5%|▌         | 117/2335 [00:02<00:33, 66.49frame/s]  Processing:   5%|▌         | 125/2335 [00:03<00:32, 67.26frame/s]  Processing:   6%|▌         | 132/2335 [00:03<00:32, 67.67frame/s]  Processing:   6%|▌         | 139/2335 [00:03<00:33, 66.38frame/s]  Processing:   6%|▋         | 147/2335 [00:03<00:33, 65.11frame/s]  Processing:   7%|▋         | 155/2335 [00:03<00:32, 67.79frame/s]  Processing:   7%|▋         | 163/2335 [00:03<00:30, 70.35frame/s]  Processing:   7%|▋         | 171/2335 [00:03<00:31, 69.48frame/s]  Processing:   8%|▊         | 179/2335 [00:03<00:30, 70.42frame/s]  Processing:   8%|▊         | 187/2335 [00:03<00:30, 70.59frame/s]  Processing:   8%|▊         | 195/2335 [00:04<00:29, 71.55frame/s]  Processing:   9%|▊         | 203/2335 [00:04<00:29, 72.39frame/s]  Processing:   9%|▉         | 211/2335 [00:04<00:29, 72.58frame/s]  Processing:   9%|▉         | 219/2335 [00:04<00:29, 72.91frame/s]  Processing:  10%|▉         | 227/2335 [00:04<00:28, 73.51frame/s]  Processing:  10%|█         | 235/2335 [00:04<00:28, 73.02frame/s]  Processing:  10%|█         | 243/2335 [00:04<00:29, 70.00frame/s]  Processing:  11%|█         | 251/2335 [00:04<00:35, 59.48frame/s]  Processing:  11%|█         | 258/2335 [00:05<00:34, 60.07frame/s]  Processing:  11%|█▏        | 265/2335 [00:05<00:34, 60.28frame/s]  Processing:  12%|█▏        | 273/2335 [00:05<00:33, 61.57frame/s]  Processing:  12%|█▏        | 281/2335 [00:05<00:32, 63.35frame/s]  Processing:  12%|█▏        | 289/2335 [00:05<00:31, 64.95frame/s]  Processing:  13%|█▎        | 297/2335 [00:05<00:33, 61.52frame/s]  Processing:  13%|█▎        | 305/2335 [00:05<00:32, 61.80frame/s]  Processing:  13%|█▎        | 313/2335 [00:05<00:32, 62.15frame/s]  Processing:  14%|█▎        | 320/2335 [00:06<00:34, 58.88frame/s]  Processing:  14%|█▍        | 327/2335 [00:06<00:34, 58.59frame/s]  Processing:  14%|█▍        | 335/2335 [00:06<00:33, 60.17frame/s]  Processing:  15%|█▍        | 343/2335 [00:06<00:32, 61.17frame/s]  Processing:  15%|█▌        | 351/2335 [00:06<00:32, 61.71frame/s]  Processing:  15%|█▌        | 359/2335 [00:06<00:31, 62.93frame/s]  Processing:  16%|█▌        | 366/2335 [00:06<00:30, 63.84frame/s]  Processing:  16%|█▌        | 373/2335 [00:06<00:31, 61.95frame/s]  Processing:  16%|█▋        | 381/2335 [00:06<00:31, 61.84frame/s]  Processing:  17%|█▋        | 389/2335 [00:07<00:31, 61.79frame/s]  Processing:  17%|█▋        | 397/2335 [00:07<00:31, 61.66frame/s]  Processing:  17%|█▋        | 404/2335 [00:07<00:30, 63.56frame/s]  Processing:  18%|█▊        | 411/2335 [00:07<00:31, 61.27frame/s]  Processing:  18%|█▊        | 418/2335 [00:07<00:31, 61.82frame/s]  Processing:  18%|█▊        | 425/2335 [00:07<00:32, 58.28frame/s]  Processing:  18%|█▊        | 431/2335 [00:07<00:33, 57.47frame/s]  Processing:  19%|█▊        | 437/2335 [00:07<00:33, 56.35frame/s]  Processing:  19%|█▉        | 443/2335 [00:08<00:33, 56.89frame/s]  Processing:  19%|█▉        | 451/2335 [00:08<00:31, 59.51frame/s]  Processing:  20%|█▉        | 459/2335 [00:08<00:30, 61.39frame/s]  Processing:  20%|██        | 467/2335 [00:08<00:28, 64.74frame/s]  Processing:  20%|██        | 475/2335 [00:08<00:27, 66.71frame/s]  Processing:  21%|██        | 483/2335 [00:08<00:27, 68.08frame/s]  Processing:  21%|██        | 490/2335 [00:08<00:27, 66.45frame/s]  Processing:  21%|██▏       | 497/2335 [00:08<00:29, 63.07frame/s]  Processing:  22%|██▏       | 505/2335 [00:08<00:27, 65.40frame/s]  Processing:  22%|██▏       | 513/2335 [00:09<00:27, 66.29frame/s]  Processing:  22%|██▏       | 521/2335 [00:09<00:26, 67.33frame/s]  Processing:  23%|██▎       | 529/2335 [00:09<00:26, 68.46frame/s]  Processing:  23%|██▎       | 537/2335 [00:09<00:26, 66.81frame/s]  Processing:  23%|██▎       | 545/2335 [00:09<00:27, 65.63frame/s]  Processing:  24%|██▎       | 553/2335 [00:09<00:27, 64.41frame/s]  Processing:  24%|██▍       | 561/2335 [00:09<00:27, 64.57frame/s]  Processing:  24%|██▍       | 569/2335 [00:09<00:27, 65.18frame/s]  Processing:  25%|██▍       | 577/2335 [00:10<00:26, 66.25frame/s]  Processing:  25%|██▌       | 585/2335 [00:10<00:26, 66.19frame/s]  Processing:  25%|██▌       | 593/2335 [00:10<00:25, 68.11frame/s]  Processing:  26%|██▌       | 601/2335 [00:10<00:25, 67.72frame/s]  Processing:  26%|██▌       | 609/2335 [00:10<00:25, 68.84frame/s]  Processing:  26%|██▋       | 617/2335 [00:10<00:25, 67.54frame/s]  Processing:  27%|██▋       | 625/2335 [00:10<00:24, 69.12frame/s]  Processing:  27%|██▋       | 633/2335 [00:10<00:24, 70.25frame/s]  Processing:  27%|██▋       | 641/2335 [00:10<00:23, 71.38frame/s]  Processing:  28%|██▊       | 651/2335 [00:11<00:22, 75.07frame/s]  Processing:  28%|██▊       | 659/2335 [00:11<00:22, 72.90frame/s]  Processing:  29%|██▊       | 667/2335 [00:11<00:22, 72.66frame/s]  Processing:  29%|██▉       | 675/2335 [00:11<00:22, 73.88frame/s]  Processing:  29%|██▉       | 685/2335 [00:11<00:21, 77.03frame/s]  Processing:  30%|██▉       | 693/2335 [00:11<00:21, 77.11frame/s]  Processing:  30%|███       | 701/2335 [00:11<00:21, 74.52frame/s]  Processing:  30%|███       | 709/2335 [00:11<00:21, 75.92frame/s]  Processing:  31%|███       | 717/2335 [00:11<00:21, 75.56frame/s]  Processing:  31%|███       | 725/2335 [00:12<00:21, 75.59frame/s]  Processing:  31%|███▏      | 733/2335 [00:12<00:21, 74.30frame/s]  Processing:  32%|███▏      | 741/2335 [00:12<00:21, 74.10frame/s]  Processing:  32%|███▏      | 749/2335 [00:12<00:21, 75.44frame/s]  Processing:  32%|███▏      | 757/2335 [00:12<00:20, 75.16frame/s]  Processing:  33%|███▎      | 765/2335 [00:12<00:20, 75.98frame/s]  Processing:  33%|███▎      | 773/2335 [00:12<00:20, 74.57frame/s]  Processing:  33%|███▎      | 781/2335 [00:12<00:20, 75.29frame/s]  Processing:  34%|███▍      | 789/2335 [00:12<00:20, 76.30frame/s]  Processing:  34%|███▍      | 797/2335 [00:13<00:20, 75.26frame/s]  Processing:  34%|███▍      | 805/2335 [00:13<00:21, 72.07frame/s]  Processing:  35%|███▍      | 813/2335 [00:13<00:21, 72.15frame/s]  Processing:  35%|███▌      | 821/2335 [00:13<00:20, 73.24frame/s]  Processing:  36%|███▌      | 831/2335 [00:13<00:20, 74.89frame/s]  Processing:  36%|███▌      | 839/2335 [00:13<00:20, 72.86frame/s]  Processing:  36%|███▋      | 847/2335 [00:13<00:20, 74.04frame/s]  Processing:  37%|███▋      | 855/2335 [00:13<00:19, 74.45frame/s]  Processing:  37%|███▋      | 863/2335 [00:13<00:19, 73.99frame/s]  Processing:  37%|███▋      | 871/2335 [00:14<00:19, 75.18frame/s]  Processing:  38%|███▊      | 879/2335 [00:14<00:19, 75.70frame/s]  Processing:  38%|███▊      | 887/2335 [00:14<00:19, 75.60frame/s]  Processing:  38%|███▊      | 895/2335 [00:14<00:19, 74.44frame/s]  Processing:  39%|███▊      | 903/2335 [00:14<00:18, 75.75frame/s]  Processing:  39%|███▉      | 913/2335 [00:14<00:18, 76.01frame/s]  Processing:  39%|███▉      | 921/2335 [00:14<00:19, 74.30frame/s]  Processing:  40%|███▉      | 929/2335 [00:14<00:18, 74.89frame/s]  Processing:  40%|████      | 939/2335 [00:14<00:17, 78.66frame/s]  Processing:  41%|████      | 949/2335 [00:15<00:17, 78.94frame/s]  Processing:  41%|████      | 959/2335 [00:15<00:17, 79.21frame/s]  Processing:  41%|████▏     | 967/2335 [00:15<00:17, 79.32frame/s]  Processing:  42%|████▏     | 977/2335 [00:15<00:17, 79.73frame/s]  Processing:  42%|████▏     | 987/2335 [00:15<00:16, 82.48frame/s]  Processing:  43%|████▎     | 997/2335 [00:15<00:16, 82.11frame/s]  Processing:  43%|████▎     | 1006/2335 [00:15<00:17, 76.78frame/s]  Processing:  43%|████▎     | 1014/2335 [00:15<00:17, 76.24frame/s]  Processing:  44%|████▍     | 1022/2335 [00:15<00:17, 76.51frame/s]  Processing:  44%|████▍     | 1030/2335 [00:16<00:17, 75.90frame/s]  Processing:  44%|████▍     | 1038/2335 [00:16<00:17, 72.76frame/s]  Processing:  45%|████▍     | 1046/2335 [00:16<00:17, 74.59frame/s]  Processing:  45%|████▌     | 1055/2335 [00:16<00:16, 75.70frame/s]  Processing:  46%|████▌     | 1065/2335 [00:16<00:16, 77.27frame/s]  Processing:  46%|████▌     | 1073/2335 [00:16<00:16, 77.45frame/s]  Processing:  46%|████▋     | 1081/2335 [00:16<00:17, 70.89frame/s]  Processing:  47%|████▋     | 1090/2335 [00:16<00:16, 75.91frame/s]  Processing:  47%|████▋     | 1099/2335 [00:17<00:16, 75.55frame/s]  Processing:  47%|████▋     | 1107/2335 [00:17<00:16, 75.55frame/s]  Processing:  48%|████▊     | 1115/2335 [00:17<00:16, 75.82frame/s]  Processing:  48%|████▊     | 1123/2335 [00:17<00:16, 73.34frame/s]  Processing:  48%|████▊     | 1131/2335 [00:17<00:16, 73.64frame/s]  Processing:  49%|████▉     | 1139/2335 [00:17<00:16, 72.59frame/s]  Processing:  49%|████▉     | 1147/2335 [00:17<00:17, 69.17frame/s]  Processing:  49%|████▉     | 1154/2335 [00:17<00:17, 67.16frame/s]  Processing:  50%|████▉     | 1161/2335 [00:17<00:18, 62.06frame/s]  Processing:  50%|█████     | 1169/2335 [00:18<00:18, 63.65frame/s]  Processing:  50%|█████     | 1176/2335 [00:18<00:17, 64.72frame/s]  Processing:  51%|█████     | 1183/2335 [00:18<00:18, 60.94frame/s]  Processing:  51%|█████     | 1191/2335 [00:18<00:18, 62.82frame/s]  Processing:  51%|█████▏    | 1199/2335 [00:18<00:18, 63.03frame/s]  Processing:  52%|█████▏    | 1207/2335 [00:18<00:17, 64.40frame/s]  Processing:  52%|█████▏    | 1215/2335 [00:18<00:17, 63.57frame/s]  Processing:  52%|█████▏    | 1222/2335 [00:18<00:17, 64.35frame/s]  Processing:  53%|█████▎    | 1229/2335 [00:19<00:19, 56.80frame/s]  Processing:  53%|█████▎    | 1235/2335 [00:19<00:19, 55.75frame/s]  Processing:  53%|█████▎    | 1241/2335 [00:19<00:19, 54.72frame/s]  Processing:  53%|█████▎    | 1247/2335 [00:19<00:19, 55.13frame/s]  Processing:  54%|█████▎    | 1255/2335 [00:19<00:18, 57.12frame/s]  Processing:  54%|█████▍    | 1263/2335 [00:19<00:18, 57.44frame/s]  Processing:  54%|█████▍    | 1269/2335 [00:19<00:18, 56.76frame/s]  Processing:  55%|█████▍    | 1277/2335 [00:19<00:18, 57.92frame/s]  Processing:  55%|█████▍    | 1283/2335 [00:20<00:18, 56.40frame/s]  Processing:  55%|█████▌    | 1289/2335 [00:20<00:18, 55.76frame/s]  Processing:  55%|█████▌    | 1295/2335 [00:20<00:19, 53.06frame/s]  Processing:  56%|█████▌    | 1301/2335 [00:20<00:18, 54.67frame/s]  Processing:  56%|█████▌    | 1307/2335 [00:20<00:19, 53.88frame/s]  Processing:  56%|█████▌    | 1313/2335 [00:20<00:19, 52.02frame/s]  Processing:  56%|█████▋    | 1319/2335 [00:20<00:19, 53.32frame/s]  Processing:  57%|█████▋    | 1325/2335 [00:20<00:19, 51.29frame/s]  Processing:  57%|█████▋    | 1333/2335 [00:20<00:18, 53.90frame/s]  Processing:  57%|█████▋    | 1339/2335 [00:21<00:18, 55.19frame/s]  Processing:  58%|█████▊    | 1345/2335 [00:21<00:17, 55.56frame/s]  Processing:  58%|█████▊    | 1351/2335 [00:21<00:17, 56.56frame/s]  Processing:  58%|█████▊    | 1357/2335 [00:21<00:17, 57.05frame/s]  Processing:  58%|█████▊    | 1365/2335 [00:21<00:16, 59.45frame/s]  Processing:  59%|█████▉    | 1373/2335 [00:21<00:15, 60.71frame/s]  Processing:  59%|█████▉    | 1380/2335 [00:21<00:15, 62.12frame/s]  Processing:  59%|█████▉    | 1387/2335 [00:21<00:15, 60.14frame/s]  Processing:  60%|█████▉    | 1394/2335 [00:21<00:15, 60.61frame/s]  Processing:  60%|██████    | 1401/2335 [00:22<00:15, 59.95frame/s]  Processing:  60%|██████    | 1408/2335 [00:22<00:15, 59.62frame/s]  Processing:  61%|██████    | 1414/2335 [00:22<00:15, 59.67frame/s]  Processing:  61%|██████    | 1421/2335 [00:22<00:15, 59.79frame/s]  Processing:  61%|██████    | 1429/2335 [00:22<00:14, 62.36frame/s]  Processing:  62%|██████▏   | 1437/2335 [00:22<00:13, 65.35frame/s]  Processing:  62%|██████▏   | 1445/2335 [00:22<00:13, 64.53frame/s]  Processing:  62%|██████▏   | 1452/2335 [00:22<00:13, 63.08frame/s]  Processing:  62%|██████▏   | 1459/2335 [00:23<00:13, 62.59frame/s]  Processing:  63%|██████▎   | 1467/2335 [00:23<00:13, 63.50frame/s]  Processing:  63%|██████▎   | 1474/2335 [00:23<00:13, 65.01frame/s]  Processing:  63%|██████▎   | 1481/2335 [00:23<00:13, 61.81frame/s]  Processing:  64%|██████▍   | 1489/2335 [00:23<00:13, 61.30frame/s]  Processing:  64%|██████▍   | 1497/2335 [00:23<00:12, 64.57frame/s]  Processing:  64%|██████▍   | 1505/2335 [00:23<00:12, 67.14frame/s]  Processing:  65%|██████▍   | 1513/2335 [00:23<00:12, 66.79frame/s]  Processing:  65%|██████▌   | 1521/2335 [00:23<00:12, 66.33frame/s]  Processing:  65%|██████▌   | 1529/2335 [00:24<00:12, 65.13frame/s]  Processing:  66%|██████▌   | 1536/2335 [00:24<00:12, 64.72frame/s]  Processing:  66%|██████▌   | 1543/2335 [00:24<00:12, 60.93frame/s]  Processing:  66%|██████▋   | 1551/2335 [00:24<00:12, 64.54frame/s]  Processing:  67%|██████▋   | 1559/2335 [00:24<00:11, 67.89frame/s]  Processing:  67%|██████▋   | 1567/2335 [00:24<00:11, 68.82frame/s]  Processing:  67%|██████▋   | 1575/2335 [00:24<00:10, 69.16frame/s]  Processing:  68%|██████▊   | 1583/2335 [00:24<00:10, 69.93frame/s]  Processing:  68%|██████▊   | 1591/2335 [00:24<00:10, 69.79frame/s]  Processing:  68%|██████▊   | 1599/2335 [00:25<00:10, 70.48frame/s]  Processing:  69%|██████▉   | 1607/2335 [00:25<00:10, 68.36frame/s]  Processing:  69%|██████▉   | 1615/2335 [00:25<00:10, 69.04frame/s]  Processing:  70%|██████▉   | 1623/2335 [00:25<00:10, 68.23frame/s]  Processing:  70%|██████▉   | 1631/2335 [00:25<00:10, 67.15frame/s]  Processing:  70%|███████   | 1639/2335 [00:25<00:10, 65.72frame/s]  Processing:  70%|███████   | 1646/2335 [00:25<00:10, 64.35frame/s]  Processing:  71%|███████   | 1653/2335 [00:25<00:10, 62.97frame/s]  Processing:  71%|███████   | 1661/2335 [00:26<00:10, 63.58frame/s]  Processing:  71%|███████▏  | 1668/2335 [00:26<00:10, 63.62frame/s]  Processing:  72%|███████▏  | 1675/2335 [00:26<00:10, 60.48frame/s]  Processing:  72%|███████▏  | 1683/2335 [00:26<00:10, 61.27frame/s]  Processing:  72%|███████▏  | 1691/2335 [00:26<00:10, 63.42frame/s]  Processing:  73%|███████▎  | 1699/2335 [00:26<00:10, 62.63frame/s]  Processing:  73%|███████▎  | 1706/2335 [00:26<00:10, 62.54frame/s]  Processing:  73%|███████▎  | 1713/2335 [00:26<00:10, 59.35frame/s]  Processing:  74%|███████▎  | 1721/2335 [00:27<00:10, 60.11frame/s]  Processing:  74%|███████▍  | 1728/2335 [00:27<00:09, 62.56frame/s]  Processing:  74%|███████▍  | 1735/2335 [00:27<00:10, 57.38frame/s]  Processing:  75%|███████▍  | 1743/2335 [00:27<00:10, 59.03frame/s]  Processing:  75%|███████▍  | 1751/2335 [00:27<00:09, 61.85frame/s]  Processing:  75%|███████▌  | 1759/2335 [00:27<00:09, 62.26frame/s]  Processing:  76%|███████▌  | 1766/2335 [00:27<00:09, 59.18frame/s]  Processing:  76%|███████▌  | 1772/2335 [00:27<00:09, 58.81frame/s]  Processing:  76%|███████▌  | 1778/2335 [00:28<00:09, 57.89frame/s]  Processing:  76%|███████▋  | 1784/2335 [00:28<00:09, 56.57frame/s]  Processing:  77%|███████▋  | 1790/2335 [00:28<00:11, 48.21frame/s]  Processing:  77%|███████▋  | 1796/2335 [00:28<00:11, 48.95frame/s]  Processing:  77%|███████▋  | 1802/2335 [00:28<00:10, 50.24frame/s]  Processing:  77%|███████▋  | 1808/2335 [00:28<00:10, 51.40frame/s]  Processing:  78%|███████▊  | 1814/2335 [00:28<00:10, 51.95frame/s]  Processing:  78%|███████▊  | 1820/2335 [00:28<00:09, 54.08frame/s]  Processing:  78%|███████▊  | 1827/2335 [00:28<00:09, 54.94frame/s]  Processing:  79%|███████▊  | 1833/2335 [00:29<00:09, 55.19frame/s]  Processing:  79%|███████▉  | 1839/2335 [00:29<00:09, 53.73frame/s]  Processing:  79%|███████▉  | 1845/2335 [00:29<00:09, 52.61frame/s]  Processing:  79%|███████▉  | 1851/2335 [00:29<00:09, 49.61frame/s]  Processing:  80%|███████▉  | 1857/2335 [00:29<00:09, 48.36frame/s]  Processing:  80%|███████▉  | 1862/2335 [00:29<00:09, 48.50frame/s]  Processing:  80%|███████▉  | 1867/2335 [00:29<00:09, 48.31frame/s]  Processing:  80%|████████  | 1875/2335 [00:29<00:08, 53.20frame/s]  Processing:  81%|████████  | 1883/2335 [00:30<00:07, 56.85frame/s]  Processing:  81%|████████  | 1889/2335 [00:30<00:07, 57.11frame/s]  Processing:  81%|████████  | 1895/2335 [00:30<00:07, 56.65frame/s]  Processing:  81%|████████▏ | 1903/2335 [00:30<00:07, 59.85frame/s]  Processing:  82%|████████▏ | 1911/2335 [00:30<00:06, 60.87frame/s]  Processing:  82%|████████▏ | 1918/2335 [00:30<00:06, 61.83frame/s]  Processing:  82%|████████▏ | 1925/2335 [00:30<00:06, 59.69frame/s]  Processing:  83%|████████▎ | 1933/2335 [00:30<00:06, 61.18frame/s]  Processing:  83%|████████▎ | 1941/2335 [00:30<00:06, 63.30frame/s]  Processing:  83%|████████▎ | 1949/2335 [00:31<00:05, 64.39frame/s]  Processing:  84%|████████▍ | 1956/2335 [00:31<00:05, 65.42frame/s]  Processing:  84%|████████▍ | 1963/2335 [00:31<00:05, 63.00frame/s]  Processing:  84%|████████▍ | 1971/2335 [00:31<00:05, 63.91frame/s]  Processing:  85%|████████▍ | 1978/2335 [00:31<00:05, 65.30frame/s]  Processing:  85%|████████▌ | 1985/2335 [00:31<00:05, 62.25frame/s]  Processing:  85%|████████▌ | 1993/2335 [00:31<00:05, 63.11frame/s]  Processing:  86%|████████▌ | 2001/2335 [00:31<00:05, 64.79frame/s]  Processing:  86%|████████▌ | 2009/2335 [00:32<00:04, 65.31frame/s]  Processing:  86%|████████▋ | 2017/2335 [00:32<00:04, 64.02frame/s]  Processing:  87%|████████▋ | 2024/2335 [00:32<00:04, 65.44frame/s]  Processing:  87%|████████▋ | 2031/2335 [00:32<00:04, 62.83frame/s]  Processing:  87%|████████▋ | 2039/2335 [00:32<00:04, 62.34frame/s]  Processing:  88%|████████▊ | 2047/2335 [00:32<00:04, 63.08frame/s]  Processing:  88%|████████▊ | 2055/2335 [00:32<00:04, 61.99frame/s]  Processing:  88%|████████▊ | 2062/2335 [00:32<00:04, 63.31frame/s]  Processing:  89%|████████▊ | 2069/2335 [00:33<00:04, 62.12frame/s]  Processing:  89%|████████▉ | 2077/2335 [00:33<00:04, 63.44frame/s]  Processing:  89%|████████▉ | 2084/2335 [00:33<00:03, 64.77frame/s]  Processing:  90%|████████▉ | 2091/2335 [00:33<00:03, 61.20frame/s]  Processing:  90%|████████▉ | 2098/2335 [00:33<00:03, 63.36frame/s]  Processing:  90%|█████████ | 2105/2335 [00:33<00:03, 59.99frame/s]  Processing:  90%|█████████ | 2113/2335 [00:33<00:03, 61.06frame/s]  Processing:  91%|█████████ | 2121/2335 [00:33<00:03, 61.78frame/s]  Processing:  91%|█████████ | 2129/2335 [00:33<00:03, 62.23frame/s]  Processing:  92%|█████████▏| 2137/2335 [00:34<00:03, 63.73frame/s]  Processing:  92%|█████████▏| 2145/2335 [00:34<00:02, 64.12frame/s]  Processing:  92%|█████████▏| 2153/2335 [00:34<00:02, 65.36frame/s]  Processing:  93%|█████████▎| 2161/2335 [00:34<00:02, 65.00frame/s]  Processing:  93%|█████████▎| 2169/2335 [00:34<00:02, 66.11frame/s]  Processing:  93%|█████████▎| 2177/2335 [00:34<00:02, 67.74frame/s]  Processing:  94%|█████████▎| 2185/2335 [00:34<00:02, 65.15frame/s]  Processing:  94%|█████████▍| 2193/2335 [00:34<00:02, 64.92frame/s]  Processing:  94%|█████████▍| 2201/2335 [00:35<00:02, 65.14frame/s]  Processing:  95%|█████████▍| 2209/2335 [00:35<00:01, 64.40frame/s]  Processing:  95%|█████████▍| 2217/2335 [00:35<00:01, 64.02frame/s]  Processing:  95%|█████████▌| 2224/2335 [00:35<00:01, 64.77frame/s]  Processing:  96%|█████████▌| 2231/2335 [00:35<00:01, 61.93frame/s]  Processing:  96%|█████████▌| 2238/2335 [00:35<00:01, 63.25frame/s]  Processing:  96%|█████████▌| 2245/2335 [00:35<00:01, 61.68frame/s]  Processing:  96%|█████████▋| 2253/2335 [00:35<00:01, 62.87frame/s]  Processing:  97%|█████████▋| 2261/2335 [00:36<00:01, 64.70frame/s]  Processing:  97%|█████████▋| 2269/2335 [00:36<00:01, 65.64frame/s]  Processing:  98%|█████████▊| 2277/2335 [00:36<00:00, 64.32frame/s]  Processing:  98%|█████████▊| 2285/2335 [00:36<00:00, 63.92frame/s]  Processing:  98%|█████████▊| 2293/2335 [00:36<00:00, 65.75frame/s]  Processing:  99%|█████████▊| 2301/2335 [00:36<00:00, 68.19frame/s]  Processing:  99%|█████████▉| 2309/2335 [00:36<00:00, 67.15frame/s]  Processing:  99%|█████████▉| 2317/2335 [00:36<00:00, 68.06frame/s]  Processing: 100%|█████████▉| 2325/2335 [00:36<00:00, 70.23frame/s]  Processing: 100%|██████████| 2335/2335 [00:37<00:00, 74.29frame/s]  Processing: 100%|██████████| 2335/2335 [00:37<00:00, 62.99frame/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  [Filter] Removed 2 ghost tracks (min_frames=2, min_conf=0.32)
+  [Stitch] 2 track fragments stitched by motion continuity
+  Raw crops (pre-ReID): eval/ws_a_stitch/client_video_crops_raw
+  Raw contact sheet   : eval/ws_a_stitch/client_video_contact_sheet_raw.jpg
+
+  [ReID] Running post-hoc deduplication...
+  [ReID] Loading DINOv2 (facebook/dinov2-base) on cuda...
+Loading weights:   0%|          | 0/223 [00:00<?, ?it/s]Loading weights: 100%|██████████| 223/223 [00:00<00:00, 7786.24it/s]
+  [ReID] DINOv2 ready.
+
+  [REID_DEBUG] Class: Laptops  (10 tracks: [1, 4, 26, 30, 34, 49, 61, 67, 72, 91])
+    1↔4: app=0.069 bg=0.587 combined=0.225 dist=2.000 CO-OCC(37)
+    1↔26: app=0.558 bg=0.640 combined=0.583 dist=0.417 
+    1↔30: app=0.652 bg=0.581 combined=0.631 dist=0.369 
+    1↔34: app=0.423 bg=0.596 combined=0.475 dist=0.525 
+    1↔49: app=0.398 bg=0.858 combined=0.536 dist=0.464 
+    1↔61: app=0.547 bg=0.648 combined=0.577 dist=0.423 
+    1↔67: app=0.413 bg=0.673 combined=0.491 dist=0.509 
+    1↔72: app=0.701 bg=0.858 combined=0.748 dist=0.252 
+    1↔91: app=0.587 bg=0.788 combined=0.647 dist=0.353 
+    4↔26: app=0.157 bg=0.860 combined=0.368 dist=0.632 
+    4↔30: app=0.088 bg=0.867 combined=0.322 dist=0.678 
+    4↔34: app=0.038 bg=0.560 combined=0.195 dist=0.805 
+    4↔49: app=0.091 bg=0.675 combined=0.266 dist=0.734 
+    4↔61: app=0.071 bg=0.841 combined=0.302 dist=0.698 
+    4↔67: app=0.106 bg=0.524 combined=0.231 dist=0.769 
+    4↔72: app=0.061 bg=0.581 combined=0.217 dist=0.783 
+    4↔91: app=0.027 bg=0.541 combined=0.181 dist=0.819 
+    26↔30: app=0.587 bg=0.943 combined=0.694 dist=2.000 CO-OCC(107)
+    26↔34: app=0.523 bg=0.604 combined=0.548 dist=2.000 CO-OCC(78)
+    26↔49: app=0.384 bg=0.747 combined=0.493 dist=0.507 
+    26↔61: app=0.653 bg=0.902 combined=0.728 dist=0.272 
+    26↔67: app=0.508 bg=0.561 combined=0.524 dist=0.476 
+    26↔72: app=0.600 bg=0.634 combined=0.610 dist=0.390 
+    26↔91: app=0.527 bg=0.626 combined=0.557 dist=0.443 
+    30↔34: app=0.424 bg=0.521 combined=0.453 dist=2.000 CO-OCC(81)
+    30↔49: app=0.592 bg=0.707 combined=0.626 dist=0.374 
+    30↔61: app=0.732 bg=0.855 combined=0.769 dist=0.231 
+    30↔67: app=0.400 bg=0.506 combined=0.432 dist=0.568 
+    30↔72: app=0.670 bg=0.618 combined=0.655 dist=0.345 
+    30↔91: app=0.799 bg=0.551 combined=0.725 dist=0.275 
+    34↔49: app=0.270 bg=0.795 combined=0.427 dist=0.573 
+    34↔61: app=0.371 bg=0.802 combined=0.500 dist=0.500 
+    34↔67: app=0.715 bg=0.880 combined=0.765 dist=0.235 
+    34↔72: app=0.469 bg=0.599 combined=0.508 dist=0.492 
+    34↔91: app=0.327 bg=0.906 combined=0.501 dist=0.499 
+    49↔61: app=0.430 bg=0.813 combined=0.545 dist=2.000 CO-OCC(110)
+    49↔67: app=0.349 bg=0.852 combined=0.499 dist=0.501 
+    49↔72: app=0.401 bg=0.844 combined=0.534 dist=0.466 
+    49↔91: app=0.509 bg=0.905 combined=0.628 dist=0.372 
+    61↔67: app=0.352 bg=0.708 combined=0.459 dist=2.000 CO-OCC(15)
+    61↔72: app=0.517 bg=0.619 combined=0.547 dist=0.453 
+    61↔91: app=0.823 bg=0.762 combined=0.805 dist=0.195 
+    67↔72: app=0.563 bg=0.688 combined=0.600 dist=2.000 CO-OCC(13)
+    67↔91: app=0.280 bg=0.895 combined=0.464 dist=0.536 
+    72↔91: app=0.479 bg=0.787 combined=0.572 dist=0.428 
+  [ReID] Merged [72] → 1  (Laptops)
+  [ReID] Merged [61, 91] → 30  (Laptops)
+  [ReID] Merged [67] → 34  (Laptops)
+
+  [REID_DEBUG] Class: Filing Cabinets / Storage Units  (9 tracks: [2, 68, 75, 6, 20, 42, 43, 54, 96])
+    2↔68: app=0.533 bg=0.957 combined=0.660 dist=0.340 
+    2↔75: app=0.356 bg=0.894 combined=0.517 dist=0.483 
+    2↔6: app=0.488 bg=0.500 combined=0.492 dist=2.000 CO-OCC(9)
+    2↔20: app=0.716 bg=0.500 combined=0.651 dist=0.349 
+    2↔42: app=0.458 bg=0.500 combined=0.471 dist=0.529 
+    2↔43: app=0.313 bg=0.500 combined=0.369 dist=0.631 
+    2↔54: app=0.280 bg=0.500 combined=0.346 dist=0.654 
+    2↔96: app=0.242 bg=0.500 combined=0.320 dist=0.680 
+    68↔75: app=0.380 bg=0.904 combined=0.537 dist=2.000 CO-OCC(6)
+    68↔6: app=0.476 bg=0.500 combined=0.483 dist=0.517 
+    68↔20: app=0.410 bg=0.500 combined=0.437 dist=0.563 
+    68↔42: app=0.439 bg=0.500 combined=0.457 dist=0.543 
+    68↔43: app=0.415 bg=0.500 combined=0.440 dist=0.560 
+    68↔54: app=0.376 bg=0.500 combined=0.413 dist=0.587 
+    68↔96: app=0.336 bg=0.500 combined=0.385 dist=0.615 
+    75↔6: app=0.123 bg=0.500 combined=0.236 dist=0.764 
+    75↔20: app=0.247 bg=0.500 combined=0.323 dist=0.677 
+    75↔42: app=0.143 bg=0.500 combined=0.250 dist=0.750 
+    75↔43: app=0.175 bg=0.500 combined=0.273 dist=0.727 
+    75↔54: app=0.332 bg=0.500 combined=0.382 dist=0.618 
+    75↔96: app=0.340 bg=0.500 combined=0.388 dist=0.612 
+    6↔20: app=0.518 bg=0.500 combined=0.513 dist=0.487 
+    6↔42: app=0.646 bg=0.500 combined=0.603 dist=0.397 
+    6↔43: app=0.476 bg=0.500 combined=0.483 dist=0.517 
+    6↔54: app=0.171 bg=0.500 combined=0.270 dist=0.730 
+    6↔96: app=0.115 bg=0.500 combined=0.230 dist=0.770 
+    20↔42: app=0.470 bg=0.500 combined=0.479 dist=0.521 
+    20↔43: app=0.268 bg=0.500 combined=0.338 dist=0.662 
+    20↔54: app=0.220 bg=0.500 combined=0.304 dist=0.696 
+    20↔96: app=0.208 bg=0.500 combined=0.296 dist=0.704 
+    42↔43: app=0.675 bg=0.500 combined=0.622 dist=0.378 co-occ(2)
+    42↔54: app=0.236 bg=0.500 combined=0.315 dist=0.685 co-occ(2)
+    42↔96: app=0.134 bg=0.500 combined=0.244 dist=0.756 
+    43↔54: app=0.258 bg=0.500 combined=0.331 dist=0.669 
+    43↔96: app=0.120 bg=0.500 combined=0.234 dist=0.766 
+    54↔96: app=0.330 bg=0.500 combined=0.381 dist=0.619 
+
+  [REID_DEBUG] Class: Office Chairs  (16 tracks: [3, 11, 27, 40, 66, 69, 93, 10, 12, 15, 28, 29, 39, 65, 73, 74])
+    3↔11: app=0.902 bg=0.783 combined=0.866 dist=2.000 CO-OCC(39)
+    3↔27: app=0.423 bg=0.981 combined=0.591 dist=0.409 
+    3↔40: app=0.801 bg=0.980 combined=0.855 dist=0.145 
+    3↔66: app=0.689 bg=0.684 combined=0.688 dist=0.312 
+    3↔69: app=0.934 bg=0.797 combined=0.893 dist=0.107 
+    3↔93: app=0.811 bg=0.856 combined=0.824 dist=0.176 
+    3↔10: app=0.711 bg=0.500 combined=0.648 dist=2.000 CO-OCC(45)
+    3↔12: app=0.034 bg=0.500 combined=0.174 dist=2.000 CO-OCC(5)
+    3↔15: app=0.211 bg=0.500 combined=0.298 dist=0.702 
+    3↔28: app=0.101 bg=0.500 combined=0.220 dist=0.780 
+    3↔29: app=0.280 bg=0.500 combined=0.346 dist=0.654 
+    3↔39: app=0.115 bg=0.500 combined=0.230 dist=0.770 
+    3↔65: app=0.192 bg=0.500 combined=0.285 dist=0.715 
+    3↔73: app=0.123 bg=0.500 combined=0.236 dist=0.764 
+    3↔74: app=0.036 bg=0.500 combined=0.175 dist=0.825 
+    11↔27: app=0.432 bg=0.738 combined=0.524 dist=0.476 
+    11↔40: app=0.821 bg=0.781 combined=0.809 dist=0.191 
+    11↔66: app=0.768 bg=0.907 combined=0.809 dist=0.191 
+    11↔69: app=0.889 bg=0.959 combined=0.910 dist=0.090 
+    11↔93: app=0.881 bg=0.859 combined=0.874 dist=0.126 
+    11↔10: app=0.740 bg=0.500 combined=0.668 dist=2.000 CO-OCC(101)
+    11↔12: app=0.026 bg=0.500 combined=0.168 dist=2.000 CO-OCC(6)
+    11↔15: app=0.220 bg=0.500 combined=0.304 dist=2.000 CO-OCC(11)
+    11↔28: app=0.121 bg=0.500 combined=0.235 dist=0.765 
+    11↔29: app=0.273 bg=0.500 combined=0.341 dist=0.659 
+    11↔39: app=0.135 bg=0.500 combined=0.244 dist=0.756 
+    11↔65: app=0.192 bg=0.500 combined=0.285 dist=0.715 
+    11↔73: app=0.105 bg=0.500 combined=0.224 dist=0.776 
+    11↔74: app=0.049 bg=0.500 combined=0.184 dist=0.816 
+    27↔40: app=0.418 bg=0.986 combined=0.589 dist=2.000 CO-OCC(9)
+    27↔66: app=0.397 bg=0.645 combined=0.472 dist=0.528 
+    27↔69: app=0.400 bg=0.755 combined=0.507 dist=0.493 
+    27↔93: app=0.430 bg=0.855 combined=0.558 dist=0.442 
+    27↔10: app=0.492 bg=0.500 combined=0.494 dist=0.506 
+    27↔12: app=0.081 bg=0.500 combined=0.206 dist=0.794 
+    27↔15: app=0.198 bg=0.500 combined=0.288 dist=0.712 
+    27↔28: app=0.183 bg=0.500 combined=0.278 dist=2.000 CO-OCC(11)
+    27↔29: app=0.372 bg=0.500 combined=0.410 dist=2.000 CO-OCC(89)
+    27↔39: app=0.187 bg=0.500 combined=0.281 dist=2.000 CO-OCC(8)
+    27↔65: app=0.295 bg=0.500 combined=0.357 dist=0.643 
+    27↔73: app=0.168 bg=0.500 combined=0.268 dist=0.732 
+    27↔74: app=0.042 bg=0.500 combined=0.180 dist=0.820 
+    40↔66: app=0.749 bg=0.690 combined=0.731 dist=2.000 CO-OCC(60)
+    40↔69: app=0.790 bg=0.793 combined=0.791 dist=2.000 CO-OCC(45)
+    40↔93: app=0.823 bg=0.869 combined=0.837 dist=0.163 
+    40↔10: app=0.851 bg=0.500 combined=0.746 dist=0.254 
+    40↔12: app=0.039 bg=0.500 combined=0.178 dist=0.822 
+    40↔15: app=0.251 bg=0.500 combined=0.325 dist=0.675 
+    40↔28: app=0.108 bg=0.500 combined=0.226 dist=0.774 
+    40↔29: app=0.330 bg=0.500 combined=0.381 dist=2.000 CO-OCC(13)
+    40↔39: app=0.162 bg=0.500 combined=0.264 dist=2.000 CO-OCC(5)
+    40↔65: app=0.243 bg=0.500 combined=0.320 dist=0.680 co-occ(2)
+    40↔73: app=0.150 bg=0.500 combined=0.255 dist=0.745 co-occ(2)
+    40↔74: app=0.055 bg=0.500 combined=0.189 dist=0.811 co-occ(1)
+    66↔69: app=0.710 bg=0.943 combined=0.780 dist=2.000 CO-OCC(36)
+    66↔93: app=0.726 bg=0.881 combined=0.772 dist=0.228 
+    66↔10: app=0.684 bg=0.500 combined=0.628 dist=0.372 
+    66↔12: app=0.119 bg=0.500 combined=0.233 dist=0.767 
+    66↔15: app=0.304 bg=0.500 combined=0.363 dist=0.637 
+    66↔28: app=0.221 bg=0.500 combined=0.305 dist=0.695 
+    66↔29: app=0.337 bg=0.500 combined=0.386 dist=0.614 
+    66↔39: app=0.225 bg=0.500 combined=0.308 dist=0.692 
+    66↔65: app=0.274 bg=0.500 combined=0.342 dist=2.000 CO-OCC(36)
+    66↔73: app=0.260 bg=0.500 combined=0.332 dist=0.668 
+    66↔74: app=0.139 bg=0.500 combined=0.247 dist=0.753 
+    69↔93: app=0.788 bg=0.909 combined=0.824 dist=0.176 
+    69↔10: app=0.685 bg=0.500 combined=0.630 dist=0.370 
+    69↔12: app=0.055 bg=0.500 combined=0.189 dist=0.811 
+    69↔15: app=0.212 bg=0.500 combined=0.299 dist=0.701 
+    69↔28: app=0.118 bg=0.500 combined=0.232 dist=0.768 
+    69↔29: app=0.293 bg=0.500 combined=0.355 dist=0.645 
+    69↔39: app=0.116 bg=0.500 combined=0.231 dist=0.769 
+    69↔65: app=0.220 bg=0.500 combined=0.304 dist=0.696 
+    69↔73: app=0.131 bg=0.500 combined=0.241 dist=0.759 co-occ(2)
+    69↔74: app=0.058 bg=0.500 combined=0.191 dist=0.809 co-occ(2)
+    93↔10: app=0.749 bg=0.500 combined=0.674 dist=0.326 
+    93↔12: app=0.033 bg=0.500 combined=0.173 dist=0.827 
+    93↔15: app=0.189 bg=0.500 combined=0.282 dist=0.718 
+    93↔28: app=0.122 bg=0.500 combined=0.235 dist=0.765 
+    93↔29: app=0.301 bg=0.500 combined=0.361 dist=0.639 
+    93↔39: app=0.150 bg=0.500 combined=0.255 dist=0.745 
+    93↔65: app=0.209 bg=0.500 combined=0.297 dist=0.703 
+    93↔73: app=0.104 bg=0.500 combined=0.223 dist=0.777 
+    93↔74: app=0.032 bg=0.500 combined=0.172 dist=0.828 
+    10↔12: app=0.029 bg=0.500 combined=0.170 dist=2.000 CO-OCC(6)
+    10↔15: app=0.239 bg=0.500 combined=0.318 dist=0.682 co-occ(1)
+    10↔28: app=0.122 bg=0.500 combined=0.235 dist=0.765 
+    10↔29: app=0.351 bg=0.500 combined=0.396 dist=0.604 
+    10↔39: app=0.159 bg=0.500 combined=0.261 dist=0.739 
+    10↔65: app=0.213 bg=0.500 combined=0.299 dist=0.701 
+    10↔73: app=0.118 bg=0.500 combined=0.232 dist=0.768 
+    10↔74: app=0.072 bg=0.500 combined=0.201 dist=0.799 
+    12↔15: app=0.343 bg=0.500 combined=0.390 dist=0.610 
+    12↔28: app=0.429 bg=0.500 combined=0.451 dist=0.549 
+    12↔29: app=0.311 bg=0.500 combined=0.368 dist=0.632 
+    12↔39: app=0.308 bg=0.500 combined=0.366 dist=0.634 
+    12↔65: app=0.420 bg=0.500 combined=0.444 dist=0.556 
+    12↔73: app=0.324 bg=0.500 combined=0.376 dist=0.624 
+    12↔74: app=0.321 bg=0.500 combined=0.375 dist=0.625 
+    15↔28: app=0.471 bg=0.500 combined=0.480 dist=0.520 
+    15↔29: app=0.482 bg=0.500 combined=0.487 dist=0.513 
+    15↔39: app=0.500 bg=0.500 combined=0.500 dist=0.500 
+    15↔65: app=0.535 bg=0.500 combined=0.524 dist=0.476 
+    15↔73: app=0.356 bg=0.500 combined=0.399 dist=0.601 
+    15↔74: app=0.227 bg=0.500 combined=0.309 dist=0.691 
+    28↔29: app=0.488 bg=0.500 combined=0.492 dist=2.000 CO-OCC(6)
+    28↔39: app=0.486 bg=0.500 combined=0.490 dist=0.510 
+    28↔65: app=0.468 bg=0.500 combined=0.478 dist=0.522 
+    28↔73: app=0.509 bg=0.500 combined=0.507 dist=0.493 
+    28↔74: app=0.398 bg=0.500 combined=0.429 dist=0.571 
+    29↔39: app=0.419 bg=0.500 combined=0.443 dist=2.000 CO-OCC(8)
+    29↔65: app=0.605 bg=0.500 combined=0.573 dist=0.427 
+    29↔73: app=0.370 bg=0.500 combined=0.409 dist=0.591 
+    29↔74: app=0.255 bg=0.500 combined=0.328 dist=0.672 
+    39↔65: app=0.358 bg=0.500 combined=0.401 dist=0.599 
+    39↔73: app=0.410 bg=0.500 combined=0.437 dist=0.563 
+    39↔74: app=0.161 bg=0.500 combined=0.262 dist=0.738 
+    65↔73: app=0.378 bg=0.500 combined=0.414 dist=0.586 
+    65↔74: app=0.295 bg=0.500 combined=0.356 dist=0.644 
+    73↔74: app=0.361 bg=0.500 combined=0.403 dist=0.597 
+  [ReID] Merged [69] → 11  (Office Chairs)
+
+  [REID_DEBUG] Class: Monitors  (8 tracks: [16, 31, 33, 50, 89, 92, 19, 23])
+    16↔31: app=0.177 bg=0.670 combined=0.325 dist=0.675 
+    16↔33: app=0.109 bg=0.784 combined=0.312 dist=0.688 
+    16↔50: app=0.225 bg=0.739 combined=0.379 dist=0.621 
+    16↔89: app=0.096 bg=0.818 combined=0.312 dist=0.688 
+    16↔92: app=0.055 bg=0.758 combined=0.266 dist=0.734 
+    16↔19: app=0.126 bg=0.500 combined=0.238 dist=0.762 
+    16↔23: app=0.441 bg=0.500 combined=0.459 dist=0.541 
+    31↔33: app=0.479 bg=0.743 combined=0.558 dist=2.000 CO-OCC(92)
+    31↔50: app=0.578 bg=0.767 combined=0.635 dist=0.365 
+    31↔89: app=0.429 bg=0.760 combined=0.529 dist=0.471 
+    31↔92: app=0.455 bg=0.692 combined=0.526 dist=0.474 
+    31↔19: app=0.553 bg=0.500 combined=0.537 dist=0.463 
+    31↔23: app=0.679 bg=0.500 combined=0.625 dist=0.375 
+    33↔50: app=0.683 bg=0.947 combined=0.762 dist=2.000 CO-OCC(113)
+    33↔89: app=0.879 bg=0.981 combined=0.910 dist=0.090 
+    33↔92: app=0.858 bg=0.975 combined=0.893 dist=0.107 
+    33↔19: app=0.152 bg=0.500 combined=0.256 dist=0.744 
+    33↔23: app=0.389 bg=0.500 combined=0.422 dist=0.578 
+    50↔89: app=0.562 bg=0.915 combined=0.668 dist=0.332 
+    50↔92: app=0.578 bg=0.926 combined=0.683 dist=0.317 
+    50↔19: app=0.319 bg=0.500 combined=0.373 dist=0.627 
+    50↔23: app=0.489 bg=0.500 combined=0.493 dist=0.507 
+    89↔92: app=0.858 bg=0.974 combined=0.893 dist=2.000 CO-OCC(69)
+    89↔19: app=0.106 bg=0.500 combined=0.224 dist=0.776 
+    89↔23: app=0.369 bg=0.500 combined=0.408 dist=0.592 
+    92↔19: app=0.106 bg=0.500 combined=0.224 dist=0.776 
+    92↔23: app=0.303 bg=0.500 combined=0.362 dist=0.638 
+    19↔23: app=0.550 bg=0.500 combined=0.535 dist=0.465 
+  [ReID] Merged [89] → 33  (Monitors)
+
+  [REID_DEBUG] Class: Printers Scanners  (3 tracks: [37, 60, 82])
+    37↔60: app=0.732 bg=0.895 combined=0.781 dist=0.219 
+    37↔82: app=0.697 bg=0.703 combined=0.699 dist=0.301 
+    60↔82: app=0.683 bg=0.852 combined=0.733 dist=0.267 
+  [ReID] Merged [60] → 37  (Printers Scanners)
+
+  [REID_DEBUG] Class: Desks  (8 tracks: [38, 35, 58, 86, 45, 63, 83, 95])
+    38↔35: app=0.632 bg=0.802 combined=0.683 dist=2.000 CO-OCC(64)
+    38↔58: app=0.647 bg=0.785 combined=0.688 dist=0.312 
+    38↔86: app=0.527 bg=0.802 combined=0.609 dist=0.391 
+    38↔45: app=0.231 bg=0.500 combined=0.312 dist=0.688 
+    38↔63: app=0.302 bg=0.500 combined=0.362 dist=0.638 
+    38↔83: app=0.535 bg=0.500 combined=0.525 dist=0.475 
+    38↔95: app=0.182 bg=0.500 combined=0.278 dist=0.722 
+    35↔58: app=0.682 bg=0.860 combined=0.735 dist=2.000 CO-OCC(124)
+    35↔86: app=0.750 bg=0.917 combined=0.800 dist=0.200 
+    35↔45: app=0.174 bg=0.500 combined=0.271 dist=2.000 CO-OCC(3)
+    35↔63: app=0.365 bg=0.500 combined=0.405 dist=2.000 CO-OCC(3)
+    35↔83: app=0.527 bg=0.500 combined=0.519 dist=0.481 
+    35↔95: app=0.119 bg=0.500 combined=0.233 dist=0.767 
+    58↔86: app=0.744 bg=0.957 combined=0.808 dist=0.192 
+    58↔45: app=0.092 bg=0.500 combined=0.214 dist=0.786 
+    58↔63: app=0.230 bg=0.500 combined=0.311 dist=2.000 CO-OCC(3)
+    58↔83: app=0.706 bg=0.500 combined=0.644 dist=0.356 
+    58↔95: app=0.060 bg=0.500 combined=0.192 dist=0.808 
+    86↔45: app=0.096 bg=0.500 combined=0.217 dist=0.783 
+    86↔63: app=0.234 bg=0.500 combined=0.314 dist=0.686 
+    86↔83: app=0.587 bg=0.500 combined=0.561 dist=2.000 CO-OCC(90)
+    86↔95: app=0.062 bg=0.500 combined=0.193 dist=2.000 CO-OCC(3)
+    45↔63: app=0.299 bg=0.500 combined=0.359 dist=0.641 
+    45↔83: app=0.037 bg=0.500 combined=0.176 dist=0.824 
+    45↔95: app=0.198 bg=0.500 combined=0.289 dist=0.711 
+    63↔83: app=0.232 bg=0.500 combined=0.312 dist=0.688 
+    63↔95: app=0.224 bg=0.500 combined=0.307 dist=0.693 
+    83↔95: app=0.079 bg=0.500 combined=0.205 dist=2.000 CO-OCC(3)
+
+  [REID_DEBUG] Class: Mouse  (3 tracks: [48, 90, 32])
+    48↔90: app=0.587 bg=0.684 combined=0.616 dist=0.384 
+    48↔32: app=0.153 bg=0.500 combined=0.257 dist=0.743 
+    90↔32: app=0.217 bg=0.500 combined=0.302 dist=0.698 
+
+  [REID_DEBUG] Class: Pedestals  (3 tracks: [56, 8, 71])
+    56↔8: app=0.385 bg=0.500 combined=0.419 dist=0.581 
+    56↔71: app=0.165 bg=0.500 combined=0.265 dist=0.735 
+    8↔71: app=0.374 bg=0.500 combined=0.412 dist=0.588 
+
+  [REID_DEBUG] Class: Cubicles / Partitions  (3 tracks: [62, 79, 24])
+    62↔79: app=0.790 bg=0.946 combined=0.837 dist=0.163 
+    62↔24: app=0.556 bg=0.500 combined=0.539 dist=0.461 
+    79↔24: app=0.570 bg=0.500 combined=0.549 dist=0.451 
+  [ReID] 63 raw tracks → 56 unique objects (7 merged, 38/63 tracks have scene fingerprint)
+
+
+  ──────────────────────────────────────────────────
+  Total Raw Tracks    : 65
+  Duplicates Removed  : 9
+  Total Unique Objects: 56
+    Cubicles / Partitions................... 3  (peak=1)
+    Desks................................... 8  (peak=4)
+    Filing Cabinets / Storage Units......... 9  (peak=2)
+    Laptops................................. 6  (peak=3)
+    Monitors................................ 7  (peak=2)
+    Mouse................................... 3  (peak=1)
+    Office Chairs........................... 15  (peak=4)
+    Pedestals............................... 3  (peak=1)
+    Printers Scanners....................... 2  (peak=1)
+  Processing Time: 37.1s (31.5 frames/sec)
+  Output JSON      : eval/ws_a_stitch/client_video_counts.json
+  Annotated Video  : eval/ws_a_stitch/client_video_detected.mp4
+  Individual Crops : eval/ws_a_stitch/client_video_crops
+  Collage (all)    : eval/ws_a_stitch/client_video_contact_sheet.jpg
+  Per-class collages: 9 files
+  Timeline Strip   : eval/ws_a_stitch/client_video_timeline.jpg
+  ──────────────────────────────────────────────────
+
+============================================================
+  ALL DONE — 1/1 videos processed
+============================================================
+  client_video.mp4: 56 unique objects
+============================================================
+
